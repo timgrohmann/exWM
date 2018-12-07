@@ -41,3 +41,9 @@ Produktentwicklungsprojekt
 
 ## Prinzipelle Vorgehensweise:
 klassisches Projektmanagement
+
+## Recherchevorgehen:
+- Informationen aus eigenen Unternehmen
+- (Online-)Bibliothek
+- wiss. Arbeiten zum Thema
+- Befragung von Mittelstandsunternehmen
