@@ -1,6 +1,6 @@
 # ∃WM
 
-## Teilnehmende:
+## Teilnehmer:
 Hendrik Lankers, Nico Oberländer, Gleb Sergienko, Florian Redmann, Felix Wortmann, Tim Grohmann
 
 ## Aufgabenverteilung:
