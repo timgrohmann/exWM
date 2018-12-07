@@ -4,14 +4,14 @@
 Hendrik Lankers, Nico Oberländer, Gleb Sergienko, Florian Redmann, Felix Wortmann, Tim Grohmann
 
 ## Aufgabenverteilung:
-Person|Aufgabe
--|-
-Hendrik Lankers| Recherche/UNIX
-Florian Redmann| Frontend/Teamchef
-Tim Grohmann   | Backend
-Nico Oberländer|
-Gleb Sergienko |
-Felix Wortmann |
+Person          | Aufgabe
+----------------|------------------
+Hendrik Lankers | Recherche/UNIX
+Florian Redmann | Frontend/Teamchef
+Tim Grohmann    | Backend/git
+Nico Oberländer | Schnittstellenmanager
+Gleb Sergienko  | Frontend
+Felix Wortmann  | Backend
 
 ## Projekttypisierung:
 Produktentwicklungsprojekt
