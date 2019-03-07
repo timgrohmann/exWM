@@ -1,5 +1,7 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
 
 
@@ -11,17 +13,26 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: '/node_modules/'
+        exclude: /node_modules/
+      },
+      {
+        test: /\.(sa|sc|c)ss$/,
+        use: [
+          'vue-style-loader',
+          MiniCssExtractPlugin.loader,
+          'style-loader',
+          'css-loader',
+          'postcss-loader',
+          'sass-loader'
+        ]
       },
       {
         test: /\.styl$/,
-        loader: 'css-loader!stylus-loader?paths=node_modules/bootstrap-stylus/stylus/'
-      },
-      {
-        test: /\.css$/,
         use: [
-          'vue-style-loader',
-          'css-loader'
+          'style-loader',
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          'stylus-loader'
         ]
       },
       {
@@ -45,6 +56,11 @@ module.exports = {
   },
   plugins: [
     // make sure to include the plugin for the magic
+    new CleanWebpackPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'app.[hash].css',
+      chunkFilename: '[id].css'
+    }),
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
