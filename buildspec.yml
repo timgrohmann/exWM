@@ -10,5 +10,4 @@ phases:
       - npm run make
 
 artifacts:
-  files:
-    - vue/exwm/dist/*
+  base-directory: vue/exwm/dist
