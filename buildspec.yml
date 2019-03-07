@@ -1,0 +1,11 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - cd vue/exwm
+      - npm install
+  build:
+    commands:
+      - cd vue/exwm
+      - npm run make  
