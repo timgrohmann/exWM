@@ -1,18 +1,19 @@
 <template>
   <v-app>
+    <HeaderBar/>
     <v-content>
-      <HelloWorld/>
+      Hello World Content!
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import HeaderBar from './components/HeaderBar.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    HeaderBar
   },
   data () {
     return {
