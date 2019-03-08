@@ -21,7 +21,7 @@
 export default {
   data: () => ({
     items: [
-      { icon: "home", name: "Test", link: {name: "link"} },
+      { icon: "home", name: "Test", link: {name: "AboutUs"} },
       { icon: "search", name: "Test 2" }
     ],
     visible: false
