@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer app v-model="visible">
+    <v-navigation-drawer app v-model="visible" mobile-break-point="10000">
       <v-list>
         <v-list-tile v-for="item in items" :key="item.name" :to="item.link">
           <v-list-tile-action>
