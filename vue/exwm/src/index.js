@@ -3,6 +3,7 @@ import Vuetify from 'vuetify'
 import App from './App.vue';
 import store from './store'
 import './main.styl'
+import router from './router'
 
 Vue.config.productionTip = false;
 
@@ -14,7 +15,9 @@ Vue.use(Vuetify, {
     error: '#ff9800',
   }})
 
+
 new Vue({
   store,
+  router,
   render: h => h(App)
 }).$mount('#app');
