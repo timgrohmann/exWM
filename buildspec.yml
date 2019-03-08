@@ -3,7 +3,6 @@ version: 0.2
 phases:
   install:
     commands:
-      - cd vue/exwm
       - npm install
   build:
     commands:
@@ -12,4 +11,4 @@ phases:
 artifacts:
   files:
     - '**/*'
-  base-directory: vue/exwm/dist
+  base-directory: dist
