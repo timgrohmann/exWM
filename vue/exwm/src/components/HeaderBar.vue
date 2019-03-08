@@ -2,7 +2,7 @@
   <div>
     <v-navigation-drawer app v-model="visible">
       <v-list>
-        <v-list-tile v-for="item in items" :key="item.name">
+        <v-list-tile v-for="item in items" :key="item.name" :to="item.link">
           <v-list-tile-action>
             <v-icon color="secondary">{{item.icon}}</v-icon>
           </v-list-tile-action>
@@ -21,7 +21,7 @@
 export default {
   data: () => ({
     items: [
-      { icon: "home", name: "Test" },
+      { icon: "home", name: "Test", link: {name: "link"} },
       { icon: "search", name: "Test 2" }
     ],
     visible: false
