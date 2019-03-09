@@ -6,7 +6,7 @@
     <v-card-text>Lorem, ipsum dolor sit amet consectetur adipisicing elit.
       Nesciunt, ad. Natus, reiciendis commodi doloribus laudantium mollitia
       maxime nulla dolore libero voluptatum necessitatibus, dolorem fugiat
-      at neque hic, eaque fugit nemo. v2</v-card-text>
+      at neque hic, eaque fugit nemo. v3</v-card-text>
   </v-card>
 </template>
 
