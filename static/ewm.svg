@@ -4,8 +4,8 @@
 	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 288 153"
 	 style="enable-background:new 0 0 288 153;" xml:space="preserve">
 <style type="text/css">
-	.st0{fill:#2079B4;}
-	.st1{fill:#55A9E1;}
+	.st0{fill:#15E8CF;}
+	.st1{fill:#4F90C6;}
 </style>
 <g transform="matrix(1,-1.11022e-16,-5.55112e-17,1,-191.362,352.754)">
 	<g transform="matrix(-1,0,0,1,785.705,0)">
@@ -14,8 +14,8 @@
 	<path class="st0" d="M351.1-298.9h0.7l20.7,73.4h17.1L416.9-327H398l-17.6,76.9h-0.6L359.5-327h-16l-20.4,76.9h-0.6L304.9-327
 		h-18.8l27.2,101.5h17.1L351.1-298.9z"/>
 	<g transform="matrix(-1,1.22465e-16,-1.22465e-16,-1,1675.22,318.491)">
-		<path class="st1" d="M1284.7,572.1h0.7l20.7,73.4h17.1l27.2-101.5h-18.8l-17.6,76.9h-0.6l-20.4-76.9h-16l-20.4,76.9h-0.6
-			l-17.6-76.9h-18.8l27.2,101.5h17.1L1284.7,572.1z"/>
+		<path class="st1" d="M1284.7,572.1h0.7l20.7,73.4h17.1l27.2-101.5h-18.8l-17.6,76.9h-0.6L1293,544h-16l-20.4,76.9h-0.6l-17.6-76.9
+			h-18.8l27.2,101.5h17.1L1284.7,572.1z"/>
 	</g>
 </g>
 </svg>

@@ -12,7 +12,9 @@
     </v-navigation-drawer>
     <v-toolbar dark>
       <v-toolbar-side-icon @click="visible = !visible"/>
-      <v-img src="ewm.svg" max-height="100%" position="left center" contain/>
+      <router-link :to="{name: 'LandingPage'}" class="v-responsive" style="max-height: 100%">
+        <v-img src="ewm.svg" max-height="100%" position="left center" contain/>
+      </router-link>
       <v-spacer />
       <v-menu nudge-bottom="40">
         <v-btn slot="activator" icon>
@@ -40,11 +42,11 @@
 export default {
   data: () => ({
     items: [
-      { icon: "home", name: "Test", link: {name: "AboutUs"} },
-      { icon: "search", name: "Test 2" }
+      { icon: "face", name: "Über uns", link: {name: "AboutUs"} },
+      { icon: "search", name: "Suche" }
     ],
     icons: [
-      "search", "person", "contacts", "tv", "favorite", "home", "home", "pause", "stop"
+      "search", "person", "contacts", "tv", "favorite", "phone", "home", "pause", "stop"
     ],
     visible: false
   })
