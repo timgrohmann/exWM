@@ -10,9 +10,28 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar color="primary" dark>
+    <v-toolbar dark>
       <v-toolbar-side-icon @click="visible = !visible"/>
-      <v-toolbar-title>&exist;WM</v-toolbar-title>
+      <v-img src="ewm.svg" max-height="100%" position="left center" contain/>
+      <v-spacer />
+      <v-menu nudge-bottom="40">
+        <v-btn slot="activator" icon>
+          <v-icon>apps</v-icon>
+        </v-btn>
+        <v-container grid-list-xs="2" style="background-color: white">
+          <v-layout row wrap>
+            <v-flex
+              v-for="icon in icons"
+              :key="icon"
+              xs4
+              text-md-center
+            >
+              <v-icon medium color="primary">{{icon}}</v-icon>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-menu>
+      
     </v-toolbar>
   </div>
 </template>
@@ -23,6 +42,9 @@ export default {
     items: [
       { icon: "home", name: "Test", link: {name: "AboutUs"} },
       { icon: "search", name: "Test 2" }
+    ],
+    icons: [
+      "search", "person", "contacts", "tv", "favorite", "home", "home", "pause", "stop"
     ],
     visible: false
   })
