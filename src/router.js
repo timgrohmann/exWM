@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import LandingPage from './components/LandingPage.vue'
+import AboutUs from './components/AboutUs.vue'
 
 Vue.use(Router);
 
@@ -19,7 +20,7 @@ export default new Router({
             path: '/about-us',
             name: 'AboutUs',
             components: {
-                default: LandingPage,
+                default: AboutUs,
             }
         }
     ]
