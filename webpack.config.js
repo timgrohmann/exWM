@@ -2,6 +2,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
 
 
@@ -41,12 +42,7 @@ module.exports = {
       },
       {
         test: /\.(png|jpg|gif|svg)$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {},
-          },
-        ],
+        loader: 'file-loader'
       },
     ]
   },
@@ -66,6 +62,7 @@ module.exports = {
       template: 'src/index.html',
       filename: 'index.html',
       inject: true
-    })
+    }),
+    new CopyWebpackPlugin([{ from: 'static', to: '.' }])
   ]
 }
