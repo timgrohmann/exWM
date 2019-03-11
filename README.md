@@ -40,7 +40,7 @@ Produktentwicklungsprojekt
 - schlechte Organisation
 
 ## Prinzipelle Vorgehensweise:
-klassisches Projektmanagement
+Agiles Projektmanagement, Scrum
 
 ## Recherchevorgehen:
 - Informationen aus eigenen Unternehmen
