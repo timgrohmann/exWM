@@ -47,3 +47,5 @@ Agiles Projektmanagement, Scrum
 - (Online-)Bibliothek
 - wiss. Arbeiten zum Thema
 - Befragung von Mittelstandsunternehmen
+
+vue-frontend/readme.md lesen :)
