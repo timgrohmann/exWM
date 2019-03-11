@@ -32,6 +32,10 @@ export default {
             {
                 name: "Florian Redmann",
                 image_src: "teammembers/flo_red.jpg"
+            },
+            {
+                name: 'El Sholz',
+                image_src: 'https://avatars3.githubusercontent.com/u/27976805?s=40&v=4'
             }
         ]
     };
