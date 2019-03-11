@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - cd vue-frontend
+      - npm install
+  build:
+    commands:
+      - npm run make
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: vue-frontend/dist
