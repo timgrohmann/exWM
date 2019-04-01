@@ -7,7 +7,7 @@ Hendrik Lankers, Nico Oberländer, Gleb Sergienko, Florian Redmann, Felix Wortma
 Person          | Aufgabe
 ----------------|------------------
 Hendrik Lankers | Recherche/UNIX
-Florian Redmann | Frontend/Teamchef
+Florian Redmann | Backend/Scrum-Master
 Tim Grohmann    | Backend/git
 Nico Oberländer | Schnittstellenmanager
 Gleb Sergienko  | Frontend
