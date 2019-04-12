@@ -33,7 +33,7 @@ Zwischenergebnisse:
 - [x] Code von Github wird von AWS verarbeitet und dort veröffentlicht, auf eine noch inhaltslose Website kann zugegriffen werden
 - [ ] ein Eintrag kann angelegt und wieder abgerufen werden
 - [ ] ein Eintrag kann bewertet werden
-- [ ] Nutzer können sich anmelden
+- [ ] (Nutzer können sich anmelden)
 
 Endergebnis: _MVP_ eines Wissensmanagementsystems.
 ## Projektphasen und Zeitpläne
@@ -43,6 +43,8 @@ bis xx.xx.xx | Planung
 ab xx.xx.xx | Umsetzung
 ## Risiken
 siehe [hier](https://github.com/timgrohmann/exWM/blob/master/dokumentation/risikoanalyse.md)
+## Strategie
+Das Projekt wird cloudbasiert umgesetzt und mit node.js im Backend und Vue im Frontend umgesetzt.
 ## Annahmen und Hypothesen
 - agile Projektarbeit führt zu einer sehr effizienten Umsetzung
 ## Aufgaben und Zuständigkeiten
