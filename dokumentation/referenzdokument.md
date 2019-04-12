@@ -23,3 +23,20 @@ mittelständische Softwareentwicklungs-Unternehmen
 Aufgrund der eingeschränkten Zeit (bis Semesterende), der limitierten Teamgröße und der differenzierten Kompetenzverteilung ist das Projekt nur zum MVP entwickelbar.
 ## Kosten/Budget
 Da dieses Projekt im Rahmen eines universitären Vorhabens umgesetzt wird, entfällt dieser Punkt.
+## Ressourcen
+- 6 Informatik-Studenten
+- GitHub (dieses Projekt)
+- AWS-Hosting (S3, Pipeline, Datenbanken)
+## Ergebnisse
+_MVP_ eines Wissensmanagementsystems.
+## Projektphasen und Zeitpläne
+Zeit | Phase
+-|-
+bis xx.xx.xx | Planung
+ab xx.xx.xx | Umsetzung
+## Risiken
+siehe [hier](https://github.com/timgrohmann/exWM/blob/master/dokumentation/risikoanalyse.md)
+## Annahmen und Hypothesen
+- agile Projektarbeit führt zu einer sehr effizienten Umsetzung
+## Aufgaben und Zuständigkeiten
+siehe Dokument zu Projektrollen
