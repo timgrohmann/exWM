@@ -48,4 +48,4 @@ Das Projekt wird cloudbasiert umgesetzt und mit node.js im Backend und Vue im Fr
 ## Annahmen und Hypothesen
 - agile Projektarbeit führt zu einer sehr effizienten Umsetzung
 ## Aufgaben und Zuständigkeiten
-siehe Dokument zu Projektrollen
+siehe [Dokument zu Projektrollen](https://github.com/timgrohmann/exWM/blob/master/dokumentation/projekt_rollen.pdf)
