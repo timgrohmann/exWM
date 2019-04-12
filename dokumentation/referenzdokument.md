@@ -28,7 +28,11 @@ Da dieses Projekt im Rahmen eines universitären Vorhabens umgesetzt wird, entf�
 - GitHub (dieses Projekt)
 - AWS-Hosting (S3, Pipeline, Datenbanken)
 ## Ergebnisse
-_MVP_ eines Wissensmanagementsystems.
+Zwischenergebnisse:
+- [x] Projekt auf Github exisitiert
+- [x] Code von Github wird von AWS verarbeitet und dort veröffentlicht, auf eine noch inhaltslose Website kann zugegriffen werden
+
+Endergebnis: _MVP_ eines Wissensmanagementsystems.
 ## Projektphasen und Zeitpläne
 Zeit | Phase
 -|-
