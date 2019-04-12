@@ -31,6 +31,9 @@ Da dieses Projekt im Rahmen eines universitären Vorhabens umgesetzt wird, entf�
 Zwischenergebnisse:
 - [x] Projekt auf Github exisitiert
 - [x] Code von Github wird von AWS verarbeitet und dort veröffentlicht, auf eine noch inhaltslose Website kann zugegriffen werden
+- [ ] ein Eintrag kann angelegt und wieder abgerufen werden
+- [ ] ein Eintrag kann bewertet werden
+- [ ] Nutzer können sich anmelden
 
 Endergebnis: _MVP_ eines Wissensmanagementsystems.
 ## Projektphasen und Zeitpläne
