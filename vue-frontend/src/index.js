@@ -4,6 +4,7 @@ import App from './App.vue';
 import store from './store'
 import './main.styl'
 import router from './router'
+const AWS = require('aws-sdk');
 
 Vue.config.productionTip = false;
 
@@ -15,6 +16,28 @@ Vue.use(Vuetify, {
     error: '#ff9800',
   }})
 
+// Amazon Cognito-Anmeldeinformationenanbieter initialisieren
+AWS.config.region = 'eu-west-1'; // Region
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: 'eu-west-1:7c77cf43-a78c-40cd-a3c3-9ca2a0da7330',
+});
+var ddb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
+
+var params = {
+  TableName: 'exwm-entries',
+  Key: {
+    'EntryId' : {N: '1'}
+  }
+};
+
+// Call DynamoDB to add the item to the table
+ddb.getItem(params, function(err, data) {
+  if (err) {
+    console.log("Error", err);
+  } else {
+    console.log("Success", data);
+  }
+});
 
 new Vue({
   store,
