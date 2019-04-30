@@ -5,10 +5,12 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-
+    db: null,
   },
   mutations: {
-
+    setDB(state, db) {
+      state.db = db
+    }
   },
   actions: {
 
