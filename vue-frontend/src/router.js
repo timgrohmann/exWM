@@ -3,6 +3,7 @@ import Router from 'vue-router';
 
 import LandingPage from './components/LandingPage.vue'
 import AboutUs from './components/AboutUs.vue'
+import AllEntries from './components/AllEntries.vue'
 
 Vue.use(Router);
 
@@ -21,6 +22,13 @@ export default new Router({
             name: 'AboutUs',
             components: {
                 default: AboutUs,
+            }
+        },
+        {
+            path: '/all_entries',
+            name: 'AllEntries',
+            components: {
+                default: AllEntries,
             }
         }
     ]
