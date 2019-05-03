@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import DetailPage from './components/DetailPage.vue'
 import LandingPage from './components/LandingPage.vue'
 import AboutUs from './components/AboutUs.vue'
 import AllEntries from './components/AllEntries.vue'
@@ -15,14 +16,14 @@ export default new Router({
             path: '/',
             name: 'LandingPage',
             components: {
-                default: LandingPage,
+              default: LandingPage,
             }
         },
         {
             path: '/about-us',
             name: 'AboutUs',
             components: {
-                default: AboutUs,
+              default: AboutUs,
             }
         },
         {
@@ -38,6 +39,17 @@ export default new Router({
             components: {
                 default: CreateEntry,
             }
-        }
+        },
+        {
+          path: '/detail-page',
+          path: '/entry/:id',
+          props: {
+            default: (route) => ({ uuid: route.params.id })
+          },
+          name: 'DetailPage',
+          components: {
+            default: DetailPage,
+          }
+      },
     ]
 })
