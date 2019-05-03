@@ -1,0 +1,7 @@
+TODOs für 2019-04-26
+Nach der Präsentation wurden folgende Mängel festgestellt:
+
+1. Nummerierung der Issues und Milestones →
+2. Grafische Darstellung der Projektrollen → NicOberländer
+3. Grafische Darstellung des Projektablaufs (aus Milestones und Issues) → 
+4. SMART in Projektreferenzdokument einbinden → Gleb
