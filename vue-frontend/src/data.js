@@ -1,4 +1,6 @@
 import store from "./store"
+import md5 from "md5"
+
 const AWS = require('aws-sdk');
 
 AWS.config.region = 'eu-west-1'; // Region
@@ -11,6 +13,19 @@ store.commit("setDB", ddb)
 export default {
     DefaultTableName: 'ExwmEntries',
     getAll(callback) {
-        store.state.db.scan({TableName: this.DefaultTableName}, callback)
+        ddb.scan({TableName: this.DefaultTableName}, callback)
+    },
+    insertNew(item) {
+        ddb.putItem({
+            TableName: this.DefaultTableName,
+            Item: item
+        }, (error, item) => {
+            if (error) {
+                console.log(error)
+            }
+        })
+    },
+    makeHash(body, head) {
+        return md5(body + head)
     }
 }
