@@ -22,6 +22,13 @@ export default new Router({
             components: {
                 default: AboutUs,
             }
-        }
+        },
+        {
+          path: '/detail-page',
+          name: 'DetailPage',
+          components: {
+              default: DetailPage,
+          }
+      }
     ]
 })
