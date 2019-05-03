@@ -3,6 +3,7 @@ import Router from 'vue-router';
 
 import LandingPage from './components/LandingPage.vue'
 import AboutUs from './components/AboutUs.vue'
+import CreateEntry from './components/CreateEntry.vue'
 
 Vue.use(Router);
 
@@ -21,6 +22,13 @@ export default new Router({
             name: 'AboutUs',
             components: {
                 default: AboutUs,
+            }
+        },
+        {
+            path: '/new',
+            name: 'CreateEntry',
+            components: {
+                default: CreateEntry,
             }
         }
     ]
