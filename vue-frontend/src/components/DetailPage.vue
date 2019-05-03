@@ -2,23 +2,11 @@
   <div>
     <v-card>
       <v-card-title>
-        <div class="headline">Das wird &exist;WM!</div>
+        <div class="headline"> {{items[0].title}}</div>
       </v-card-title>
-      <v-card-text>Auf dieser Seite wird &exist;WM, das tolle Wissensmanagementsystem
-        entstehen! Seid gespannt.
+      <v-card-text>{{items[0].body}}
       </v-card-text>
     </v-card>
-    <v-list two-line class="elevation-2 mt-2">
-      <div v-for="(item, index) in items" :key="item.uuid.S">
-        <v-list-tile>
-          <v-list-tile-content>
-            <v-list-tile-title>{{item.headline.S}}</v-list-tile-title>
-            <v-list-tile-sub-title>{{item.body.S}}</v-list-tile-sub-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-divider v-if="index < items.length - 1"/>
-      </div>
-    </v-list>
     
   </div>
 </template>
