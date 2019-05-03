@@ -26,7 +26,6 @@ export default new Router({
             }
         },
         {
-<<<<<<< HEAD
             path: '/new',
             name: 'CreateEntry',
             components: {
@@ -35,10 +34,8 @@ export default new Router({
         },
         {
           path: '/detail-page',
-=======
           path: '/entry/:id',
           props: (route) => ({ uuid: 'test'}),
->>>>>>> Updated DetailPage
           name: 'DetailPage',
           components: {
             default: DetailPage,
