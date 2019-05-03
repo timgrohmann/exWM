@@ -18,9 +18,7 @@ export default {
     HeaderBar
   },
   data () {
-    return {
-      //
-    }
+    return {}
   }
 }
 </script>
