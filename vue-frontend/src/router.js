@@ -30,6 +30,13 @@ export default new Router({
             components: {
                 default: CreateEntry,
             }
-        }
+        },
+        {
+          path: '/detail-page',
+          name: 'DetailPage',
+          components: {
+              default: DetailPage,
+          }
+      }
     ]
 })
