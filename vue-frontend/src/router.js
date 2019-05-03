@@ -35,7 +35,7 @@ export default new Router({
         {
           path: '/detail-page',
           path: '/entry/:id',
-          props: (route) => ({ uuid: 'test'}),
+          props: {default: (route) => ({ uuid: route.params.id })},
           name: 'DetailPage',
           components: {
             default: DetailPage,

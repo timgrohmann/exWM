@@ -14,7 +14,8 @@ import db from "../data"
 export default {
   props: {
     uuid: {
-      type: String
+      type: String,
+      default: 'test2'
     }
   },
   data() {
