@@ -25,6 +25,15 @@ export default {
             }
         })
     },
+    findByUUID(uuid, callback) {
+        ddb.query({
+            TableName: this.DefaultTableName,
+            KeyConditionExpression: "uuid = :uuid",
+            ExpressionAttributeValues: {
+                ":uuid": uuid
+            }
+        }, callback)
+    },
     makeHash(body, head) {
         return md5(body + head)
     }
