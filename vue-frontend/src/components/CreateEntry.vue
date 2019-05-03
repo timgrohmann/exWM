@@ -14,14 +14,14 @@
   </div>
 </template>
 <script>
-import data from "../data";
+import data from "../data"
 
 export default {
   data() {
     return {
       headline: null,
       body: null
-    };
+    }
   },
   methods: {
     createEntry() {
@@ -30,10 +30,10 @@ export default {
         body: { S: this.body },
         uuid: { S: data.makeHash(this.body, this.headline) },
         timestamp: { S: String(Math.floor(new Date() / 1000)) }
-      };
-      data.insertNew(entry);
-      console.log(entry);
+      }
+      data.insertNew(entry)
+      console.log(entry)
     }
   }
-};
+}
 </script>

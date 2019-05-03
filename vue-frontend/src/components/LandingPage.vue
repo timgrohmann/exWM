@@ -4,7 +4,8 @@
       <v-card-title>
         <div class="headline">Das wird &exist;WM!</div>
       </v-card-title>
-      <v-card-text>Auf dieser Seite wird &exist;WM, das tolle Wissensmanagementsystem
+      <v-card-text>
+        Auf dieser Seite wird &exist;WM, das tolle Wissensmanagementsystem
         entstehen! Seid gespannt.
       </v-card-text>
     </v-card>
@@ -19,7 +20,6 @@
         <v-divider v-if="index < items.length - 1"/>
       </div>
     </v-list>
-    
   </div>
 </template>
 
@@ -30,7 +30,7 @@ export default {
   data() {
     return {
       items: []
-    };
+    }
   },
   mounted() {
     db.getAll((err, data) => {
@@ -39,7 +39,7 @@ export default {
       } else {
         this.items = data.Items
       }
-    });
+    })
   }
-};
+}
 </script>
