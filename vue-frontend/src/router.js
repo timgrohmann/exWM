@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import DetailPage from './components/DetailPage.vue'
 import LandingPage from './components/LandingPage.vue'
 import AboutUs from './components/AboutUs.vue'
 
@@ -13,22 +14,23 @@ export default new Router({
             path: '/',
             name: 'LandingPage',
             components: {
-                default: LandingPage,
+              default: LandingPage,
             }
         },
         {
             path: '/about-us',
             name: 'AboutUs',
             components: {
-                default: AboutUs,
+              default: AboutUs,
             }
         },
         {
-          path: '/detail-page',
+          path: '/entry/:id',
+          props: (route) => ({ uuid: 'test'}),
           name: 'DetailPage',
           components: {
-              default: DetailPage,
+            default: DetailPage,
           }
-      }
+      },
     ]
 })
