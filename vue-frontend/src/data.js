@@ -1,7 +1,6 @@
 import store from "./store"
 import md5 from "md5"
-
-const AWS = require('aws-sdk');
+import AWS from "aws-sdk"
 
 AWS.config.region = 'eu-west-1'; // Region
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
@@ -28,13 +27,16 @@ export default {
     findByUUID(uuid, callback) {
         ddb.query({
             TableName: this.DefaultTableName,
-            KeyConditionExpression: "uuid = :uuid",
+            KeyConditionExpression: "#u = :id",
             ExpressionAttributeValues: {
-                ":uuid": uuid
+                ":id": {'S': uuid}
+            },
+            ExpressionAttributeNames: {
+                "#u": "uuid" //"uuid" is a reserved name in DynamoDB apparently
             }
         }, callback)
     },
     makeHash(body, head) {
-        return md5(body + head)
+        return md5(body + head + new Date())
     }
 }
