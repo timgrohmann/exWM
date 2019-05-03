@@ -8,17 +8,23 @@
         entstehen! Seid gespannt.
       </v-card-text>
     </v-card>
-    <v-card v-for="item in items" :key="item.uuid.S" class="mt-2">
-      <v-card-title>
-        <div class="headline">{{item.headline.S}}</div>
-      </v-card-title>
-      <v-card-text>{{item.body.S}}</v-card-text>
-    </v-card>
+    <v-list two-line class="elevation-2 mt-2">
+      <div v-for="(item, index) in items" :key="item.uuid.S">
+        <v-list-tile>
+          <v-list-tile-content>
+            <v-list-tile-title>{{item.headline.S}}</v-list-tile-title>
+            <v-list-tile-sub-title>{{item.body.S}}</v-list-tile-sub-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-divider v-if="index < items.length - 1"/>
+      </div>
+    </v-list>
+    
   </div>
 </template>
 
 <script>
-import store from "../store"
+import db from "../data"
 
 export default {
   data() {
@@ -27,11 +33,7 @@ export default {
     };
   },
   mounted() {
-    let params = {
-      TableName: 'ExwmEntries'
-    }
-
-    store.state.db.scan(params, (err, data) => {
+    db.getAll((err, data) => {
       if (err) {
         console.error("Error while scanning database:", err)
       } else {
