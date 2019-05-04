@@ -31,7 +31,12 @@ export default {
         uuid: { S: data.makeHash(this.body, this.headline) },
         timestamp: { S: String(Math.floor(new Date() / 1000)) }
       }
-      data.insertNew(entry)
+      data.insertNew(entry, uuid => {
+        this.$router.push({
+          name: "DetailPage",
+          params: { id: uuid }
+        })
+      })
       console.log(entry)
     }
   }

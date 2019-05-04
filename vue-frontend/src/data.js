@@ -14,13 +14,15 @@ export default {
   getAll(callback) {
     ddb.scan({ TableName: this.DefaultTableName }, callback)
   },
-  insertNew(item) {
+  insertNew(item, callback = null) {
     ddb.putItem({
       TableName: this.DefaultTableName,
       Item: item
-    }, (error, item) => {
+    }, (error) => {
       if (error) {
         console.log(error)
+      } else {
+        callback(item.uuid.S)
       }
     })
   },

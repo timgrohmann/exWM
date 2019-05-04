@@ -11,7 +11,7 @@
     </v-card>
     <v-list two-line class="elevation-2 mt-2">
       <div v-for="(item, index) in items" :key="item.uuid.S">
-        <v-list-tile>
+        <v-list-tile :to="{name: 'DetailPage', params: {id: item.uuid.S}}">
           <v-list-tile-content>
             <v-list-tile-title>{{item.headline.S}}</v-list-tile-title>
             <v-list-tile-sub-title>{{item.body.S}}</v-list-tile-sub-title>
