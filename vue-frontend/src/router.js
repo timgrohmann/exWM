@@ -9,39 +9,38 @@ import CreateEntry from './components/CreateEntry.vue'
 Vue.use(Router);
 
 export default new Router({
-    // mode: 'history',
-    routes: [
-        {
-            path: '/',
-            name: 'LandingPage',
-            components: {
-              default: LandingPage,
-            }
-        },
-        {
-            path: '/about-us',
-            name: 'AboutUs',
-            components: {
-              default: AboutUs,
-            }
-        },
-        {
-            path: '/new',
-            name: 'CreateEntry',
-            components: {
-                default: CreateEntry,
-            }
-        },
-        {
-          path: '/detail-page',
-          path: '/entry/:id',
-          props: {
-            default: (route) => ({ uuid: route.params.id })
-          },
-          name: 'DetailPage',
-          components: {
-            default: DetailPage,
-          }
+  // mode: 'history',
+  routes: [
+    {
+      path: '/',
+      name: 'LandingPage',
+      components: {
+        default: LandingPage,
+      }
+    },
+    {
+      path: '/about-us',
+      name: 'AboutUs',
+      components: {
+        default: AboutUs,
+      }
+    },
+    {
+      path: '/new',
+      name: 'CreateEntry',
+      components: {
+        default: CreateEntry,
+      }
+    },
+    {
+      path: '/entry/:id',
+      props: {
+        default: (route) => ({ uuid: route.params.id })
       },
-    ]
+      name: 'DetailPage',
+      components: {
+        default: DetailPage,
+      }
+    },
+  ]
 })
