@@ -4,12 +4,12 @@ import Router from 'vue-router';
 import DetailPage from './components/DetailPage.vue'
 import LandingPage from './components/LandingPage.vue'
 import AboutUs from './components/AboutUs.vue'
+import AllEntries from './components/AllEntries.vue'
 import CreateEntry from './components/CreateEntry.vue'
 
 Vue.use(Router);
 
 export default new Router({
-  // mode: 'history',
   routes: [
     {
       path: '/',
