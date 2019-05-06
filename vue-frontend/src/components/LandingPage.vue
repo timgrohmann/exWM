@@ -10,11 +10,11 @@
       </v-card-text>
     </v-card>
     <v-list two-line class="elevation-2 mt-2">
-      <div v-for="(item, index) in items" :key="item.uuid.S">
-        <v-list-tile :to="{name: 'DetailPage', params: {id: item.uuid.S}}">
+      <div v-for="(item, index) in items" :key="item.uuid">
+        <v-list-tile :to="{name: 'DetailPage', params: {id: item.uuid}}">
           <v-list-tile-content>
-            <v-list-tile-title>{{item.headline.S}}</v-list-tile-title>
-            <v-list-tile-sub-title>{{item.body.S}}</v-list-tile-sub-title>
+            <v-list-tile-title>{{item.headline}}</v-list-tile-title>
+            <v-list-tile-sub-title>{{item.body}}</v-list-tile-sub-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-divider v-if="index < items.length - 1"/>
@@ -23,13 +23,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from "vue"
 import db from "../data"
+import { EntryItem } from "../declarations/item"
 
-export default {
+export default Vue.extend({
   data() {
     return {
-      items: []
+      items: [] as EntryItem[]
     }
   },
   mounted() {
@@ -37,9 +39,9 @@ export default {
       if (err) {
         console.error("Error while scanning database:", err)
       } else {
-        this.items = data.Items
+        this.items = data
       }
     })
   }
-}
+})
 </script>
