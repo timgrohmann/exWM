@@ -4,7 +4,6 @@
       <div class="headline">{{item.headline}}</div>
     </v-card-title>
     <v-card-text v-html="markedHtml"></v-card-text>
-    <v-card-text>{{item.score}}</v-card-text>
     <v-card-actions>
       <v-btn outline round color="success" @click="upvote">
         <v-icon>thumb_up</v-icon>
