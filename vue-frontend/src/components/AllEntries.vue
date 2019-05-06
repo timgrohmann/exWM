@@ -46,6 +46,9 @@
     name: "AllEntries",
 
     data: () => ({
+      pagination: {
+        rowsPerPage: 6
+      },
       rowsPerPageItems: [6, 12, 24],
 
       items: []
