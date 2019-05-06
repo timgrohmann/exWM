@@ -33,6 +33,13 @@ export default new Router({
       }
     },
     {
+      path: '/all',
+      name: 'AllEntries',
+      components: {
+        default: AllEntries,
+      }
+    },
+    {
       path: '/entry/:id',
       props: {
         default: (route) => ({ uuid: route.params.id })
