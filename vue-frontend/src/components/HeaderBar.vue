@@ -12,6 +12,9 @@
     </v-navigation-drawer>
     <v-toolbar dark>
       <v-toolbar-side-icon @click="visible = !visible"/>
+      <v-btn color="primary" icon @click="$router.go(-1)">
+        <v-icon>navigate_before</v-icon>
+      </v-btn>
       <router-link :to="{name: 'LandingPage'}" class="v-responsive" style="max-height: 100%">
         <v-img src="ewm.svg" max-height="100%" position="left center" contain/>
       </router-link>
