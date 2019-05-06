@@ -29,7 +29,9 @@ export default {
         headline: { S: this.headline },
         body: { S: this.body },
         uuid: { S: data.makeHash(this.body, this.headline) },
-        timestamp: { S: String(Math.floor(new Date() / 1000)) }
+        timestamp: { S: String(Math.floor(new Date() / 1000)) },
+        upvotes: { N: "0" },
+        downvotes: { N: "0" }
       }
       data.insertNew(entry, uuid => {
         this.$router.push({

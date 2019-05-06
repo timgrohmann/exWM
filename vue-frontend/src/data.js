@@ -26,6 +26,25 @@ export default {
       }
     })
   },
+  updateUpvotes(item, count, callback = null) {
+    ddb.updateItem({
+      TableName: this.DefaultTableName,
+      Key: {
+        "uuid": {"S": item.uuid},
+        "timestamp": {"S": item.timestamp}
+      },
+      UpdateExpression: "SET upvotes = :u",
+      ExpressionAttributeValues: {
+        ":u": {"N": String(count)}
+      }
+    }, (error) => {
+      if (error) {
+        console.log(error)
+      } else {
+        callback(item.uuid.S)
+      }
+    })
+  },
   findByUUID(uuid, callback) {
     ddb.query({
       TableName: this.DefaultTableName,
