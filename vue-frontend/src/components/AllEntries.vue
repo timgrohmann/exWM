@@ -11,7 +11,6 @@
       <template v-slot:header>
         <v-toolbar
           class="mb-2"
-          color="primary"
           light
           flat
         >
@@ -29,7 +28,7 @@
           <v-card :to="{name: 'DetailPage', params: {id: props.item.uuid.S}}">
             <v-card-title><h4>{{props.item.headline.S}}</h4>
               <v-spacer></v-spacer>
-              <h5>{{new Date(parseInt(props.item.timestamp.S)*1000).toString()}}</h5></v-card-title>
+              <h5>{{new Date(parseInt(props.item.timestamp.S)*1000).toDateString()}}</h5></v-card-title>
             <v-divider></v-divider>
             <v-card-text>{{props.item.body.S}}</v-card-text>
           </v-card>
