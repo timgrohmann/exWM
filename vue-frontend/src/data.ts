@@ -1,6 +1,6 @@
 import store from "./store"
 import md5 from "md5"
-import AWS from "aws-sdk"
+const AWS = require("aws-sdk")
 
 AWS.config.region = 'eu-west-1'; // Region
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
@@ -30,12 +30,12 @@ export default {
     ddb.updateItem({
       TableName: this.DefaultTableName,
       Key: {
-        "uuid": {"S": item.uuid},
-        "timestamp": {"S": item.timestamp}
+        "uuid": { "S": item.uuid },
+        "timestamp": { "S": item.timestamp }
       },
       UpdateExpression: "SET upvotes = :u",
       ExpressionAttributeValues: {
-        ":u": {"N": String(count)}
+        ":u": { "N": String(count) }
       }
     }, (error) => {
       if (error) {
