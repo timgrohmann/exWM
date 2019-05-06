@@ -48,12 +48,12 @@ export default {
     createEntry() {
       this.dialog = false
       let entry = {
-        headline: { S: this.headline },
-        body: { S: this.body },
-        uuid: { S: data.makeHash(this.body, this.headline) },
-        timestamp: { S: String(Math.floor(new Date() / 1000)) },
-        upvotes: { N: "0" },
-        downvotes: { N: "0" }
+        headline: this.headline,
+        body: this.body,
+        uuid: data.makeHash(this.body, this.headline),
+        timestamp: String(Math.floor(new Date() / 1000)),
+        upvotes: 0,
+        downvotes: 0
       }
       data.insertNew(entry, uuid => {
         this.$router.push({
