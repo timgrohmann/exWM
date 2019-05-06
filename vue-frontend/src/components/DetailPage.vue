@@ -3,12 +3,13 @@
     <v-card-title>
       <div class="headline">{{item.headline}}</div>
     </v-card-title>
-    <v-card-text>{{item.body}}</v-card-text>
+    <v-card-text v-html="markedHtml"></v-card-text>
   </v-card>
 </template>
 
 <script>
 import db from "../data"
+import marked from "marked"
 
 export default {
   props: {
@@ -42,6 +43,11 @@ export default {
           this.item.body = data.Items[0].body.S
         }
       })
+    }
+  },
+  computed: {
+    markedHtml() {
+      return marked(this.item.body)
     }
   }
 }
