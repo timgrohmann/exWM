@@ -25,7 +25,8 @@ export default {
     items: [
       { icon: "face", name: "Über uns", link: { name: "AboutUs" } },
       { icon: "search", name: "Suche" },
-      { icon: "add", name: "Neuer Eintrag", link: { name: "CreateEntry" } }
+      { icon: "add", name: "Neuer Eintrag", link: { name: "CreateEntry" } },
+      { icon: "list", name: "Alle Beiträge", link: { name: "AllEntries" } },
     ],
     visible: false
   })
