@@ -26,10 +26,12 @@
           md6
           lg6
         >
-          <v-card>
-            <v-card-title><h4>{{props.item.headline}}</h4></v-card-title>
+          <v-card :to="{name: 'DetailPage', params: {id: props.item.uuid.S}}">
+            <v-card-title><h4>{{props.item.headline.S}}</h4>
+              <v-spacer></v-spacer>
+              <h5>{{new Date(parseInt(props.item.timestamp.S)*1000).toString()}}</h5></v-card-title>
             <v-divider></v-divider>
-            <v-card-text>{{props.item.body}}</v-card-text>
+            <v-card-text>{{props.item.body.S}}</v-card-text>
           </v-card>
         </v-flex>
       </template>
@@ -43,10 +45,13 @@
   export default {
     name: "AllEntries",
 
-
     data: () => ({
       rowsPerPageItems: [6, 12, 24],
-      items: [
+
+      items: []
+
+
+      /*testitems: [
         {
           headline: 'Caesar',
           body: 'in the freezer'
@@ -91,8 +96,17 @@
           headline: 'Boss\'s',
           body: 'not hot'
         }
-      ]
-    })
+      ]*/
+    }),
+    mounted() {
+      db.getAll((err, data) => {
+        if (err) {
+          console.error("Error while scanning database:", err)
+        } else {
+          this.items = data.Items
+        }
+      })
+    }
   };
 </script>
 
