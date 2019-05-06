@@ -23,13 +23,13 @@
 export default {
   data: () => ({
     items: [
-      { icon: "face", name: "Über uns", link: {name: "AboutUs"} },
+      { icon: "face", name: "Über uns", link: { name: "AboutUs" } },
       { icon: "search", name: "Suche" },
-      { icon: "add", name: "Neuer Eintrag", link: {name: "CreateEntry"}}
+      { icon: "add", name: "Neuer Eintrag", link: { name: "CreateEntry" } }
     ],
     visible: false
   })
-};
+}
 </script>
 
 <style>

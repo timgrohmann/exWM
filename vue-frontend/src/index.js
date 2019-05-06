@@ -13,7 +13,8 @@ Vue.use(Vuetify, {
     secondary: '#15e8cf',
     accent: '#8c9eff',
     error: '#ff9800',
-  }})
+  }
+})
 
 
 new Vue({
