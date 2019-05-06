@@ -8,23 +8,45 @@
       hint="Hier den Text für den Beitrag eingeben"
       solo
     ></v-textarea>
-    <div class="text-xs-center">
-      <v-btn large color="primary" v-on:click="createEntry">Erstellen</v-btn>
-    </div>
+
+    <v-dialog v-model="dialog" width="500">
+      <template v-slot:activator="{ on }">
+        <div class="text-xs-center">
+          <v-btn large color="primary" @click="dialog = true">Vorschau öffnen</v-btn>
+        </div>
+      </template>
+
+      <v-card>
+        <v-card-title class="headline primary lighten-2" primary-title>Vorschau</v-card-title>
+        <v-card-text class="title">{{headline}}</v-card-text>
+        <v-card-text v-html="preview"></v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="abort" flat @click="dialog = false">Abbrechen</v-btn>
+          <v-btn large color="primary" v-on:click="createEntry">Beitrag erstellen</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 <script>
 import data from "../data"
 
+const marked = require("marked")
+
 export default {
   data() {
     return {
       headline: null,
-      body: null
+      body: null,
+      preview: "",
+      dialog: false
     }
   },
   methods: {
     createEntry() {
+      this.dialog = false
       let entry = {
         headline: { S: this.headline },
         body: { S: this.body },
@@ -38,6 +60,14 @@ export default {
         })
       })
       console.log(entry)
+    }
+  },
+  watch: {
+    dialog() {
+      if (this.dialog) {
+        console.log(this.body)
+        this.preview = marked(this.body)
+      }
     }
   }
 }
