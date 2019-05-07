@@ -34,12 +34,12 @@ export default {
     })
   },
   incrementUpvotes(item: EntryItem, callback: (err: AWSError) => void) {
-    this.updateItem(item, "SET upvotes = upvotes + :u", {
+    this.updateItem(item, "ADD upvotes :u", {
       ":u": { "N": "1" }
     }, callback)
   },
   incrementDownvotes(item: EntryItem, callback: (err: AWSError) => void) {
-    this.updateItem(item, "SET downvotes = downvotes + :u", {
+    this.updateItem(item, "ADD downvotes :u", {
       ":u": { "N": "1" }
     }, callback)
   },

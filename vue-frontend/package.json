@@ -10,6 +10,7 @@
     "make": "webpack"
   },
   "dependencies": {
+    "@types/marked": "^0.6.5",
     "@types/md5": "^2.1.33",
     "aws-sdk": "^2.444.0",
     "marked": "^0.6.2",
