@@ -4,12 +4,22 @@
       <div class="headline">{{item.headline}}</div>
     </v-card-title>
     <v-card-text v-html="markedHtml"></v-card-text>
+    <v-card-actions>
+      <v-btn outline round color="success" @click="upvote">
+        <v-icon>thumb_up</v-icon>
+        &nbsp;{{item.upvotes}}
+      </v-btn>
+      <v-btn outline round color="red" @click="downvote">
+        <v-icon>thumb_down</v-icon>
+        &nbsp;{{item.downvotes}}
+      </v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import db from "../data"
 import marked from "marked"
+import data from "../data"
 
 export default {
   props: {
@@ -36,12 +46,18 @@ export default {
   },
   methods: {
     refresh() {
-      db.findByUUID(this.uuid, (error, data) => {
-        console.log(data)
-        if (data.Items.length == 1) {
-          this.item.headline = data.Items[0].headline.S
-          this.item.body = data.Items[0].body.S
-        }
+      data.findByUUID(this.uuid, (error, data) => {
+        this.item = data
+      })
+    },
+    upvote() {
+      data.incrementUpvotes(this.item, error => {
+        this.refresh()
+      })
+    },
+    downvote() {
+      data.incrementDownvotes(this.item, error => {
+        this.refresh()
       })
     }
   },

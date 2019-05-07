@@ -10,10 +10,13 @@
     "make": "webpack"
   },
   "dependencies": {
+    "@types/md5": "^2.1.33",
     "aws-sdk": "^2.444.0",
     "marked": "^0.6.2",
     "md5": "^2.2.1",
     "mini-css-extract-plugin": "^0.5.0",
+    "ts-loader": "^5.4.5",
+    "typescript": "^3.4.5",
     "vue": "^2.6.6",
     "vue-router": "^3.0.2",
     "vuetify": "^1.5.5",
