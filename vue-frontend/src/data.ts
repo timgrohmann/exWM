@@ -97,7 +97,7 @@ function itemToAWSRepresentation(item: EntryItem): AttributeMap {
         break
     }
     let entry: any = {}
-    entry[typeName] = element[1]
+    entry[typeName] = String(element[1])
     out[element[0]] = entry as AttributeValue
   })
   return out
