@@ -21,7 +21,7 @@
               </h5>
             </v-card-title>
             <v-divider></v-divider>
-            <v-card-text>{{props.item.body}}</v-card-text>
+            <v-card-text v-html="markedHtml(props.item.body)"></v-card-text>
           </v-card>
         </v-flex>
       </template>
@@ -31,6 +31,7 @@
 
 <script>
 import db from "../data"
+import marked from "marked"
 
 export default {
   name: "AllEntries",
@@ -89,6 +90,10 @@ export default {
           body: 'not hot'
         }
       ]*/
+    ,
+    markedHtml(p) {
+      return marked(p)
+    }
   }),
   mounted() {
     db.getAll((err, data) => {
@@ -99,6 +104,7 @@ export default {
       }
     })
   }
+
 }
 </script>
 
