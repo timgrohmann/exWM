@@ -1,3 +1,5 @@
+pip install -r requirements.txt
+
 FLASK_APP=tagging.py flask run
 
 im Browser (Beispiel):
