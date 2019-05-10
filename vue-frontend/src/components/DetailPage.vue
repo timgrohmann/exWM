@@ -9,9 +9,12 @@
         <v-icon>thumb_up</v-icon>
         &nbsp;{{item.upvotes}}
       </v-btn>
-      <v-btn outline round color="red" @click="downvote">
+      <v-btn outline round color="error" @click="downvote">
         <v-icon>thumb_down</v-icon>
         &nbsp;{{item.downvotes}}
+      </v-btn>
+      <v-btn outline color="primary">
+        <a style="text-decoration:none" :href="'mailto:'+item.email+'?subject=Rückmeldung zu: '+item.headline">Rückmeldung geben</a>
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -32,7 +35,7 @@ export default {
     return {
       item: {
         headline: "…",
-        body: "…"
+        body: "…",
       }
     }
   },

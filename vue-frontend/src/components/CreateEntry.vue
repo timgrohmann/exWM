@@ -1,5 +1,6 @@
 <template>
   <div>
+    <v-alert v-model="alert" dismissible type="error">Die eingegebene E-Mail-Adresse ist ungültig!</v-alert>
     <h1>Neuen Eintrag erstellen</h1>
     <v-text-field label="Überschrift" v-model="headline" solo></v-text-field>
     <v-textarea
@@ -9,6 +10,14 @@
       solo
       @input="tag_text(body)"
     ></v-textarea>
+    <v-text-field
+      label="E-Mail-Adresse"
+      v-model="email"
+      solo
+      prepend-inner-icon="mail"
+      type="email"
+      :rules="[rules.email.regex]"
+    ></v-text-field>
 
     <!--@keyup="suggested_tags = tag_text(body)"-->
     <template>
@@ -58,7 +67,18 @@ export default {
       preview: "",
       dialog: false,
       suggested_tags: ["Holz", "Beize", "Schmirgelpapier"],
-      declined_tags: []
+      declined_tags: [],
+      email: "",
+      alert: false,
+      rules: {
+        email: {
+          required: v => !!v || "E-Mail-Adresse eingeben!",
+          regex: v =>
+            /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+              v
+            ) || "Ungültige E-Mail-Adresse"
+        }
+      }
     }
   },
   computed: {
@@ -68,22 +88,34 @@ export default {
   },
   methods: {
     createEntry() {
+      console.log(typeof this.email)
       this.dialog = false
-      let entry = {
-        headline: this.headline,
-        body: this.body,
-        uuid: data.makeHash(this.body, this.headline),
-        timestamp: String(Math.floor(new Date() / 1000)),
-        upvotes: 0,
-        downvotes: 0
-      }
-      data.insertNew(entry, uuid => {
-        this.$router.push({
-          name: "DetailPage",
-          params: { id: uuid }
+      console.log(this.rules.email.regex)
+      if (
+        this.email.match(
+          /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+      ) {
+        let entry = {
+          headline: this.headline,
+          body: this.body,
+          uuid: data.makeHash(this.body, this.headline),
+          timestamp: String(Math.floor(new Date() / 1000)),
+          upvotes: 0,
+          downvotes: 0,
+          email: this.email
+        }
+        data.insertNew(entry, uuid => {
+          this.$router.push({
+            name: "DetailPage",
+            params: { id: uuid }
+          })
         })
-      })
-      console.log(entry)
+        console.log(entry)
+      } else {
+        this.email = this.email
+        this.alert = true
+      }
     },
     tag_text(t) {
       const http = new XMLHttpRequest()
