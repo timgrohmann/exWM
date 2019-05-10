@@ -18,41 +18,42 @@
 </template>
 
 <script>
-import marked from "marked"
+  import marked from "marked"
 import data from "../data"
 
-export default {
-  props: {
-    uuid: {
-      type: String,
-      default: ""
-    }
-  },
-  data() {
-    return {
-      item: {
-        headline: "…",
-        body: "…"
+  export default {
+    props: {
+      uuid: {
+        type: String,
+        default: ""
       }
-    }
-  },
-  watch: {
-    uuid() {
+    },
+    data() {
+      return {
+        item: {
+          headline: "…",
+          body: "…"
+        }
+      }
+    },
+    watch: {
+      uuid() {
+        this.refresh()
+      }
+    },
+    mounted() {
       this.refresh()
-    }
-  },
-  mounted() {
-    this.refresh()
-  },
-  methods: {
-    refresh() {
-      data.findByUUID(this.uuid, (error, data) => {
-        this.item = data
-      })
+    },
+    methods: {
+      refresh() {
+        data.findByUUID(this.uuid, (error, data) => {
+          this.item = data
+          })
     },
     upvote() {
-      data.incrementUpvotes(this.item, error => {
-        this.refresh()
+      data.incrementUpvotes(
+            this.item, error => {
+            this.refresh()
       })
     },
     downvote() {
@@ -61,10 +62,10 @@ export default {
       })
     }
   },
-  computed: {
-    markedHtml() {
+          computed: {
+        markedHtml() {
       return marked(this.item.body)
+      }
     }
   }
-}
 </script>

@@ -42,7 +42,7 @@ export default new Router({
     {
       path: '/entry/:id',
       props: {
-        default: (route) => ({ uuid: route.params.id })
+        default: (route) => ({uuid: route.params.id})
       },
       name: 'DetailPage',
       components: {
