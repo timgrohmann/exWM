@@ -10,6 +10,7 @@
       solo
       @input="tag_text(body)"
     ></v-textarea>
+<<<<<<< HEAD
     <v-text-field
       label="E-Mail-Adresse"
       v-model="email"
@@ -18,10 +19,35 @@
       type="email"
       :rules="[rules.email.regex]"
     ></v-text-field>
+=======
+    <v-combobox
+      v-model="chips"
+      :items="items.concat(chips)"
+      label="Schlagwörter"
+      chips
+      clearable
+      prepend-icon="filter_list"
+      solo
+      multiple
+      cache-items
+    >
+      <template v-slot:selection="data">
+        <v-chip
+          :selected="data.selected"
+          close
+          label
+          @input="remove(data.item)"
+        >
+          <strong>{{ data.item }}</strong>&nbsp;
+        </v-chip>
+      </template>
+    </v-combobox>
+>>>>>>> combobox added
 
     <!--@keyup="suggested_tags = tag_text(body)"-->
     <template>
       <div class="text-xs-center">
+<<<<<<< HEAD
         <div class="text-xs-center">
           <v-btn
             v-if="suggested_tags.length == declined_tags.length && suggested_tags.length != 0"
@@ -30,6 +56,8 @@
             @click="declined_tags = []"
           >Reset Chips</v-btn>
         </div>
+=======
+>>>>>>> combobox added
         <v-chip v-for="st in filteredTags" :key="st" close @click="declined_tags.push(st)">{{st}}</v-chip>
       </div>
     </template>
@@ -64,6 +92,7 @@ export default {
     return {
       headline: null,
       body: null,
+<<<<<<< HEAD
       preview: "",
       dialog: false,
       suggested_tags: ["Holz", "Beize", "Schmirgelpapier"],
@@ -84,10 +113,15 @@ export default {
   computed: {
     filteredTags() {
       return this.suggested_tags.filter(x => !this.declined_tags.includes(x))
+=======
+      chips: ['test'],
+      items: ['Streaming', 'Eating', 'Dog', 'Eat']
+>>>>>>> combobox added
     }
   },
   methods: {
     createEntry() {
+<<<<<<< HEAD
       console.log(typeof this.email)
       this.dialog = false
       console.log(this.rules.email.regex)
@@ -121,6 +155,32 @@ export default {
       const http = new XMLHttpRequest()
       const url = 'http://127.0.0.1:5000/suggest_tags?text=" ' + t + ' "'
 
+=======
+      this.dialog = false
+      let entry = {
+        headline: this.headline,
+        body: this.body,
+        uuid: data.makeHash(this.body, this.headline),
+        timestamp: String(Math.floor(new Date() / 1000)),
+        upvotes: 0,
+        downvotes: 0
+      }
+      data.insertNew(entry, uuid => {
+        this.$router.push({
+          name: "DetailPage",
+          params: { id: uuid }
+        })
+      })
+      console.log(entry)
+    },
+    remove (item) {
+        this.chips.splice(this.chips.indexOf(item), 1)
+        this.chips = [...this.chips]
+    },
+  tag_text(t) {
+      const http = new XMLHttpRequest()
+      const url = 'http://127.0.0.1:5000/suggest_tags?text=" ' + t + ' "'
+>>>>>>> combobox added
       http.open("GET", url)
       http.send()
       http.onreadystatechange = e => {
