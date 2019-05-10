@@ -11,7 +11,7 @@
       @input="tag_text(body)"
     ></v-textarea>
     <v-text-field
-      label="E-Mail-Adresse"
+      label="E-Mail-Adresse (für Rückfragen)"
       v-model="email"
       solo
       prepend-inner-icon="mail"
