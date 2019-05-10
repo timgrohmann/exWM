@@ -19,18 +19,9 @@
             color="secondary"
             dark
             @click="declined_tags = []"
-          >
-            Reset Chips
-          </v-btn>
+          >Reset Chips</v-btn>
         </div>
-        <v-chip
-          v-for="st in suggested_tags"
-          v-if="!declined_tags.includes(st)"
-          close
-          @click="declined_tags.push(st)"
-        >
-          {{st}}
-        </v-chip>
+        <v-chip v-for="st in filteredTags" :key="st" close @click="declined_tags.push(st)">{{st}}</v-chip>
       </div>
     </template>
 
@@ -55,60 +46,64 @@
   </div>
 </template>
 <script>
-  import data from "../data"
+import data from "../data"
 
+const marked = require("marked")
 
-  const marked = require("marked")
-
-  export default {
-    data() {
-      return {
-        headline: null,
-        body: null,
-        preview: "",
-        dialog: false,
-        suggested_tags: ['Holz', 'Beize', 'Schmirgelpapier'],
-        declined_tags: []
+export default {
+  data() {
+    return {
+      headline: null,
+      body: null,
+      preview: "",
+      dialog: false,
+      suggested_tags: ["Holz", "Beize", "Schmirgelpapier"],
+      declined_tags: []
+    }
+  },
+  computed: {
+    filteredTags() {
+      return this.suggested_tags.filter(x => !this.declined_tags.includes(x))
+    }
+  },
+  methods: {
+    createEntry() {
+      this.dialog = false
+      let entry = {
+        headline: this.headline,
+        body: this.body,
+        uuid: data.makeHash(this.body, this.headline),
+        timestamp: String(Math.floor(new Date() / 1000)),
+        upvotes: 0,
+        downvotes: 0
       }
-    },
-    methods: {
-      createEntry() {
-        this.dialog = false
-        let entry = {
-          headline: this.headline,
-          body: this.body,
-          uuid: data.makeHash(this.body, this.headline),
-          timestamp: String(Math.floor(new Date() / 1000)),
-          upvotes: 0,
-          downvotes: 0
-        }
-        data.insertNew(entry, uuid => {
-          this.$router.push({
-            name: "DetailPage",
-            params: {id: uuid}
-          })
+      data.insertNew(entry, uuid => {
+        this.$router.push({
+          name: "DetailPage",
+          params: { id: uuid }
         })
-        console.log(entry)
-      },
-      tag_text(t) {
-        const http = new XMLHttpRequest()
-        const url = 'http://127.0.0.1:5000/suggest_tags?text=" ' + t + ' "'
-
-        http.open("GET", url)
-        http.send()
-        http.onreadystatechange = (e) => {
-          console.log('This is the response: ', http.responseText)
-          this.suggested_tags = JSON.parse(http.responseText)
-        }
-      }
+      })
+      console.log(entry)
     },
-    watch: {
-      dialog() {
-        if (this.dialog) {
-          console.log(this.body)
-          this.preview = marked(this.body)
-        }
+    tag_text(t) {
+      const http = new XMLHttpRequest()
+      const url = 'http://127.0.0.1:5000/suggest_tags?text=" ' + t + ' "'
+
+      http.open("GET", url)
+      http.send()
+      http.onreadystatechange = e => {
+        console.log("This is the response: ", http.responseText)
+        this.suggested_tags = JSON.parse(http.responseText)
+      }
+    }
+  },
+  watch: {
+    dialog() {
+      if (this.dialog) {
+        console.log(this.body)
+        this.preview = marked(this.body)
       }
     }
   }
+}
 </script>
