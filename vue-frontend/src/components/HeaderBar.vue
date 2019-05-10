@@ -41,27 +41,17 @@
             </v-list-tile-title>
           </v-list-tile>
         </template>
-        <!--        <template v-slot:selection="{ item, selected }">-->
-        <!--          <v-chip-->
-        <!--            :selected="selected"-->
-        <!--            color="blue-grey"-->
-        <!--            class="white&#45;&#45;text"-->
-        <!--          >-->
-        <!--            <v-icon left>mdi-coin</v-icon>-->
-        <!--            <span v-text="item.headline.S"></span>-->
-        <!--          </v-chip>-->
-        <!--        </template>-->
         <template v-slot:item="{ item }">
-          <v-list-tile @click="model=false" :to="{name: 'DetailPage', params: {id: item.uuid.S}}">
+          <v-list-tile @click="model=false" :to="{name: 'DetailPage', params: {id: item.uuid}}">
             <v-list-tile-avatar
               color="indigo"
               class="headline font-weight-light white--text"
             >
-              {{ item.headline.S.charAt(0) }}
+              {{ item.headline.charAt(0) }}
             </v-list-tile-avatar>
             <v-list-tile-content>
-              <v-list-tile-title v-text="item.headline.S"></v-list-tile-title>
-              <v-list-tile-sub-title v-text="item.body.S"></v-list-tile-sub-title>
+              <v-list-tile-title v-text="item.headline"></v-list-tile-title>
+              <v-list-tile-sub-title v-text="item.body"></v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
 
@@ -74,10 +64,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+  import Vue from "vue"
   import db from "../data"
+  import {EntryItem} from "../declarations/item"
 
-  export default {
+  export default Vue.extend({
     data: () => ({
       search: null,
       isLoading: false,
@@ -89,20 +81,20 @@
         {icon: "list", name: "Alle Beiträge", link: {name: "AllEntries"}},
       ],
       visible: false,
-      entries: [],
+      entries: [] as EntryItem[],
     }),
     mounted() {
       db.getAll((err, data) => {
         if (err) {
           console.error("Error while scanning database:", err)
         } else {
-          this.entries = data.Items
+          this.entries = data
         }
       })
     },
 
 
-  }
+  })
 
 </script>
 
