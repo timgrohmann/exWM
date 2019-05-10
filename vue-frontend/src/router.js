@@ -6,6 +6,7 @@ import LandingPage from './components/LandingPage.vue'
 import AboutUs from './components/AboutUs.vue'
 import AllEntries from './components/AllEntries.vue'
 import CreateEntry from './components/CreateEntry.vue'
+import EditEntry from './components/EditEntry.vue'
 
 Vue.use(Router);
 
@@ -38,6 +39,16 @@ export default new Router({
       components: {
         default: AllEntries,
       }
+    },
+    {
+    	path: '/edit/:id',
+    	props: {
+    		default: (route) => ({ uuid: route.params.id })
+    	},
+    	name: 'EditEntry',
+    	components: {
+    		default: EditEntry,
+    	}
     },
     {
       path: '/entry/:id',
