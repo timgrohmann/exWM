@@ -45,6 +45,17 @@ export default {
       ":u": 1
     }, callback)
   },
+  deleteEntry(item: EntryItem, callback: (err: AWSError) => void) {
+    document.delete({
+      TableName: this.DefaultTableName,
+      Key: {
+        "uuid": item.uuid,
+        "timestamp": item.timestamp
+      }
+    }, (err, _) => {
+      callback(err)
+    })
+  },
   updateEntryText(item: EntryItem, newHeadline: string, newBody: string, callback: (err: AWSError) => void) {
     this.updateItem(item, "SET body = :b, headline = :h", {
       ":b": newBody,
