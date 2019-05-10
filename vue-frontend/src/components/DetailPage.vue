@@ -16,6 +16,7 @@
       <v-btn outline color="primary">
         <a style="text-decoration:none" :href="'mailto:'+item.email+'?subject=Rückmeldung zu: '+item.headline">Rückmeldung geben</a>
       </v-btn>
+      <v-btn outline color="primary" style="text-decoration:none" :to="{name: 'EditEntry', params: {id: item.uuid}}">Bearbeiten</v-btn>
     </v-card-actions>
   </v-card>
 </template>
