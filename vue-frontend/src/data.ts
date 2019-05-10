@@ -45,6 +45,12 @@ export default {
       ":u": 1
     }, callback)
   },
+  updateEntryText(item: EntryItem, newHeadline: string, newBody: string, callback: (err: AWSError) => void) {
+    this.updateItem(item, "SET body = :b, headline = :h", {
+      ":b": newBody,
+      ":h": newHeadline
+    }, callback)
+  },
   updateItem(item: EntryItem, updateExpression: string, expressionAttributeValues: AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap, callback: (err: AWSError) => void) {
     document.update({
       TableName: this.DefaultTableName,
