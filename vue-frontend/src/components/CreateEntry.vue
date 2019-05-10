@@ -1,12 +1,6 @@
 <template>
   <div>
-    <v-alert
-      v-model="alert"
-      dismissible
-      type="error"
-    >
-      Die eingegebene E-Mail-Adresse ist ungültig!
-    </v-alert>
+    <v-alert v-model="alert" dismissible type="error">Die eingegebene E-Mail-Adresse ist ungültig!</v-alert>
     <h1>Neuen Eintrag erstellen</h1>
     <v-text-field label="Überschrift" v-model="headline" solo></v-text-field>
     <v-textarea
@@ -36,12 +30,7 @@
             @click="declined_tags = []"
           >Reset Chips</v-btn>
         </div>
-        <v-chip
-          v-for="st in suggested_tags"
-          v-if="!declined_tags.includes(st)"
-          close
-          @click="declined_tags.push(st)"
-        >{{st}}</v-chip>
+        <v-chip v-for="st in filteredTags" :key="st" close @click="declined_tags.push(st)">{{st}}</v-chip>
       </div>
     </template>
 
@@ -92,12 +81,21 @@ export default {
       }
     }
   },
+  computed: {
+    filteredTags() {
+      return this.suggested_tags.filter(x => !this.declined_tags.includes(x))
+    }
+  },
   methods: {
     createEntry() {
       console.log(typeof this.email)
       this.dialog = false
       console.log(this.rules.email.regex)
-      if (this.email.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)) {
+      if (
+        this.email.match(
+          /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+      ) {
         let entry = {
           headline: this.headline,
           body: this.body,
@@ -114,10 +112,9 @@ export default {
           })
         })
         console.log(entry)
-      }
-      else {
-        this.email = this.email;
-        this.alert = true;
+      } else {
+        this.email = this.email
+        this.alert = true
       }
     },
     tag_text(t) {
