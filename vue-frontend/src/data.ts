@@ -1,7 +1,7 @@
 import * as md5 from "md5"
 import * as AWS from "aws-sdk"
 import { EntryItem } from "./declarations/item"
-import { AttributeMap, AttributeValue, ExpressionAttributeValueMap } from "aws-sdk/clients/dynamodb";
+import { AttributeMap, AttributeValue } from "aws-sdk/clients/dynamodb";
 import { AWSError } from "aws-sdk";
 
 AWS.config.region = 'eu-west-1'; // Region
@@ -9,22 +9,24 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
   IdentityPoolId: 'eu-west-1:7c77cf43-a78c-40cd-a3c3-9ca2a0da7330',
 });
 var ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
+const document = new AWS.DynamoDB.DocumentClient({ service: ddb })
 
 export default {
   DefaultTableName: 'ExwmEntries',
+  TagTableName: 'ExwmKeywords',
   getAll(callback: ((err: AWS.AWSError | null, data: EntryItem[]) => void)) {
-    ddb.scan({ TableName: this.DefaultTableName }, (error, data) => {
+    document.scan({ TableName: this.DefaultTableName }, (error, data) => {
       if (error) {
         callback(error, [])
       } else if (data.Items) {
-        callback(null, data.Items.map(itemFromAWSRepresentation))
+        callback(null, data.Items as EntryItem[])
       }
     })
   },
   insertNew(item: EntryItem, callback: ((arg0: string) => void) | null = null) {
-    ddb.putItem({
+    document.put({
       TableName: this.DefaultTableName,
-      Item: itemToAWSRepresentation(item)
+      Item: item
     }, (error) => {
       if (error) {
         console.log(error)
@@ -35,31 +37,31 @@ export default {
   },
   incrementUpvotes(item: EntryItem, callback: (err: AWSError) => void) {
     this.updateItem(item, "ADD upvotes :u", {
-      ":u": { "N": "1" }
+      ":u": 1
     }, callback)
   },
   incrementDownvotes(item: EntryItem, callback: (err: AWSError) => void) {
     this.updateItem(item, "ADD downvotes :u", {
-      ":u": { "N": "1" }
+      ":u": 1
     }, callback)
   },
-  updateItem(item: EntryItem, updateExpression: string, expressionAttributeValues: ExpressionAttributeValueMap, callback: (err: AWSError) => void) {
-    ddb.updateItem({
+  updateItem(item: EntryItem, updateExpression: string, expressionAttributeValues: AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap, callback: (err: AWSError) => void) {
+    document.update({
       TableName: this.DefaultTableName,
       Key: {
-        "uuid": { "S": item.uuid },
-        "timestamp": { "S": item.timestamp }
+        "uuid": item.uuid,
+        "timestamp": item.timestamp
       },
       UpdateExpression: updateExpression,
       ExpressionAttributeValues: expressionAttributeValues
     }, callback)
   },
   findByUUID(uuid: string, callback: ((err: AWS.AWSError | null, item: EntryItem | null) => void)) {
-    ddb.query({
+    document.query({
       TableName: this.DefaultTableName,
       KeyConditionExpression: "#u = :id",
       ExpressionAttributeValues: {
-        ":id": { 'S': uuid }
+        ":id": uuid
       },
       ExpressionAttributeNames: {
         "#u": "uuid" //"uuid" is a reserved name in DynamoDB apparently
@@ -68,52 +70,25 @@ export default {
       if (err) {
         callback(err, null)
       } else if (data && data.Items && data.Items[0]) {
-        callback(null, itemFromAWSRepresentation(data.Items[0]))
+        callback(null, data.Items[0] as EntryItem)
       }
     })
   },
   makeHash(body: string, head: string) {
     return md5(body + head + new Date())
+  },
+  /*TAGS*/
+  /**
+   * Returns all tags in a string array
+   */
+  getAllTags(callback: (data: string[]) => void) {
+    return document.scan({ TableName: this.TagTableName }, (err, data) => {
+      if (err || data.Items == undefined) {
+        console.log("Scanning error (tags)", err)
+        callback([])
+        return
+      }
+      callback(data.Items.map(x => x.keyword))
+    })
   }
-}
-
-
-function itemToAWSRepresentation(item: EntryItem): AttributeMap {
-  let out: AttributeMap = {}
-  Object.entries(item).forEach(element => {
-    let typeName = ""
-    switch (typeof element[1]) {
-      case "string":
-        typeName = "S"
-        break
-      case "number":
-        typeName = "N"
-        break
-      case "boolean":
-        typeName = "B"
-        break
-      default:
-        typeName = "S"
-        break
-    }
-    let entry: any = {}
-    entry[typeName] = String(element[1])
-    out[element[0]] = entry as AttributeValue
-  })
-  return out
-}
-
-function itemFromAWSRepresentation(aws: AttributeMap): EntryItem {
-  let out: any = {}
-  Object.entries(aws).forEach(element => {
-    let key = element[0]
-    let value = element[1]
-
-    if (value.S) {
-      out[key] = value.S
-    } else if (value.N) {
-      out[key] = parseInt(value.N, 0)
-    }
-  })
-  return out
 }
