@@ -67,10 +67,16 @@
       filterItems(item: any, queryText: any) {
         const query = queryText.toLowerCase();
         const title = item.headline.toLowerCase();
-        const description = item.body.toLowerCase();
+        item.getAllTags((tags: string[]) => {
+          for (let i = 0; i < tags.length; i++) {
+            if (tags[i].indexOf(query) > -1) {
+              return true;
+            }
+          }
 
-        return title.indexOf(query) > -1 ||
-          description.indexOf(query) > -1
+        });
+
+        return title.indexOf(query) > -1;
       },
     },
     data: () => ({
