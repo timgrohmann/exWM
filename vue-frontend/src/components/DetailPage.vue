@@ -44,7 +44,7 @@
       </v-card>
     </v-layout>
     <h4 class="display-1">Alle Kommentare:</h4>
-    <v-card v-for="comment in item.comments">
+    <v-card v-for="comment in item.comments" :key="comment.timestamp">
       <v-card-title>
         <div
           class="headline"
