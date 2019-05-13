@@ -16,6 +16,9 @@ Einmalige Bewertung von Beiträgen|Jeder Nutzer kann nur eine Stimme pro Eintrag
 Companya|Persona von einem Unternehmen machen zu Demonstrationszwecken und durchdenken, was dieses Unternehmen für Probleme mit dem Produkt haben könnte (weitere sinnvolle Features finden)|Ω|×
 Navigation|Einfachere Navigation durch das User Interface (Mit Pfeiltasten zwischen Einträgen wechseln)|Ω|×
 Fragen|Stellen von Fragen und automatische Zuordnung zu Beantwortern (aufgrund von Nutzerprofilen und Tags)|Ω|×
+Vorschlagen von Fragen|Beim stellen von Fragen wird nach ähnlichen Fragen oder Einträgen gesucht und diese werden vor dem Erstellen vorgeschlagen (so können doppelte und unnötige Fragen vermieden werden)|Ω|×
+Vorschlagen von Einträgen|Beim stellen von Einträgen wird nach ähnlichen Fragen oder Einträgen gesucht und diese werden vor dem Erstellen vorgeschlagen (so können doppelte Einträge vermieden werden)|Ω|×
+
 ###Legende
 Die Priorität der Einträge entspricht der Position in der Tabelle
 
