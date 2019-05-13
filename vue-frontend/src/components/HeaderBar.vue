@@ -61,14 +61,22 @@
   import Vue from "vue"
   import db from "../data"
   import {EntryItem} from "../declarations/item"
-  import data from "../data";
 
   export default Vue.extend({
     methods: {
       filterItems(item: any, queryText: any) {
         const query = queryText.toLowerCase();
         const title = item.headline.toLowerCase();
-        let [] keywords = item.keywords;
+
+        //search for keywords
+        let keywords: Array<String> = item.keywords;
+        if (item.keywords != null) {
+          for (let i = 0; i < keywords.length; i++) {
+            if (keywords.indexOf(query) > -1) {
+              return true;
+            }
+          }
+        }
 
         return title.indexOf(query) > -1;
       },
