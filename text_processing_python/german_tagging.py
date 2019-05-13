@@ -55,7 +55,7 @@ def doit(t, llist_scores=False, n=10):
             relevances = ast.literal_eval('{' + rels.read() + '}')
             helpfulness, suggestion_count = relevances.get(tag, (1, 1))
             print(tag, helpfulness, suggestion_count)
-            return (helpfulness / suggestion_count) + math.log2(suggestion_count)
+            return (helpfulness / suggestion_count)
 
     def score(tag, count):
         interp = max([math.log2(len(tag)/16), math.log2(1 + len([x for x in tag if x.isupper()]) ** 2)])

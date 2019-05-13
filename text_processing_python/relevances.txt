@@ -7,7 +7,7 @@
 "Flex": (4, 4),
 "Flexen": (3, 3),
 "Sägen": (3, 3),
-"toll": (0, 3),
+"toll": (0, 7),
 "notwendig": (0, 3),
 "gebraucht": (0, 3),
 "jedoch": (0, 3),
@@ -15,3 +15,4 @@
 "Staubentwicklung": (0, 3),
 "absprühen": (0, 2),
 "EVU": (0, 1),
+"Holz": (4, 4),
