@@ -65,17 +65,22 @@
   export default Vue.extend({
     methods: {
       filterItems(item: any, queryText: any) {
+        // console.log("filter items: " + queryText);
         const query = queryText.toLowerCase();
         const title = item.headline.toLowerCase();
 
         //search for keywords
-        let keywords: Array<String> = item.keywords;
-        if (item.keywords != null) {
+        let keywords: Array<String> = item.keyword;
+        if (item.keyword != null) {
+          console.log("keywords not null");
           for (let i = 0; i < keywords.length; i++) {
-            if (keywords.indexOf(query) > -1) {
+            console.log("keywords" + keywords[i]);
+            if (keywords[i].toLowerCase().indexOf(query) > -1) {
               return true;
             }
           }
+        }else{
+          console.log("keywords null");
         }
 
         return title.indexOf(query) > -1;
