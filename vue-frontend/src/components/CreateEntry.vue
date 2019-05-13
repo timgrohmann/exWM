@@ -127,6 +127,7 @@ export default {
           upvotes: 0,
           downvotes: 0,
           email: this.email,
+          comments: [],
           keyword: this.chips
         }
         data.insertNew(entry, uuid => {

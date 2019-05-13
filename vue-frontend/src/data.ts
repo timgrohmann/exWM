@@ -62,6 +62,11 @@ export default {
       ":h": newHeadline
     }, callback)
   },
+  updateComments(item: EntryItem, comments: Array<Object>, callback: (err: AWSError) => void) {
+    this.updateItem(item, "SET comments = :c", {
+      ":c": comments
+    }, callback)
+  },
   updateItem(item: EntryItem, updateExpression: string, expressionAttributeValues: AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap, callback: (err: AWSError) => void) {
     document.update({
       TableName: this.DefaultTableName,
