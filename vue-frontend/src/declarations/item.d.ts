@@ -7,4 +7,5 @@ export interface EntryItem {
   timestamp: string,
   upvotes: number,
   downvotes: number
+  keywords: string[],
 }
