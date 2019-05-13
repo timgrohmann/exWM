@@ -7,6 +7,7 @@ import AboutUs from './components/AboutUs.vue'
 import AllEntries from './components/AllEntries.vue'
 import CreateEntry from './components/CreateEntry.vue'
 import EditEntry from './components/EditEntry.vue'
+import DeleteConfirmation from './components/DeleteConfirmation.vue'
 
 Vue.use(Router);
 
@@ -17,6 +18,13 @@ export default new Router({
       name: 'LandingPage',
       components: {
         default: LandingPage,
+      }
+    },
+    {
+      path: '/deleted',
+      name: 'DeleteConfirmation',
+      components: {
+        default: DeleteConfirmation,
       }
     },
     {
