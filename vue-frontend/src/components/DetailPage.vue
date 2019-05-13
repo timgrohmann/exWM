@@ -20,6 +20,8 @@
             :href="'mailto:'+item.email+'?subject=Rückmeldung zu: '+item.headline"
           >Rückmeldung geben</a>
         </v-btn>
+        <v-btn outline color="primary" style="text-decoration:none" :to="{name: 'EditEntry', params: {id: item.uuid}}">Bearbeiten</v-btn>
+      <v-btn outline color="error" style="text-decoration:none" @click="del">Löschen</v-btn>
       </v-card-actions>
     </v-card>
     <br>
@@ -56,6 +58,7 @@
 <script>
 import marked from "marked"
 import data from "../data"
+import LandingPage from "./LandingPage";
 
 export default {
   props: {
@@ -132,7 +135,12 @@ export default {
       var sec = a.getSeconds()
       var time =
         date + ". " + month + " " + year + " um " + hour + ":" + min + ":" + sec
-      return time
+      return time},
+    del() {
+      data.deleteEntry(this.item, error => {
+        console.log(error)
+        this.$router.push({name: 'DeleteConfirmation'})
+      })
     }
   },
   computed: {
