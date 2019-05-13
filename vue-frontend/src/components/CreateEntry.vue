@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <v-alert v-model="alert" dismissible type="error">Die eingegebene E-Mail-Adresse ist ungültig!</v-alert>
     <h1>Neuen Eintrag erstellen</h1>
@@ -10,7 +10,7 @@
       solo
       @input="tag_text(body)"
     ></v-textarea>
-    
+
     <v-text-field
       label="E-Mail-Adresse (für Rückfragen)"
       v-model="email"
@@ -46,9 +46,9 @@
     <!--@keyup="suggested_tags = tag_text(body)"-->
     <template>
       <div class="text-xs-center">
-        <v-chip 
-          v-for="st in filteredTags" 
-          :key="st" 
+        <v-chip
+          v-for="st in filteredTags"
+          :key="st"
           @click="chips.push(st)">{{st}}</v-chip>
       </div>
     </template>
