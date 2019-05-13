@@ -32,15 +32,8 @@
         item-value="symbol"
         label="Suche nach einem Eintrag..."
         solo
-
+        :filter="filterItems"
       >
-        <template v-slot:no-data>
-          <v-list-tile>
-            <v-list-tile-title>
-              Suche nach einem Eintrag
-            </v-list-tile-title>
-          </v-list-tile>
-        </template>
         <template v-slot:item="{ item }">
           <v-list-tile @click="model=false" :to="{name: 'DetailPage', params: {id: item.uuid}}">
             <v-list-tile-avatar
@@ -70,6 +63,16 @@
   import {EntryItem} from "../declarations/item"
 
   export default Vue.extend({
+    methods: {
+      filterItems(item: any, queryText: any) {
+        const query = queryText.toLowerCase();
+        const title = item.headline.toLowerCase();
+        const description = item.body.toLowerCase();
+
+        return title.indexOf(query) > -1 ||
+          description.indexOf(query) > -1
+      },
+    },
     data: () => ({
       search: null,
       isLoading: false,
