@@ -103,7 +103,8 @@ export default {
           timestamp: String(Math.floor(new Date() / 1000)),
           upvotes: 0,
           downvotes: 0,
-          email: this.email
+          email: this.email,
+          comments: []
         }
         data.insertNew(entry, uuid => {
           this.$router.push({

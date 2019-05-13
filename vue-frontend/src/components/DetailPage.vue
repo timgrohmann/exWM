@@ -28,21 +28,28 @@
         <v-card-title>
           <div class="headline">Kommentar hinzufügen:</div>
         </v-card-title>
-        <v-text-field solo label="Dein Name" v-model="headline"></v-text-field>
+        <v-text-field solo label="Dein Name" v-model="comment.author"></v-text-field>
         <v-textarea
-          v-model="commentBody"
+          v-model="comment.body"
           label="Kommentar"
           hint="Hier kannst du den Beitrag kommentieren"
-          @input="tag_text(commentBody)"
+          @input="tag_text(comment.body)"
           solo
         ></v-textarea>
-        <v-card-actions>
-          <v-btn fab small color="primary" absolute top right>
-            <v-icon>send</v-icon>
-          </v-btn>
-        </v-card-actions>
+        <v-btn fab small color="primary" absolute bottom right v-on:click="addComment">
+          <v-icon>send</v-icon>
+        </v-btn>
       </v-card>
     </v-layout>
+    <h4 class="display-1">Alle Kommentare:</h4>
+    <v-card v-for="comment in item.comments">
+      <v-card-title>
+        <div
+          class="headline"
+        >{{comment.author}} schreibt ({{timeConverter(comment.timestamp)}}):</div>
+      </v-card-title>
+      <v-card-text>{{comment.body}}</v-card-text>
+    </v-card>
   </div>
 </template>
 
@@ -62,6 +69,11 @@ export default {
       item: {
         headline: "…",
         body: "…"
+      },
+      comment: {
+        author: "",
+        body: "",
+        timestamp: 0
       }
     }
   },
@@ -88,6 +100,39 @@ export default {
       data.incrementDownvotes(this.item, error => {
         this.refresh()
       })
+    },
+    addComment() {
+      this.comment.timestamp = new Date().getTime()
+      this.item.comments.push(this.comment)
+      data.updateComments(this.item, this.item.comments, error => {
+        this.refresh()
+      })
+    },
+    timeConverter(timestamp) {
+      var a = new Date(timestamp)
+      var months = [
+        "Januar",
+        "Februar",
+        "März",
+        "April",
+        "Mai",
+        "Juni",
+        "Juli",
+        "August",
+        "September",
+        "Oktober",
+        "November",
+        "Dezember"
+      ]
+      var year = a.getFullYear()
+      var month = months[a.getMonth()]
+      var date = a.getDate()
+      var hour = a.getHours()
+      var min = a.getMinutes()
+      var sec = a.getSeconds()
+      var time =
+        date + ". " + month + " " + year + " um " + hour + ":" + min + ":" + sec
+      return time
     }
   },
   computed: {
