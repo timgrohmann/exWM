@@ -2,6 +2,11 @@ pip install -r requirements.txt
 
 FLASK_APP=tagging.py flask run
 
+in python execute:
+import nltk
+nltk..download_gui()
+under models select punkt and download it
+
 im Browser (Beispiel):
 http://localhost:5000/suggest_tags?text="Holz ist so toll. Man kann es schleifen, und schneiden. Kaltgerätekabel. Kühlschrank. Porzellanfliesen"
 
