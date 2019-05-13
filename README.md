@@ -6,12 +6,12 @@ Hendrik Lankers, Nico Oberländer, Gleb Sergienko, Florian Redmann, Felix Wortma
 ## Aufgabenverteilung:
 Person          | Aufgabe
 ----------------|------------------
-Hendrik Lankers | Recherche/UNIX
-Florian Redmann | Backend/Scrum-Master
-Tim Grohmann    | Backend/git
-Nico Oberländer | Schnittstellenmanager
+Hendrik Lankers | AI/Intelligentes Vorschlagen von Tags/Frontend
+Florian Redmann | Scrum-Master/Frontend
+Tim Grohmann    | AWS/Backend/Frontend
+Nico Oberländer | Frontend
 Gleb Sergienko  | Frontend
-Felix Wortmann  | Backend
+Felix Wortmann  | Product Owner/Frontend
 
 ## Projekttypisierung:
 Produktentwicklungsprojekt
@@ -34,10 +34,7 @@ Produktentwicklungsprojekt
 - direkter Themenbezug
 
 ## Risiken:
-- fehlende Erfahrung im PM
-- Konkurrenz
-- Kommunikationsschwierigkeiten
-- schlechte Organisation
+- siehe [hier](https://github.com/timgrohmann/exWM/blob/master/dokumentation/risikoanalyse.md)
 
 ## Prinzipelle Vorgehensweise:
 Agiles Projektmanagement, Scrum
@@ -48,4 +45,6 @@ Agiles Projektmanagement, Scrum
 - wiss. Arbeiten zum Thema
 - Befragung von Mittelstandsunternehmen
 
-vue-frontend/readme.md lesen :)
+## Get Started
+- vue-frontend/readme.md lesen
+- dokumenation/how_to_pull_request.md lesen
