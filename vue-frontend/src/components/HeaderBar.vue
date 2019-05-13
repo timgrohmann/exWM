@@ -30,6 +30,7 @@ export default {
       { icon: "search", name: "Suche" },
       { icon: "add", name: "Neuer Eintrag", link: { name: "CreateEntry" } },
       { icon: "list", name: "Alle Beiträge", link: { name: "AllEntries" } },
+      { icon: "person", name: "Anmelden", link: { name: "SignIn" } }
     ],
     visible: false
   })
