@@ -16,7 +16,7 @@ var app_client_id = '7nqlsl50rmosp3p7c7kcqveli3';
 var keys_url = 'https://cognito-idp.' + region + '.amazonaws.com/' + userpool_id + '/.well-known/jwks.json';
 
 export default {
-  verify: function (token: string, callback: (error: string | null, payload: any | null) => void) {
+  verify: function (token: string, callback: (error: string | null, payload: any | null, token: string | null) => void) {
     let sections = token.split('.');
     // get the kid from the headers prior to verification
     let header = jose.util.base64url.decode(sections[0]);
@@ -37,7 +37,7 @@ export default {
           }
           if (key_index == -1) {
             console.log('Public key not found in jwks.json');
-            callback('Public key not found in jwks.json', null);
+            callback('Public key not found in jwks.json', null, null);
           }
           // construct the public key
           jose.JWK.asKey(keys[key_index]).
@@ -51,16 +51,16 @@ export default {
                   // additionally we can verify the token expiration
                   var current_ts = Math.floor(new Date().getTime() / 1000);
                   if (current_ts > claims.exp) {
-                    callback('Token is expired', null);
+                    callback('Token is expired', null, null);
                   }
                   // and the Audience (use claims.client_id if verifying an access token)
                   if (claims.aud != app_client_id) {
                     //callback('Token was not issued for this audience', null);
                   }
-                  callback(null, claims);
+                  callback(null, claims, token);
                 }).
                 catch(function () {
-                  callback('Signature verification failed', null);
+                  callback('Signature verification failed', null, null);
                 });
             });
         });
