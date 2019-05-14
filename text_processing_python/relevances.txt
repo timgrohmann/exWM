@@ -1,0 +1,7 @@
+"UmStG": (1, 1),
+"ICE": (1, 1),
+"Eisenbahnverkehrsunternehmen": (1, 1),
+"SozSichAbkÄndAbk2ZAbkTURG": (0, 1),
+"Kündigungsgrund": (0, 1),
+"Wörter": (0, 1),
+"Worte": (0, 1),
