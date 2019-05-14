@@ -1,0 +1,6 @@
+pip install -r requirements.txt
+
+FLASK_APP=tagging.py flask run
+
+im Browser (Beispiel):
+http://localhost:5000/suggest_tags?text="Holz ist so toll. Man kann es schleifen, und schneiden. Kaltgerätekabel. Kühlschrank. Porzellanfliesen"
