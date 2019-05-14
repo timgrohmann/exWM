@@ -55,11 +55,12 @@ def doit(t, llist_scores=False, n=10):
             relevances = ast.literal_eval('{' + rels.read() + '}')
             helpfulness, suggestion_count = relevances.get(tag, (1, 1))
             print(tag, helpfulness, suggestion_count)
-            return (helpfulness / suggestion_count)
+            return ((helpfulness + 1) / (suggestion_count + 1))
 
     def score(tag, count):
-        interp = max([math.log2(len(tag)/16), math.log2(1 + len([x for x in tag if x.isupper()]) ** 2)])
-        return count * (relevance(tag) + interp)
+        interp = max([math.log2(len(tag)/16), math.log2(1 + len([x for x in tag if x.isupper()]))])
+        print(tag, ':', count, relevance(tag), interp)
+        return math.sqrt(count) * relevance(tag) * interp
 
     tags = [tag for tag, type in t if type in 'ADV, NN, NE, VVINF, VVFIN'.split(', ') or len([x for x in tag if x.isupper()]) >= 2]
     counts = {}
