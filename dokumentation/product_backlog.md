@@ -19,7 +19,7 @@ Fragen|Stellen von Fragen und automatische Zuordnung zu Beantwortern (aufgrund v
 Vorschlagen von Fragen|Beim stellen von Fragen wird nach ähnlichen Fragen oder Einträgen gesucht und diese werden vor dem Erstellen vorgeschlagen (so können doppelte und unnötige Fragen vermieden werden)|Ω|×
 Vorschlagen von Einträgen|Beim stellen von Einträgen wird nach ähnlichen Fragen oder Einträgen gesucht und diese werden vor dem Erstellen vorgeschlagen (so können doppelte Einträge vermieden werden)|Ω|×
 
-###Legende
+### Legende
 Die Priorität der Einträge entspricht der Position in der Tabelle
 
 Zeichen|Bedeutung
