@@ -27,12 +27,7 @@ Issue ID|Beschreibung|Fertig
 (#37, #85)|Suchen nach Einträgen (Über Tags und Titel)|✓
 (#29, #57, #65, #77)|Anfangen mit intelligentem Vorschlagen von Tags|✓
 
-#### 
-## Risiken:
-- siehe [hier](https://github.com/timgrohmann/exWM/blob/master/dokumentation/risikoanalyse.md)
-
-## Prinzipelle Vorgehensweise:
-Agiles Projektmanagement, ScrumLegende
+#### Legende
 Zeichen|Bedeutung
 ---|---
 ✓|Fertig
