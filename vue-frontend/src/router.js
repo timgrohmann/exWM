@@ -7,7 +7,7 @@ import AboutUs from './components/AboutUs.vue'
 import AllEntries from './components/AllEntries.vue'
 import CreateEntry from './components/CreateEntry.vue'
 import EditEntry from './components/EditEntry.vue'
-import SignIn from './components/SignIn'
+import SignIn from './components/SignIn.vue'
 import DeleteConfirmation from './components/DeleteConfirmation.vue'
 
 Vue.use(Router);
@@ -73,9 +73,6 @@ export default new Router({
     {
       path: '/signin',
       name: 'SignIn',
-      props: {
-        default: (route) => ({ token: route.params.token })
-      },
       components: {
         default: SignIn,
       }

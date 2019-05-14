@@ -13,6 +13,7 @@
     "@types/marked": "^0.6.5",
     "@types/md5": "^2.1.33",
     "@types/node-jose": "^1.1.0",
+    "amazon-cognito-identity-js": "^3.0.12",
     "aws-sdk": "^2.444.0",
     "marked": "^0.6.2",
     "md5": "^2.2.1",
