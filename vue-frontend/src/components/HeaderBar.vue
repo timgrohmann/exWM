@@ -91,7 +91,8 @@ export default Vue.extend({
       { icon: "face", name: "Über uns", link: { name: "AboutUs" } },
       { icon: "search", name: "Suche" },
       { icon: "add", name: "Neuer Eintrag", link: { name: "CreateEntry" } },
-      { icon: "list", name: "Alle Beiträge", link: { name: "AllEntries" } }
+      { icon: "list", name: "Alle Beiträge", link: { name: "AllEntries" } },
+      { icon: "person", name: "Anmelden", link: { name: "SignIn" } }
     ],
     visible: false,
     entries: [] as EntryItem[]
