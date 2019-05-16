@@ -5,9 +5,12 @@ import { AttributeMap, AttributeValue } from "aws-sdk/clients/dynamodb";
 import { AWSError } from "aws-sdk";
 
 AWS.config.region = 'eu-west-1'; // Region
-AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-  IdentityPoolId: 'eu-west-1:7c77cf43-a78c-40cd-a3c3-9ca2a0da7330',
-});
+if (AWS.config.credentials == null) { //would reset other credentials otherwise
+  AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: 'eu-west-1:7c77cf43-a78c-40cd-a3c3-9ca2a0da7330',
+  })
+}
+
 var ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
 const document = new AWS.DynamoDB.DocumentClient({ service: ddb })
 
