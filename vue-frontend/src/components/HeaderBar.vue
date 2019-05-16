@@ -1,4 +1,4 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<template>
   <div>
     <v-navigation-drawer app v-model="visible" mobile-break-point="10000">
       <v-list>

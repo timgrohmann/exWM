@@ -20,13 +20,18 @@
             :href="'mailto:'+item.email+'?subject=Rückmeldung zu: '+item.headline"
           >Rückmeldung geben</a>
         </v-btn>
-        <v-btn outline color="primary" style="text-decoration:none" :to="{name: 'EditEntry', params: {id: item.uuid}}">Bearbeiten</v-btn>
-      <v-btn outline color="error" style="text-decoration:none" @click="del">Löschen</v-btn>
+        <v-btn
+          outline
+          color="primary"
+          style="text-decoration:none"
+          :to="{name: 'EditEntry', params: {id: item.uuid}}"
+        >Bearbeiten</v-btn>
+        <v-btn outline color="error" style="text-decoration:none" @click="del">Löschen</v-btn>
       </v-card-actions>
     </v-card>
     <br>
     <v-layout justify-center>
-      <v-card width="50%" flat img="null">
+      <v-card width="50%" flat>
         <v-card-title>
           <div class="headline">Kommentar hinzufügen:</div>
         </v-card-title>
@@ -46,9 +51,7 @@
     <h4 class="display-1">Alle Kommentare:</h4>
     <v-card v-for="comment in item.comments" :key="comment.timestamp">
       <v-card-title>
-        <div
-          class="headline"
-        >{{comment.author}} schreibt ({{timeConverter(comment.timestamp)}}):</div>
+        <div class="headline">{{comment.author}} schreibt ({{timeConverter(comment.timestamp)}}):</div>
       </v-card-title>
       <v-card-text>{{comment.body}}</v-card-text>
     </v-card>
@@ -58,7 +61,7 @@
 <script>
 import marked from "marked"
 import data from "../data"
-import LandingPage from "./LandingPage";
+import LandingPage from "./LandingPage"
 
 export default {
   props: {
@@ -130,16 +133,17 @@ export default {
       var year = a.getFullYear()
       var month = months[a.getMonth()]
       var date = a.getDate()
-      var hour = a.getHours() < 10 ? '0' + a.getHours() : a.getHours();
-      var min = a.getMinutes() < 10 ? '0' + a.getMinutes() : a.getMinutes();
-       var sec = a.getSeconds() < 10 ? '0' + a.getSeconds() : a.getSeconds();
+      var hour = a.getHours() < 10 ? "0" + a.getHours() : a.getHours()
+      var min = a.getMinutes() < 10 ? "0" + a.getMinutes() : a.getMinutes()
+      var sec = a.getSeconds() < 10 ? "0" + a.getSeconds() : a.getSeconds()
       var time =
         date + ". " + month + " " + year + " um " + hour + ":" + min + ":" + sec
-      return time},
+      return time
+    },
     del() {
       data.deleteEntry(this.item, error => {
         console.log(error)
-        this.$router.push({name: 'DeleteConfirmation'})
+        this.$router.push({ name: "DeleteConfirmation" })
       })
     }
   },
