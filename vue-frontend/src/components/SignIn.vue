@@ -6,6 +6,7 @@
       </v-card-title>
       <v-card-text>Hier wird man sich anmelden können:</v-card-text>
       <login-dialogue v-on:login-success="loggedIn = true"></login-dialogue>
+      <v-btn @click="signUp">Neuen Account erstellen</v-btn>
     </v-card>
     <v-card v-else>
       <v-card-title>
@@ -53,6 +54,17 @@ export default Vue.extend({
     signOut() {
       auth.signOut()
       this.loggedIn = false
+    },
+    signUp() {
+      const domain = "https://exwm.auth.eu-west-1.amazoncognito.com"
+      const appClientID = "2k21erv81gk31egkvl79r5umi2"
+      const url = window.location.href
+        .split("/")
+        .slice(0, 3)
+        .join("/")
+      console.log(url)
+      const uri = encodeURI(url)
+      window.location.href = `${domain}/signup?response_type=token&client_id=${appClientID}&redirect_uri=${uri}`
     }
   }
 })
