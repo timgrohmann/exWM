@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="600px">
+  <v-dialog v-model="dialog" :persistent="!loggedIn" max-width="600px">
     <template v-slot:activator="{ on }">
       <v-btn color="primary" dark v-on="on">Jetzt anmelden!</v-btn>
     </template>
@@ -7,7 +7,7 @@
       <v-card-title>
         <span class="headline">Anmelden</span>
       </v-card-title>
-      <v-card-text>
+      <v-card-text v-if="!loggedIn">
         <v-form>
           <v-layout wrap>
             <v-flex xs12>
@@ -24,6 +24,12 @@
           </v-layout>
         </v-form>
       </v-card-text>
+      <v-card-text v-else>
+        <p color="success">Du bist bereits angemeldet!</p>
+        <div class="text-xs-right">
+          <v-btn color="primary darken-1" flat @click="dialog = false">Zurück</v-btn>
+        </div>
+      </v-card-text>
     </v-card>
   </v-dialog>
 </template>
@@ -37,17 +43,8 @@ export default Vue.extend({
     return {
       dialog: false,
       username: "",
-      password: ""
-    }
-  },
-  watch: {
-    dialog(val) {
-      if (val == false) return
-      if (auth.getCognitoUser() != null) {
-        Vue.nextTick(() => {
-          this.dialog = false
-        })
-      }
+      password: "",
+      loggedIn: auth.isLoggedIn()
     }
   },
   methods: {

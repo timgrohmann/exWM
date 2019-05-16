@@ -14,6 +14,10 @@ class Auth {
     return userPool.getCurrentUser()
   }
 
+  isLoggedIn(): boolean {
+    return !!this.getCognitoUser()
+  }
+
   signIn(username: string, password: string, callback: (error: string | null) => void) {
     let authenticationData = new AmazonCognitoIdentity.AuthenticationDetails({
       Username: username,
@@ -37,27 +41,27 @@ class Auth {
 
   updateCredentials() {
     let cognitoUser = this.getCognitoUser()
-
     if (cognitoUser != null) {
-      cognitoUser.getSession((err: any, session: any) => {
+      console.debug("Updating AWS credentials")
+      cognitoUser.getSession((err: AWS.AWSError, session: AmazonCognitoIdentity.CognitoUserSession) => {
         if (err) {
+          console.debug("Could not get Cognito User session", err)
           return
         }
         console.log('session validity: ' + session.isValid())
 
         AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-          IdentityPoolId: 'eu-west-1:7c77cf43-a78c-40cd-a3c3-9ca2a0da7330', // your identity pool id here
+          IdentityPoolId: 'eu-west-1:7c77cf43-a78c-40cd-a3c3-9ca2a0da7330',
           Logins: {
-            // Change the key below according to the specific region your user pool is in.
             'cognito-idp.eu-west-1.amazonaws.com/eu-west-1_MAdUmMoik': session.getIdToken().getJwtToken()
           }
         });
 
         (AWS.config.credentials as AWS.Credentials).refresh((error) => {
           if (error) {
-            console.error(error);
+            console.log("Could not update AWS credentials", error);
           } else {
-            console.log('Successfully logged!');
+            console.log('Successfully updated AWS credentials!');
           }
         })
       })
