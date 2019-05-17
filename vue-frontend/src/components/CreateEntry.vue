@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <v-alert v-model="alert" dismissible type="error">Die eingegebene E-Mail-Adresse ist ungültig!</v-alert>
     <h1>Neuen Eintrag erstellen</h1>
@@ -10,8 +10,9 @@
       solo
       @input="tag_text(body)"
     ></v-textarea>
+
     <v-text-field
-      label="E-Mail-Adresse"
+      label="E-Mail-Adresse (für Rückfragen)"
       v-model="email"
       solo
       prepend-inner-icon="mail"
@@ -19,18 +20,36 @@
       :rules="[rules.email.regex]"
     ></v-text-field>
 
+    <v-combobox
+      v-model="chips"
+      label="Schlagwörter"
+      chips
+      clearable
+      prepend-icon="filter_list"
+      solo
+      multiple
+      hide-no-data
+      :items="chips"
+    >
+      <template v-slot:selection="data">
+        <v-chip
+          :selected="data.selected"
+          close
+          label
+          @input="remove(data.item)"
+        >
+          <strong>{{ data.item }}</strong>&nbsp;
+        </v-chip>
+      </template>
+    </v-combobox>
+
     <!--@keyup="suggested_tags = tag_text(body)"-->
     <template>
       <div class="text-xs-center">
-        <div class="text-xs-center">
-          <v-btn
-            v-if="suggested_tags.length == declined_tags.length && suggested_tags.length != 0"
-            color="secondary"
-            dark
-            @click="declined_tags = []"
-          >Reset Chips</v-btn>
-        </div>
-        <v-chip v-for="st in filteredTags" :key="st" close @click="declined_tags.push(st)">{{st}}</v-chip>
+        <v-chip
+          v-for="st in filteredTags"
+          :key="st"
+          @click="chips.push(st)">{{st}}</v-chip>
       </div>
     </template>
 
@@ -44,6 +63,10 @@
         <v-card-title class="headline primary lighten-2" primary-title>Vorschau</v-card-title>
         <v-card-text class="title">{{headline}}</v-card-text>
         <v-card-text v-html="preview"></v-card-text>
+        <v-divider></v-divider>
+        <v-chip v-for="chip in chips" :key="chip" label>
+          <strong>{{ chip }}</strong>&nbsp;
+        </v-chip>
         <v-divider></v-divider>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -67,7 +90,7 @@ export default {
       preview: "",
       dialog: false,
       suggested_tags: ["Holz", "Beize", "Schmirgelpapier"],
-      declined_tags: [],
+      chips: [],
       email: "",
       alert: false,
       rules: {
@@ -83,7 +106,7 @@ export default {
   },
   computed: {
     filteredTags() {
-      return this.suggested_tags.filter(x => !this.declined_tags.includes(x))
+      return this.suggested_tags.filter(x => !this.chips.includes(x))
     }
   },
   methods: {
@@ -103,7 +126,9 @@ export default {
           timestamp: String(Math.floor(new Date() / 1000)),
           upvotes: 0,
           downvotes: 0,
-          email: this.email
+          email: this.email,
+          comments: [],
+          keyword: this.chips
         }
         data.insertNew(entry, uuid => {
           this.$router.push({
@@ -127,7 +152,11 @@ export default {
         console.log("This is the response: ", http.responseText)
         this.suggested_tags = JSON.parse(http.responseText)
       }
-    }
+    },
+    remove (item) {
+        this.chips.splice(this.chips.indexOf(item), 1)
+        this.chips = [...this.chips]
+    },
   },
   watch: {
     dialog() {

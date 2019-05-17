@@ -6,5 +6,6 @@ export interface EntryItem {
   uuid: string,
   timestamp: string,
   upvotes: number,
-  downvotes: number
+  downvotes: number,
+  keyword: string[],
 }
