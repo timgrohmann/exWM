@@ -35,7 +35,7 @@ export default {
         },
         {
           name: "Florian Redmann",
-          image_src: "teammembers/flo_red.jpg"
+          image_src: "/teammembers/flo_red.jpg"
         },
         {
           name: "El Sholz",
