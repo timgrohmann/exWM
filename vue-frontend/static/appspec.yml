@@ -24,4 +24,4 @@ os: linux
 #   may cause associated deployments to fail.
 files:
   - source: /
-    destination: var/www/html
+    destination: /var/www/html
