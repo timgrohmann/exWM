@@ -25,3 +25,8 @@ os: linux
 files:
   - source: /
     destination: /var/www/html
+
+hooks:
+   BeforeInstall:
+     - location: /home/ubuntu/scripts/clean.sh
+       timeout: 5
