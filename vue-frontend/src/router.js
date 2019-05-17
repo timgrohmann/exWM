@@ -12,6 +12,7 @@ import DeleteConfirmation from './components/DeleteConfirmation.vue'
 Vue.use(Router);
 
 export default new Router({
+  mode: "history",
   routes: [
     {
       path: '/',
@@ -49,14 +50,14 @@ export default new Router({
       }
     },
     {
-    	path: '/edit/:id',
-    	props: {
-    		default: (route) => ({ uuid: route.params.id })
-    	},
-    	name: 'EditEntry',
-    	components: {
-    		default: EditEntry,
-    	}
+      path: '/edit/:id',
+      props: {
+        default: (route) => ({ uuid: route.params.id })
+      },
+      name: 'EditEntry',
+      components: {
+        default: EditEntry,
+      }
     },
     {
       path: '/entry/:id',
