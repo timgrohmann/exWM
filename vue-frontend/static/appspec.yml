@@ -23,5 +23,5 @@ os: linux
 #   "files" section altogether. A blank or incomplete "files" section
 #   may cause associated deployments to fail.
 files:
-  - source: '*/**'
+  - source: /
     destination: var/www/html
