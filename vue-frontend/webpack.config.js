@@ -66,8 +66,12 @@ module.exports = {
       chunks: 'all',
     },
   },
+  devServer: {
+    historyApiFallback: true
+  },
   output: {
-    filename: 'app.[hash].js'
+    filename: 'app.[hash].js',
+    publicPath: '/'
   },
   plugins: [
     // make sure to include the plugin for the magic
