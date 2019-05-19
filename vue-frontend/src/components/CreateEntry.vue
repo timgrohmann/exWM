@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <div>
     <v-alert v-model="alert" dismissible type="error">Die eingegebene E-Mail-Adresse ist ungültig!</v-alert>
     <h1>Neuen Eintrag erstellen</h1>
@@ -159,6 +159,7 @@ export default {
           upvotes: 0,
           downvotes: 0,
           email: this.email,
+          comments: [],
           keyword: this.chips
         }
         data.insertNew(entry, uuid => {

@@ -32,12 +32,7 @@ Da dieses Projekt im Rahmen eines universitären Vorhabens umgesetzt wird, entf�
 - GitHub (dieses Projekt)
 - AWS-Hosting (S3, Pipeline, Datenbanken)
 ## Ergebnisse
-Zwischenergebnisse:
-- [x] Projekt auf Github exisitiert
-- [x] Code von Github wird von AWS verarbeitet und dort veröffentlicht, auf eine noch inhaltslose Website kann zugegriffen werden
-- [ ] ein Eintrag kann angelegt und wieder abgerufen werden
-- [ ] ein Eintrag kann bewertet werden
-- [ ] (Nutzer können sich anmelden)
+Zwischenergebnisse [hier](https://github.com/timgrohmann/exWM/blob/master/dokumentation/product_backlog.md)
 
 Endergebnis: _MVP_ eines Wissensmanagementsystems.
 ## Projektphasen und Zeitpläne
