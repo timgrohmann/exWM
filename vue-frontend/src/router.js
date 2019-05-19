@@ -7,6 +7,7 @@ import AboutUs from './components/AboutUs.vue'
 import AllEntries from './components/AllEntries.vue'
 import CreateEntry from './components/CreateEntry.vue'
 import EditEntry from './components/EditEntry.vue'
+import SignIn from './components/SignIn.vue'
 import DeleteConfirmation from './components/DeleteConfirmation.vue'
 
 Vue.use(Router);
@@ -69,5 +70,28 @@ export default new Router({
         default: DetailPage,
       }
     },
+    ,
+    {
+      path: '/signin',
+      name: 'SignIn',
+      components: {
+        default: SignIn,
+      }
+    },
+    /**
+     * This is a redirect to handle AWS tokens
+     */
+    {
+      path: '/id_token=:token',
+      redirect: to => {
+        const { hash, params, query } = to
+        if (params.token) {
+          return {
+            name: 'SignIn',
+            params: { token: params.token }
+          }
+        }
+      }
+    }
   ]
 })
