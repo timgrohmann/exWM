@@ -32,12 +32,7 @@
       :items="chips"
     >
       <template v-slot:selection="data">
-        <v-chip
-          :selected="data.selected"
-          close
-          label
-          @input="remove(data.item)"
-        >
+        <v-chip :selected="data.selected" close label @input="remove(data.item)">
           <strong>{{ data.item }}</strong>&nbsp;
         </v-chip>
       </template>
@@ -46,10 +41,7 @@
     <!--@keyup="suggested_tags = tag_text(body)"-->
     <template>
       <div class="text-xs-center">
-        <v-chip
-          v-for="st in filteredTags"
-          :key="st"
-          @click="chips.push(st)">{{st}}</v-chip>
+        <v-chip v-for="st in filteredTags" :key="st" @click="chips.push(st)">{{st}}</v-chip>
       </div>
     </template>
 
@@ -79,6 +71,7 @@
 </template>
 <script>
 import data from "../data"
+import auth from "../authentication/auth"
 
 const marked = require("marked")
 
@@ -107,6 +100,13 @@ export default {
   computed: {
     filteredTags() {
       return this.suggested_tags.filter(x => !this.chips.includes(x))
+    }
+  },
+  mounted() {
+    if (auth.isLoggedIn()) {
+      auth.getEmail().then(email => {
+        this.email = email
+      })
     }
   },
   methods: {
@@ -153,10 +153,10 @@ export default {
         this.suggested_tags = JSON.parse(http.responseText)
       }
     },
-    remove (item) {
-        this.chips.splice(this.chips.indexOf(item), 1)
-        this.chips = [...this.chips]
-    },
+    remove(item) {
+      this.chips.splice(this.chips.indexOf(item), 1)
+      this.chips = [...this.chips]
+    }
   },
   watch: {
     dialog() {
