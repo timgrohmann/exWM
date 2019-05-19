@@ -82,7 +82,7 @@ export default {
       body: null,
       preview: "",
       dialog: false,
-      suggested_tags: ["Holz", "Beize", "Schmirgelpapier"],
+      suggested_tags: [],
       chips: [],
       email: "",
       alert: false,
