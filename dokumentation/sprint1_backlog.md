@@ -25,7 +25,7 @@ Issue ID|Beschreibung|Fertig
 Issue ID|Beschreibung|Fertig
 ---|---|---
 (#37, #85)|Suchen nach Einträgen (Über Tags und Titel)|✓
-(#29, #57, #65, #77)|Anfangen mit intelligentem Vorschlagen von Tags|✓
+(#29, #57, #65, #77)|Logik für Tagvorschläge|✓
 
 #### Legende
 Zeichen|Bedeutung
