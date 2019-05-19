@@ -37,44 +37,44 @@
         </v-chip>
       </template>
     </v-combobox>
-
-    <v-card>
-      <v-container>
-      <v-layout align-center justify-center column fill-height>
-      <template>
-        <div class="text-xs-center">
-          <v-chip v-for="st in filteredTags" :key="st" @click="chips.push(st)" color="deep-purple lighten-4">
-            <strong>{{ st }}</strong>&nbsp;
-          </v-chip>
-        </div>
-      </template>
-      <v-divider></v-divider>
-      <template>
-        <div class="text-xs-center">
-          <v-chip v-for="st in filteredAllTags" :key="st" @click="chips.push(st)" color="green lighten-3">
-            <strong>{{ st }}</strong>&nbsp;
-          </v-chip>
-        </div>
-      </template>
-      </v-layout>
+    
+    <template>
+      <v-container grid-list-xl>
+        <v-layout column>
+          <v-flex>
+            <v-card>
+              <v-text-field 
+                label="Beitragstext-Tags" 
+                hint="Hier werden die vorgeschlagenen Tags aus dem Beitragstext angezeigt"
+                persistent-hint
+                single-line
+                solo
+                disabled>
+              </v-text-field>
+              <v-chip v-for="st in filteredTags" :key="st" @click="chips.push(st)" color="deep-purple lighten-4">
+                <strong>{{ st }}</strong>&nbsp;
+              </v-chip>
+            </v-card>
+          </v-flex>
+          <v-flex>
+            <v-card>
+              <v-text-field 
+                label="Alle-Tags" 
+                hint="Hier werden alle vorhandenen Tags angezeigt"
+                persistent-hint
+                single-line
+                solo
+                disabled>
+              </v-text-field>
+              <v-chip v-for="st in filteredAllTags" :key="st" @click="chips.push(st)" color="green lighten-3">
+                <strong>{{ st }}</strong>&nbsp;
+              </v-chip>
+            </v-card>
+          </v-flex>
+        </v-layout>
       </v-container>
-    </v-card>
-
+    </template>
     <!--@keyup="suggested_tags = tag_text(body)"-->
-    <template>
-      <div class="text-xs-center">
-        <v-chip v-for="st in filteredTags" :key="st" @click="chips.push(st)" color="deep-purple lighten-4">
-          <strong>{{ st }}</strong>&nbsp;
-        </v-chip>
-      </div>
-    </template>
-    <template>
-      <div class="text-xs-center">
-        <v-chip v-for="st in filteredAllTags" :key="st" @click="chips.push(st)" color="green lighten-3">
-          <strong>{{ st }}</strong>&nbsp;
-        </v-chip>
-      </div>
-    </template>
 
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on }">
