@@ -38,6 +38,16 @@ export default {
       }
     })
   },
+  insertNewTag(item: string, callback: (err: AWSError | null) => void) {
+    document.put({
+      TableName: this.TagTableName,
+      Item: {
+        keyword: item
+      }
+    }, (error) => {
+      callback(error)
+    })
+  },
   incrementUpvotes(item: EntryItem, callback: (err: AWSError) => void) {
     this.updateItem(item, "ADD upvotes :u", {
       ":u": 1

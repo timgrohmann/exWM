@@ -20,30 +20,59 @@
       :rules="[rules.email.regex]"
     ></v-text-field>
 
+    <hr class="mb-2">
+
     <v-combobox
       v-model="chips"
       label="Schlagwörter"
       chips
       clearable
       prepend-icon="filter_list"
+      append-icon
       solo
       multiple
       hide-no-data
-      :items="chips"
+      :items="[]"
     >
       <template v-slot:selection="data">
-        <v-chip :selected="data.selected" close label @input="remove(data.item)">
+        <v-chip
+          :selected="data.selected"
+          label
+          @click="remove(data.item)"
+          color="primary lighten-3"
+        >
           <strong>{{ data.item }}</strong>&nbsp;
         </v-chip>
       </template>
     </v-combobox>
 
+    <v-card class="mb-2">
+      <v-card-text>
+        <p class="subheading">Tag-Vorschläge aus dem Beitragstext</p>
+        <v-chip
+          v-for="st in filteredTags"
+          :key="st"
+          @click="chips.push(st)"
+          color="deep-purple lighten-4"
+        >
+          <strong>{{ st }}</strong>&nbsp;
+        </v-chip>
+      </v-card-text>
+    </v-card>
+    <v-card>
+      <v-card-text>
+        <p class="subheading">Bereits verwendete Tags</p>
+        <v-chip
+          v-for="st in filteredAllTags"
+          :key="st"
+          @click="chips.push(st)"
+          color="green lighten-3"
+        >
+          <strong>{{ st }}</strong>&nbsp;
+        </v-chip>
+      </v-card-text>
+    </v-card>
     <!--@keyup="suggested_tags = tag_text(body)"-->
-    <template>
-      <div class="text-xs-center">
-        <v-chip v-for="st in filteredTags" :key="st" @click="chips.push(st)">{{st}}</v-chip>
-      </div>
-    </template>
 
     <v-dialog v-model="dialog" width="500">
       <template v-slot:activator="{ on }">
@@ -82,8 +111,9 @@ export default {
       body: null,
       preview: "",
       dialog: false,
-      suggested_tags: [],
+      suggested_tags: ["Vorschlag 1", "Vorschlag 2"],
       chips: [],
+      all_tags: [],
       email: "",
       alert: false,
       rules: {
@@ -99,10 +129,18 @@ export default {
   },
   computed: {
     filteredTags() {
-      return this.suggested_tags.filter(x => !this.chips.includes(x))
+      return this.suggested_tags.filter(
+        x => !this.chips.includes(x) & !this.all_tags.includes(x)
+      )
+    },
+    filteredAllTags() {
+      return this.all_tags.filter(x => !this.chips.includes(x))
     }
   },
   mounted() {
+    data.getAllTags(tags => {
+      this.all_tags = tags
+    })
     if (auth.isLoggedIn()) {
       auth.getEmail().then(email => {
         this.email = email
@@ -136,6 +174,16 @@ export default {
             params: { id: uuid }
           })
         })
+        this.chips
+          .filter(x => !this.all_tags.includes(x))
+          .forEach(tag => {
+            data.insertNewTag(tag, error => {
+              if (error) {
+                console.log("Error while putting chips", error)
+              }
+            })
+          })
+
         console.log(entry)
       } else {
         this.email = this.email
