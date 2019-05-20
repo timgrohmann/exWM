@@ -14,16 +14,16 @@ Issue ID|Beschreibung|Zeitaufwand|Fertig
 (#38, #52)|Markdown Unterstützung in den Einträgen|5|✓
 
 #### Feedbacksystem
-Issue ID|Beschreibung|Fertig
----|---|---
+Issue ID|Beschreibung|Zeitaufwand|Fertig
+---|---|---|---
 (#24)|Kommentieren von Einträgen|2|✓
 (#22)|Bewerten von Einträgen|3|✓
 (#23)|Anzeigen der E-Mail Adresse, um Nachfragen möglich zu machen|1|✓
 (#25)|Nutzerverwaltung einrichten|21|✓
 
 #### Schlagworte
-Issue ID|Beschreibung|Fertig
----|---|---
+Issue ID|Beschreibung|Zeitaufwand|Fertig
+---|---|---|---
 (#37, #85)|Suchen nach Einträgen (Über Tags und Titel)|5|✓
 (#29, #57, #65, #77)|Logik für Tagvorschläge|<span style="color:red">**13**</span>|✓
 
