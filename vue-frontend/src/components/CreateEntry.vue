@@ -20,60 +20,58 @@
       :rules="[rules.email.regex]"
     ></v-text-field>
 
+    <hr class="mb-2">
+
     <v-combobox
       v-model="chips"
       label="Schlagwörter"
       chips
       clearable
       prepend-icon="filter_list"
+      append-icon
       solo
       multiple
       hide-no-data
       :items="[]"
     >
       <template v-slot:selection="data">
-        <v-chip :selected="data.selected" label @click="remove(data.item)" color="primary lighten-3">
+        <v-chip
+          :selected="data.selected"
+          label
+          @click="remove(data.item)"
+          color="primary lighten-3"
+        >
           <strong>{{ data.item }}</strong>&nbsp;
         </v-chip>
       </template>
     </v-combobox>
-    
-    <template>
-      <v-container grid-list-xl>
-        <v-layout column>
-          <v-flex>
-            <v-card>
-              <v-text-field 
-                label="Beitragstext-Tags" 
-                hint="Hier werden die vorgeschlagenen Tags aus dem Beitragstext angezeigt"
-                persistent-hint
-                single-line
-                solo
-                disabled>
-              </v-text-field>
-              <v-chip v-for="st in filteredTags" :key="st" @click="chips.push(st)" color="deep-purple lighten-4">
-                <strong>{{ st }}</strong>&nbsp;
-              </v-chip>
-            </v-card>
-          </v-flex>
-          <v-flex>
-            <v-card>
-              <v-text-field 
-                label="Alle-Tags" 
-                hint="Hier werden alle vorhandenen Tags angezeigt"
-                persistent-hint
-                single-line
-                solo
-                disabled>
-              </v-text-field>
-              <v-chip v-for="st in filteredAllTags" :key="st" @click="chips.push(st)" color="green lighten-3">
-                <strong>{{ st }}</strong>&nbsp;
-              </v-chip>
-            </v-card>
-          </v-flex>
-        </v-layout>
-      </v-container>
-    </template>
+
+    <v-card class="mb-2">
+      <v-card-text>
+        <p class="subheading">Tag-Vorschläge aus dem Beitragstext</p>
+        <v-chip
+          v-for="st in filteredTags"
+          :key="st"
+          @click="chips.push(st)"
+          color="deep-purple lighten-4"
+        >
+          <strong>{{ st }}</strong>&nbsp;
+        </v-chip>
+      </v-card-text>
+    </v-card>
+    <v-card>
+      <v-card-text>
+        <p class="subheading">Bereits verwendete Tags</p>
+        <v-chip
+          v-for="st in filteredAllTags"
+          :key="st"
+          @click="chips.push(st)"
+          color="green lighten-3"
+        >
+          <strong>{{ st }}</strong>&nbsp;
+        </v-chip>
+      </v-card-text>
+    </v-card>
     <!--@keyup="suggested_tags = tag_text(body)"-->
 
     <v-dialog v-model="dialog" width="500">
@@ -112,7 +110,7 @@ export default {
       body: null,
       preview: "",
       dialog: false,
-      suggested_tags: ["Holz", "Beize", "Schmirgelpapier", "Test"],
+      suggested_tags: ["Vorschlag 1", "Vorschlag 2"],
       chips: [],
       all_tags: [],
       email: "",
@@ -130,7 +128,9 @@ export default {
   },
   computed: {
     filteredTags() {
-      return this.suggested_tags.filter(x => !this.chips.includes(x) & !this.all_tags.includes(x))
+      return this.suggested_tags.filter(
+        x => !this.chips.includes(x) & !this.all_tags.includes(x)
+      )
     },
     filteredAllTags() {
       return this.all_tags.filter(x => !this.chips.includes(x))
@@ -168,13 +168,15 @@ export default {
             params: { id: uuid }
           })
         })
-        this.chips.filter(x => !this.all_tags.includes(x)).forEach(tag => {
-          data.insertNewTag(tag, (error) => {
-            if (error) {
-              console.log("Error while putting chips", error)
-            }
+        this.chips
+          .filter(x => !this.all_tags.includes(x))
+          .forEach(tag => {
+            data.insertNewTag(tag, error => {
+              if (error) {
+                console.log("Error while putting chips", error)
+              }
+            })
           })
-        })
 
         console.log(entry)
       } else {
