@@ -6,9 +6,22 @@ from german_tagging import doit
 import flask_cors
 import ast
 from tuple_flatten import flatten
+import boto3
 
 # nltk.download()
-text = open('example_text.txt').read()
+dynamodb = boto3.resource('dynamodb', region_name='region=eu-west-1')
+tag_table = dynamodb.Table('Tags')
+
+response = tag_table.put_item(
+    Item={
+        'tag': 'Laktoseintoleranz',
+        'data': {
+            'helpfulness': 1,
+            'suggestion_count': 1
+        }
+
+    }
+)
 
 
 
@@ -25,7 +38,7 @@ def suggest_tags_route():
 
 @app.route('/')
 def handle():
-    return 'Hello, World from Flask!'
+    return 'Hello World from Flask!'
 
 
 @flask_cors.cross_origin()
