@@ -100,6 +100,7 @@
 </template>
 <script>
 import data from "../data"
+import auth from "../authentication/auth"
 
 const marked = require("marked")
 
@@ -140,6 +141,11 @@ export default {
     data.getAllTags(tags => {
       this.all_tags = tags
     })
+    if (auth.isLoggedIn()) {
+      auth.getEmail().then(email => {
+        this.email = email
+      })
+    }
   },
   methods: {
     createEntry() {
