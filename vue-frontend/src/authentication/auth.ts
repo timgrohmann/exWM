@@ -73,6 +73,29 @@ class Auth {
       (user as AmazonCognitoIdentity.CognitoUser).signOut()
     }
   }
+
+  getEmail(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      let user = this.getCognitoUser()
+      if (user == null) {
+        reject()
+        return
+      }
+      user.getSession((err: AWS.AWSError, session: AmazonCognitoIdentity.CognitoUserSession) => {
+        if (err || !session.isValid()) {
+          reject()
+          return
+        }
+        user!.getUserAttributes((error, attributes) => {
+          if (error) {
+            reject()
+            return
+          }
+          resolve(attributes!.filter((x) => x.getName() == "email")[0].getValue())
+        })
+      })
+    })
+  }
 }
 
 let auth = new Auth()
