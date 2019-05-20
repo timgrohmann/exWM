@@ -4,6 +4,7 @@ Anlegen von Einträgen|Einträge sollen erstellt und zentral festgehalten werden
 Anzeigen von Einträgen|Einträge können im GUI angezeigt werden, als Detailsicht eines Eintrags|5|✓
 Liste von Einträgen|Alle Einträge, die im exWM existieren, werden in einer Liste angezeigt, mit klicken auf einen Eintrag der Liste, wird die Detailsicht geöffnet.|5|✓
 Bearbeiten von Einträgen|Einträge können im Nachhinein bearbeitet werden.|3|✓
+Löschen von Einträgen|Einträge können gelöscht werden|3|✓
 Schlagworte in Verbindung zu Einträgen|Autoren können anfangs beliebige Schlagworte zum Eintrag hinzufügen.|3|✓
 Suchfunktion|Einträge können nach Tags und Titel durchsucht werden|5|✓
 Intelligente Vorschläge von Tags|Ich möchte die meist benutzten Wörter in einem Beitrag als Tags vorgeschlagen bekommen. Bereits verwendete Schlagworte, sowie die meist gewählten, werden bei der Erstellung eines Eintrages vorgeschlagen.|5|-
