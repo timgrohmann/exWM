@@ -27,7 +27,7 @@
       label="Schlagwörter"
       chips
       clearable
-      prepend-icon="filter_list"
+      prepend-icon="local_offer"
       append-icon
       solo
       multiple
