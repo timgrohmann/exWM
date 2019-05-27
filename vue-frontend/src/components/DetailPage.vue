@@ -6,13 +6,13 @@
       </v-card-title>
       <v-card-text v-html="markedHtml"></v-card-text>
       <v-card-actions>
-        <v-btn outline round color="success" @click="upvote">
+        <v-btn outline round color="success" @click="upvote" :disabled="!checkIfLoggedIn()">
           <v-icon>thumb_up</v-icon>
-          &nbsp;{{item.upvotes}}
+          &nbsp;{{upvotes}}
         </v-btn>
-        <v-btn outline round color="error" @click="downvote">
+        <v-btn outline round color="error" @click="downvote" :disabled="!checkIfLoggedIn()">
           <v-icon>thumb_down</v-icon>
-          &nbsp;{{item.downvotes}}
+          &nbsp;{{downvotes}}
         </v-btn>
         <v-btn outline color="primary">
           <a
@@ -31,7 +31,7 @@
     </v-card>
     <br>
     <v-layout row wrap justify-center>
-      <v-flex xs12 lg6>
+      <v-flex xs12 lg6 v-if="checkIfLoggedIn()">
         <v-card>
           <v-card-title>
             <div class="headline">Beitrag kommentieren</div>
@@ -92,8 +92,8 @@
 <script>
 import marked from "marked"
 import data from "../data"
-import LandingPage from "./LandingPage"
 import auth from "../authentication/auth"
+import LandingPage from "./LandingPage"
 
 export default {
   props: {
@@ -133,20 +133,29 @@ export default {
       })
   },
   methods: {
+    checkIfLoggedIn() {
+      return auth.isLoggedIn()
+    },
     refresh() {
       data.findByUUID(this.uuid, (error, data) => {
         this.item = data
       })
     },
     upvote() {
-      data.incrementUpvotes(this.item, error => {
-        this.refresh()
-      })
+      let user = auth.getCognitoUser()
+      if (user != null) {
+        data.addUpvote(this.item, user.getUsername(), err => {
+          this.refresh()
+        })
+      }
     },
     downvote() {
-      data.incrementDownvotes(this.item, error => {
-        this.refresh()
-      })
+      let user = auth.getCognitoUser()
+      if (user != null) {
+        data.addDownvote(this.item, user.getUsername(), err => {
+          this.refresh()
+        })
+      }
     },
     addComment() {
       this.comment.timestamp = new Date().getTime()
@@ -193,6 +202,18 @@ export default {
         element.index = index
       })
       return coms.reverse()
+    },
+    upvotes() {
+      if (this.item.upvoters) {
+        return this.item.upvoters.values.length
+      }
+      return 0
+    },
+    downvotes() {
+      if (this.item.downvoters) {
+        return this.item.downvoters.values.length
+      }
+      return 0
     }
   }
 }

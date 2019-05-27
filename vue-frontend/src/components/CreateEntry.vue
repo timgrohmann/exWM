@@ -162,11 +162,9 @@ export default {
           body: this.body,
           uuid: data.makeHash(this.body, this.headline),
           timestamp: String(Math.floor(new Date() / 1000)),
-          upvotes: 0,
-          downvotes: 0,
           email: this.email,
           comments: [],
-          keyword: this.chips
+          keyword: this.chips,
         }
         data.insertNew(entry, uuid => {
           this.$router.push({

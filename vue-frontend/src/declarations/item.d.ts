@@ -5,7 +5,7 @@ export interface EntryItem {
   body: string,
   uuid: string,
   timestamp: string,
-  upvotes: number,
-  downvotes: number,
+  upvoters: string[],
+  downvoters: string[],
   keyword: string[],
 }

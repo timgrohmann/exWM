@@ -17,6 +17,7 @@ const document = new AWS.DynamoDB.DocumentClient({ service: ddb })
 export default {
   DefaultTableName: 'ExwmEntries',
   TagTableName: 'ExwmKeywords',
+  client: document,
   getAll(callback: ((err: AWS.AWSError | null, data: EntryItem[]) => void)) {
     document.scan({ TableName: this.DefaultTableName }, (error, data) => {
       if (error) {
@@ -48,15 +49,17 @@ export default {
       callback(error)
     })
   },
-  incrementUpvotes(item: EntryItem, callback: (err: AWSError) => void) {
-    this.updateItem(item, "ADD upvotes :u", {
-      ":u": 1
-    }, callback)
+  addUpvote(item: EntryItem, username: string, callback: (err: AWSError) => void) {
+    this.updateItem(item,
+      "ADD upvoters :uv", {
+      ":uv": document.createSet([username])
+      }, callback)
   },
-  incrementDownvotes(item: EntryItem, callback: (err: AWSError) => void) {
-    this.updateItem(item, "ADD downvotes :u", {
-      ":u": 1
-    }, callback)
+  addDownvote(item: EntryItem, username: string, callback: (err: AWSError) => void) {
+    this.updateItem(item,
+      "ADD downvoters :dv", {
+        ":dv": document.createSet([username])
+      }, callback)
   },
   deleteEntry(item: EntryItem, callback: (err: AWSError) => void) {
     document.delete({
