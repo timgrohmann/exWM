@@ -5,7 +5,7 @@
         <div class="headline">{{item.headline}}</div>
       </v-card-title>
       <v-card-text v-html="markedHtml"></v-card-text>
-      <v-card-actions>
+      <v-card-actions v-if="checkIfLoggedIn()">
         <v-btn
           :outline="!hasUpvoted"
           round
