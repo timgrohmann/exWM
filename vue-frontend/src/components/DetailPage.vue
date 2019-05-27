@@ -79,7 +79,7 @@
                     <v-icon>delete</v-icon>
                   </v-btn>
                 </v-layout>
-                {{c.body}}
+                <div style="overflow-wrap: break-word">{{c.body}}</div>
               </v-card-text>
             </v-card>
           </v-card-text>
