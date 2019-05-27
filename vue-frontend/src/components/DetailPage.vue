@@ -30,8 +30,8 @@
       </v-card-actions>
     </v-card>
     <br>
-    <v-layout justify-center>
-      <v-flex xs12 md8>
+    <v-layout row wrap justify-center>
+      <v-flex xs12 lg6>
         <v-card>
           <v-card-title>
             <div class="headline">Beitrag kommentieren</div>
@@ -54,18 +54,38 @@
           </v-card-actions>
         </v-card>
       </v-flex>
+      <v-flex xs12 lg6>
+        <v-card>
+          <v-card-title>
+            <h4 class="headline">Alle Kommentare</h4>
+          </v-card-title>
+
+          <v-card-text>
+            <v-card v-for="c in reversedComments" :key="c.timestamp">
+              <v-card-text>
+                <v-layout style="color:gray;" justify-space-between>
+                  <span>
+                    <i>{{c.author}}</i>
+                    schrieb am {{timeConverter(c.timestamp)}}
+                  </span>
+                  <v-btn
+                    flat
+                    color="red"
+                    icon
+                    small
+                    v-if="c.author == comment.author"
+                    @click="deleteComment(c.index)"
+                  >
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                </v-layout>
+                {{c.body}}
+              </v-card-text>
+            </v-card>
+          </v-card-text>
+        </v-card>
+      </v-flex>
     </v-layout>
-    <v-spacer/>
-    <h4 class="headline">Alle Kommentare</h4>
-    <v-card v-for="comment in item.comments" :key="comment.timestamp">
-      <v-card-title>
-        <div class="title">
-          <i>{{comment.author}}</i>
-          schrieb am {{timeConverter(comment.timestamp)}}:
-        </div>
-      </v-card-title>
-      <v-card-text>{{comment.body}}</v-card-text>
-    </v-card>
   </div>
 </template>
 
@@ -86,7 +106,8 @@ export default {
     return {
       item: {
         headline: "…",
-        body: "…"
+        body: "…",
+        comments: []
       },
       comment: {
         author: null,
@@ -115,10 +136,6 @@ export default {
     refresh() {
       data.findByUUID(this.uuid, (error, data) => {
         this.item = data
-        this.item.comments = this.item.comments.sort((a, b) => {
-          if (a.timestamp > b.timestamp) return -1
-          return 1
-        })
       })
     },
     upvote() {
@@ -134,6 +151,12 @@ export default {
     addComment() {
       this.comment.timestamp = new Date().getTime()
       data.addComment(this.item, this.comment, error => {
+        this.refresh()
+      })
+    },
+    deleteComment(index) {
+      data.deleteComment(this.item, index, error => {
+        console.log(error)
         this.refresh()
       })
     },
@@ -163,6 +186,13 @@ export default {
   computed: {
     markedHtml() {
       return marked(this.item.body)
+    },
+    reversedComments() {
+      let coms = this.item.comments.slice()
+      coms.forEach((element, index) => {
+        element.index = index
+      })
+      return coms.reverse()
     }
   }
 }

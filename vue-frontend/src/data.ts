@@ -80,7 +80,10 @@ export default {
       ":c": [comment]
     }, callback)
   },
-  updateItem(item: EntryItem, updateExpression: string, expressionAttributeValues: AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap, callback: (err: AWSError) => void) {
+  deleteComment(item: EntryItem, index: number, callback: (err: AWSError) => void) {
+    this.updateItem(item, "REMOVE comments[" + String(index) + "]", undefined, callback)
+  },
+  updateItem(item: EntryItem, updateExpression: string, expressionAttributeValues: AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap | undefined, callback: (err: AWSError) => void) {
     document.update({
       TableName: this.DefaultTableName,
       Key: {
