@@ -31,22 +31,28 @@
     </v-card>
     <br>
     <v-layout justify-center>
-      <v-card width="50%" flat>
-        <v-card-title>
-          <div class="headline">Kommentar hinzufügen:</div>
-        </v-card-title>
-        <v-text-field solo label="Dein Name" v-model="comment.author"></v-text-field>
-        <v-textarea
-          v-model="comment.body"
-          label="Kommentar"
-          hint="Hier kannst du den Beitrag kommentieren"
-          @input="tag_text(comment.body)"
-          solo
-        ></v-textarea>
-        <v-btn fab small color="primary" absolute bottom right v-on:click="addComment">
-          <v-icon>send</v-icon>
-        </v-btn>
-      </v-card>
+      <v-flex xs12 md6>
+        <v-card>
+          <v-card-title>
+            <div class="headline">Beitrag kommentieren</div>
+          </v-card-title>
+          <v-card-text>
+            <v-text-field solo label="Dein Name" v-model="comment.author" hide-details readonly></v-text-field>
+            <v-divider/>
+            <v-textarea
+              v-model="comment.body"
+              label="Kommentar"
+              hint="Hier kannst du den Beitrag kommentieren"
+              @input="tag_text(comment.body)"
+              solo
+              hide-details
+            ></v-textarea>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn flat color="primary" v-on:click="addComment">Kommentieren</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
     </v-layout>
     <h4 class="display-1">Alle Kommentare:</h4>
     <v-card v-for="comment in item.comments" :key="comment.timestamp">
@@ -62,6 +68,7 @@
 import marked from "marked"
 import data from "../data"
 import LandingPage from "./LandingPage"
+import auth from "../authentication/auth"
 
 export default {
   props: {
@@ -90,6 +97,14 @@ export default {
   },
   mounted() {
     this.refresh()
+    auth
+      .getUser()
+      .then(user => {
+        this.comment.author = user.getUsername()
+      })
+      .catch(() => {
+        this.comment.author = "Authentifizierungsfehler"
+      })
   },
   methods: {
     refresh() {
@@ -141,18 +156,17 @@ export default {
       return time
     },
     del() {
-
-      this.$confirm("Willst Du diesen Beitrag wirklich löschen?", { title: 'Warning' }).then(res => {
+      this.$confirm("Willst Du diesen Beitrag wirklich löschen?", {
+        title: "Warning"
+      }).then(res => {
         console.log("res: ", res)
-        if(res === true) {
+        if (res === true) {
           data.deleteEntry(this.item, error => {
             console.log(error)
-            this.$router.push({name: "DeleteConfirmation"})
+            this.$router.push({ name: "DeleteConfirmation" })
           })
         }
       })
-
-
     }
   },
   computed: {
