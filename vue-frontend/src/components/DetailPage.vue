@@ -72,7 +72,7 @@
             <h4 class="headline">Alle Kommentare</h4>
           </v-card-title>
 
-          <v-card-text>
+          <v-card-text v-if="item.comments.length > 0">
             <v-card v-for="c in reversedComments" :key="c.timestamp">
               <v-card-text>
                 <v-layout style="color:gray;" justify-space-between>
@@ -94,6 +94,9 @@
                 <div style="overflow-wrap: break-word">{{c.body}}</div>
               </v-card-text>
             </v-card>
+          </v-card-text>
+          <v-card-text v-else>
+            <i>Noch keine Kommentare</i>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -202,6 +205,7 @@ export default {
     addComment() {
       this.comment.timestamp = new Date().getTime()
       data.addComment(this.item, this.comment, error => {
+        this.comment.body = ""
         this.refresh()
       })
     },
