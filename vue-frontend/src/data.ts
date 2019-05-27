@@ -52,12 +52,24 @@ export default {
   addUpvote(item: EntryItem, username: string, callback: (err: AWSError) => void) {
     this.updateItem(item,
       "ADD upvoters :uv", {
-      ":uv": document.createSet([username])
+        ":uv": document.createSet([username])
+      }, callback)
+  },
+  removeUpvote(item: EntryItem, username: string, callback: (err: AWSError) => void) {
+    this.updateItem(item,
+      "DELETE upvoters :uv", {
+        ":uv": document.createSet([username])
       }, callback)
   },
   addDownvote(item: EntryItem, username: string, callback: (err: AWSError) => void) {
     this.updateItem(item,
       "ADD downvoters :dv", {
+        ":dv": document.createSet([username])
+      }, callback)
+  },
+  removeDownvote(item: EntryItem, username: string, callback: (err: AWSError) => void) {
+    this.updateItem(item,
+      "DELETE downvoters :dv", {
         ":dv": document.createSet([username])
       }, callback)
   },

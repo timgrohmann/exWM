@@ -6,11 +6,23 @@
       </v-card-title>
       <v-card-text v-html="markedHtml"></v-card-text>
       <v-card-actions>
-        <v-btn outline round color="success" @click="upvote" :disabled="!checkIfLoggedIn()">
+        <v-btn
+          :outline="!hasUpvoted"
+          round
+          color="success"
+          @click="upvote"
+          :disabled="!checkIfLoggedIn()"
+        >
           <v-icon>thumb_up</v-icon>
           &nbsp;{{upvotes}}
         </v-btn>
-        <v-btn outline round color="error" @click="downvote" :disabled="!checkIfLoggedIn()">
+        <v-btn
+          :outline="!hasDownvoted"
+          round
+          color="error"
+          @click="downvote"
+          :disabled="!checkIfLoggedIn()"
+        >
           <v-icon>thumb_down</v-icon>
           &nbsp;{{downvotes}}
         </v-btn>
@@ -142,20 +154,50 @@ export default {
       })
     },
     upvote() {
-      let user = auth.getCognitoUser()
-      if (user != null) {
-        data.addUpvote(this.item, user.getUsername(), err => {
-          this.refresh()
+      auth
+        .getUser()
+        .then(user => {
+          if (!this.hasUpvoted) {
+            data.addUpvote(this.item, user.getUsername(), err => {
+              this.refresh()
+            })
+          } else {
+            data.removeUpvote(this.item, user.getUsername(), err => {
+              this.refresh()
+            })
+          }
+          if (this.hasDownvoted) {
+            data.removeDownvote(this.item, user.getUsername(), err => {
+              this.refresh()
+            })
+          }
         })
-      }
+        .catch(err => {
+          consol.error("Could not upvote", err)
+        })
     },
     downvote() {
-      let user = auth.getCognitoUser()
-      if (user != null) {
-        data.addDownvote(this.item, user.getUsername(), err => {
-          this.refresh()
+      auth
+        .getUser()
+        .then(user => {
+          if (!this.hasDownvoted) {
+            data.addDownvote(this.item, user.getUsername(), err => {
+              this.refresh()
+            })
+          } else {
+            data.removeDownvote(this.item, user.getUsername(), err => {
+              this.refresh()
+            })
+          }
+          if (this.hasUpvoted) {
+            data.removeUpvote(this.item, user.getUsername(), err => {
+              this.refresh()
+            })
+          }
         })
-      }
+        .catch(err => {
+          consol.error("Could not downvote", err)
+        })
     },
     addComment() {
       this.comment.timestamp = new Date().getTime()
@@ -214,6 +256,18 @@ export default {
         return this.item.downvoters.values.length
       }
       return 0
+    },
+    hasUpvoted() {
+      if (this.item.upvoters) {
+        return this.item.upvoters.values.includes(this.comment.author)
+      }
+      return false
+    },
+    hasDownvoted() {
+      if (this.item.downvoters) {
+        return this.item.downvoters.values.includes(this.comment.author)
+      }
+      return false
     }
   }
 }
