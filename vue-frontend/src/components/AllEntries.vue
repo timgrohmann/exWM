@@ -19,6 +19,16 @@
                 {{new Date(parseInt(props.item.timestamp)*1000)
                 .toLocaleDateString('de', { day: '2-digit', month: '2-digit', year: 'numeric' })}}
               </h5>
+              <v-spacer></v-spacer>
+              <span style="color:green">
+                <v-icon color="green" small>thumb_up</v-icon>
+                {{props.item.upvotes}}
+              </span>
+              &nbsp
+              <span style="color:red">
+                <v-icon color="red" small>thumb_down</v-icon>
+                {{props.item.downvotes}}
+              </span>
             </v-card-title>
             <v-divider></v-divider>
             <v-card-text>{{previewBody(props.item.body)}}</v-card-text>
