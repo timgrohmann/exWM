@@ -24,37 +24,68 @@
           outline
           color="primary"
           style="text-decoration:none"
-          :to="{name: 'EditEntry', params: {id: item.uuid}}"
+          :to="{name: 'EditEntry', params: {id: uuid}}"
         >Bearbeiten</v-btn>
         <v-btn outline color="error" style="text-decoration:none" @click="del">Löschen</v-btn>
       </v-card-actions>
     </v-card>
     <br>
-    <v-layout justify-center>
-      <v-card width="50%" flat>
-        <v-card-title>
-          <div class="headline">Kommentar hinzufügen:</div>
-        </v-card-title>
-        <v-text-field solo label="Dein Name" v-model="comment.author"></v-text-field>
-        <v-textarea
-          v-model="comment.body"
-          label="Kommentar"
-          hint="Hier kannst du den Beitrag kommentieren"
-          @input="tag_text(comment.body)"
-          solo
-        ></v-textarea>
-        <v-btn fab small color="primary" absolute bottom right v-on:click="addComment">
-          <v-icon>send</v-icon>
-        </v-btn>
-      </v-card>
+    <v-layout row wrap justify-center>
+      <v-flex xs12 lg6>
+        <v-card>
+          <v-card-title>
+            <div class="headline">Beitrag kommentieren</div>
+          </v-card-title>
+          <v-card-text>
+            <v-textarea
+              v-model="comment.body"
+              label="Kommentar"
+              hint="Hier kannst du den Beitrag kommentieren"
+              solo
+              hide-details
+            ></v-textarea>
+            <p class="mb-0 mt-2">
+              Dein Kommentar wird als
+              <i>{{comment.author}}</i> gepostet.
+            </p>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn flat color="primary" v-on:click="addComment">Kommentieren</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-flex>
+      <v-flex xs12 lg6>
+        <v-card>
+          <v-card-title>
+            <h4 class="headline">Alle Kommentare</h4>
+          </v-card-title>
+
+          <v-card-text>
+            <v-card v-for="c in reversedComments" :key="c.timestamp">
+              <v-card-text>
+                <v-layout style="color:gray;" justify-space-between>
+                  <span>
+                    <i>{{c.author}}</i>
+                    schrieb am {{timeConverter(c.timestamp)}}
+                  </span>
+                  <v-btn
+                    flat
+                    color="red"
+                    icon
+                    small
+                    v-if="c.author == comment.author"
+                    @click="deleteComment(c.index)"
+                  >
+                    <v-icon>delete</v-icon>
+                  </v-btn>
+                </v-layout>
+                <div style="overflow-wrap: break-word">{{c.body}}</div>
+              </v-card-text>
+            </v-card>
+          </v-card-text>
+        </v-card>
+      </v-flex>
     </v-layout>
-    <h4 class="display-1">Alle Kommentare:</h4>
-    <v-card v-for="comment in item.comments" :key="comment.timestamp">
-      <v-card-title>
-        <div class="headline">{{comment.author}} schreibt ({{timeConverter(comment.timestamp)}}):</div>
-      </v-card-title>
-      <v-card-text>{{comment.body}}</v-card-text>
-    </v-card>
   </div>
 </template>
 
@@ -62,6 +93,7 @@
 import marked from "marked"
 import data from "../data"
 import LandingPage from "./LandingPage"
+import auth from "../authentication/auth"
 
 export default {
   props: {
@@ -74,10 +106,11 @@ export default {
     return {
       item: {
         headline: "…",
-        body: "…"
+        body: "…",
+        comments: []
       },
       comment: {
-        author: "",
+        author: null,
         body: "",
         timestamp: 0
       }
@@ -90,6 +123,14 @@ export default {
   },
   mounted() {
     this.refresh()
+    auth
+      .getUser()
+      .then(user => {
+        this.comment.author = user.getUsername()
+      })
+      .catch(() => {
+        this.comment.author = null
+      })
   },
   methods: {
     refresh() {
@@ -109,55 +150,49 @@ export default {
     },
     addComment() {
       this.comment.timestamp = new Date().getTime()
-      this.item.comments.push(this.comment)
-      data.updateComments(this.item, this.item.comments, error => {
+      data.addComment(this.item, this.comment, error => {
+        this.refresh()
+      })
+    },
+    deleteComment(index) {
+      data.deleteComment(this.item, index, error => {
+        console.log(error)
         this.refresh()
       })
     },
     timeConverter(timestamp) {
-      var a = new Date(timestamp)
-      var months = [
-        "Januar",
-        "Februar",
-        "März",
-        "April",
-        "Mai",
-        "Juni",
-        "Juli",
-        "August",
-        "September",
-        "Oktober",
-        "November",
-        "Dezember"
-      ]
-      var year = a.getFullYear()
-      var month = months[a.getMonth()]
-      var date = a.getDate()
-      var hour = a.getHours() < 10 ? "0" + a.getHours() : a.getHours()
-      var min = a.getMinutes() < 10 ? "0" + a.getMinutes() : a.getMinutes()
-      var sec = a.getSeconds() < 10 ? "0" + a.getSeconds() : a.getSeconds()
-      var time =
-        date + ". " + month + " " + year + " um " + hour + ":" + min + ":" + sec
-      return time
+      let a = new Date(timestamp)
+      let options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      }
+      return a.toLocaleDateString("de-DE", options)
     },
     del() {
-
-      this.$confirm("Willst Du diesen Beitrag wirklich löschen?", { title: 'Warning' }).then(res => {
+      this.$confirm("Willst Du diesen Beitrag wirklich löschen?", {
+        title: "Warning"
+      }).then(res => {
         console.log("res: ", res)
-        if(res === true) {
+        if (res === true) {
           data.deleteEntry(this.item, error => {
             console.log(error)
-            this.$router.push({name: "DeleteConfirmation"})
+            this.$router.push({ name: "DeleteConfirmation" })
           })
         }
       })
-
-
     }
   },
   computed: {
     markedHtml() {
       return marked(this.item.body)
+    },
+    reversedComments() {
+      let coms = this.item.comments.slice()
+      coms.forEach((element, index) => {
+        element.index = index
+      })
+      return coms.reverse()
     }
   }
 }

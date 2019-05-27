@@ -75,12 +75,15 @@ export default {
       ":h": newHeadline
     }, callback)
   },
-  updateComments(item: EntryItem, comments: Array<Object>, callback: (err: AWSError) => void) {
-    this.updateItem(item, "SET comments = :c", {
-      ":c": comments
+  addComment(item: EntryItem, comment: Object, callback: (err: AWSError) => void) {
+    this.updateItem(item, "SET comments = list_append(comments, :c)", {
+      ":c": [comment]
     }, callback)
   },
-  updateItem(item: EntryItem, updateExpression: string, expressionAttributeValues: AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap, callback: (err: AWSError) => void) {
+  deleteComment(item: EntryItem, index: number, callback: (err: AWSError) => void) {
+    this.updateItem(item, "REMOVE comments[" + String(index) + "]", undefined, callback)
+  },
+  updateItem(item: EntryItem, updateExpression: string, expressionAttributeValues: AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap | undefined, callback: (err: AWSError) => void) {
     document.update({
       TableName: this.DefaultTableName,
       Key: {
