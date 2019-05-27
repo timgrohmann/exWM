@@ -21,7 +21,18 @@
               </h5>
             </v-card-title>
             <v-divider></v-divider>
-            <v-card-text>{{previewBody(props.item.body)}}</v-card-text>
+            <v-card-text>
+              {{previewBody(props.item.body)}}
+              <v-spacer></v-spacer>
+              <span style="color:green">
+                <v-icon color="green" small>thumb_up</v-icon>
+                {{props.item.upvotes}}
+              </span>
+              <span style="color:red">
+                <v-icon color="red" small>thumb_down</v-icon>
+                {{props.item.downvotes}}
+              </span>
+            </v-card-text>
           </v-card>
         </v-flex>
       </template>
