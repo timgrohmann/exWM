@@ -31,24 +31,23 @@
     </v-card>
     <br>
     <v-layout justify-center>
-      <v-flex xs12 md6>
+      <v-flex xs12 md8>
         <v-card>
           <v-card-title>
             <div class="headline">Beitrag kommentieren</div>
           </v-card-title>
           <v-card-text>
-            <p>
-              Dein Kommentar wird als
-              <i>{{comment.author}}</i> gepostet.
-            </p>
             <v-textarea
               v-model="comment.body"
               label="Kommentar"
               hint="Hier kannst du den Beitrag kommentieren"
-              @input="tag_text(comment.body)"
               solo
               hide-details
             ></v-textarea>
+            <p class="mb-0 mt-2">
+              Dein Kommentar wird als
+              <i>{{comment.author}}</i> gepostet.
+            </p>
           </v-card-text>
           <v-card-actions>
             <v-btn flat color="primary" v-on:click="addComment">Kommentieren</v-btn>
@@ -90,7 +89,7 @@ export default {
         body: "…"
       },
       comment: {
-        author: "",
+        author: null,
         body: "",
         timestamp: 0
       }
@@ -109,7 +108,7 @@ export default {
         this.comment.author = user.getUsername()
       })
       .catch(() => {
-        this.comment.author = "Authentifizierungsfehler"
+        this.comment.author = null
       })
   },
   methods: {
@@ -130,8 +129,7 @@ export default {
     },
     addComment() {
       this.comment.timestamp = new Date().getTime()
-      this.item.comments.push(this.comment)
-      data.updateComments(this.item, this.item.comments, error => {
+      data.addComment(this.item, this.comment, error => {
         this.refresh()
       })
     },
