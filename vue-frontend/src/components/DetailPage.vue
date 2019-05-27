@@ -115,6 +115,10 @@ export default {
     refresh() {
       data.findByUUID(this.uuid, (error, data) => {
         this.item = data
+        this.item.comments = this.item.comments.sort((a, b) => {
+          if (a.timestamp > b.timestamp) return -1
+          return 1
+        })
       })
     },
     upvote() {
