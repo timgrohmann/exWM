@@ -24,7 +24,7 @@
           outline
           color="primary"
           style="text-decoration:none"
-          :to="{name: 'EditEntry', params: {id: item.uuid}}"
+          :to="{name: 'EditEntry', params: {id: uuid}}"
         >Bearbeiten</v-btn>
         <v-btn outline color="error" style="text-decoration:none" @click="del">Löschen</v-btn>
       </v-card-actions>
