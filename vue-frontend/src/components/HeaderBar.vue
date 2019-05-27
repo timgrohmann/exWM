@@ -89,7 +89,6 @@ export default Vue.extend({
     model: null,
     items: [
       { icon: "face", name: "Über uns", link: { name: "AboutUs" } },
-      { icon: "search", name: "Suche" },
       { icon: "add", name: "Neuer Eintrag", link: { name: "CreateEntry" } },
       { icon: "list", name: "Alle Beiträge", link: { name: "AllEntries" } },
       { icon: "person", name: "Anmelden", link: { name: "SignIn" } }
@@ -106,6 +105,6 @@ export default Vue.extend({
       }
     })
   }
-})
+}) 
 </script>
 
