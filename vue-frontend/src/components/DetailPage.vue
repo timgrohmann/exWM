@@ -6,13 +6,13 @@
       </v-card-title>
       <v-card-text v-html="markedHtml"></v-card-text>
       <v-card-actions>
-        <v-btn outline round color="success" @click="upvote">
+        <v-btn outline round color="success" @click="upvote" :disabled="!checkIfLoggedIn()">
           <v-icon>thumb_up</v-icon>
-          &nbsp;{{item.upvotes}}
+          &nbsp;{{upvotes}}
         </v-btn>
-        <v-btn outline round color="error" @click="downvote">
+        <v-btn outline round color="error" @click="downvote" :disabled="!checkIfLoggedIn()">
           <v-icon>thumb_down</v-icon>
-          &nbsp;{{item.downvotes}}
+          &nbsp;{{downvotes}}
         </v-btn>
         <v-btn outline color="primary">
           <a
@@ -31,7 +31,7 @@
     </v-card>
     <br>
     <v-layout justify-center>
-      <v-card width="50%" flat>
+      <v-card width="50%" flat v-if=checkIfLoggedIn()>
         <v-card-title>
           <div class="headline">Kommentar hinzufügen:</div>
         </v-card-title>
@@ -47,9 +47,15 @@
           <v-icon>send</v-icon>
         </v-btn>
       </v-card>
+      <v-card v-if=!checkIfLoggedIn()>
+        <v-card-title>
+          <div class="headline">Um zu kommentieren und zu voten, musst Du Dich anmelden.</div>
+        </v-card-title>
+        <v-btn :to="{name: 'SignIn'}">Hier anmelden</v-btn>
+      </v-card>
     </v-layout>
-    <h4 class="display-1">Alle Kommentare:</h4>
-    <v-card v-for="comment in item.comments" :key="comment.timestamp">
+    <h4 class="display-1" v-if=checkIfLoggedIn()>Alle Kommentare:</h4>
+    <v-card v-for="comment in item.comments" :key="comment.timestamp" v-if=checkIfLoggedIn()>
       <v-card-title>
         <div class="headline">{{comment.author}} schreibt ({{timeConverter(comment.timestamp)}}):</div>
       </v-card-title>
@@ -61,6 +67,7 @@
 <script>
 import marked from "marked"
 import data from "../data"
+import auth from "../authentication/auth"
 import LandingPage from "./LandingPage"
 
 export default {
@@ -92,20 +99,30 @@ export default {
     this.refresh()
   },
   methods: {
+    checkIfLoggedIn() {
+      return auth.isLoggedIn()
+    },
     refresh() {
       data.findByUUID(this.uuid, (error, data) => {
         this.item = data
       })
     },
     upvote() {
-      data.incrementUpvotes(this.item, error => {
-        this.refresh()
-      })
+      let user = auth.getCognitoUser()
+      if (user != null) {
+        data.addUpvote(this.item, user.getUsername(), err => {
+          this.refresh()
+        })
+      }
     },
     downvote() {
-      data.incrementDownvotes(this.item, error => {
-        this.refresh()
-      })
+      let user = auth.getCognitoUser()
+      if (user != null) {
+        data.addDownvote(this.item, user.getUsername(), err => {
+          this.refresh()
+        })
+      }
+
     },
     addComment() {
       this.comment.timestamp = new Date().getTime()
@@ -158,6 +175,18 @@ export default {
   computed: {
     markedHtml() {
       return marked(this.item.body)
+    },
+    upvotes() {
+      if (this.item.upvoters) {
+        return this.item.upvoters.values.length
+      }
+      return 0
+    },
+    downvotes() {
+      if (this.item.downvoters) {
+        return this.item.downvoters.values.length
+      }
+      return 0
     }
   }
 }
