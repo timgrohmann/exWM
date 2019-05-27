@@ -37,8 +37,10 @@
             <div class="headline">Beitrag kommentieren</div>
           </v-card-title>
           <v-card-text>
-            <v-text-field solo label="Dein Name" v-model="comment.author" hide-details readonly></v-text-field>
-            <v-divider/>
+            <p>
+              Dein Kommentar wird als
+              <i>{{comment.author}}</i> gepostet.
+            </p>
             <v-textarea
               v-model="comment.body"
               label="Kommentar"
@@ -54,10 +56,14 @@
         </v-card>
       </v-flex>
     </v-layout>
-    <h4 class="display-1">Alle Kommentare:</h4>
+    <v-spacer/>
+    <h4 class="headline">Alle Kommentare</h4>
     <v-card v-for="comment in item.comments" :key="comment.timestamp">
       <v-card-title>
-        <div class="headline">{{comment.author}} schreibt ({{timeConverter(comment.timestamp)}}):</div>
+        <div class="title">
+          <i>{{comment.author}}</i>
+          schrieb am {{timeConverter(comment.timestamp)}}:
+        </div>
       </v-card-title>
       <v-card-text>{{comment.body}}</v-card-text>
     </v-card>
@@ -130,30 +136,13 @@ export default {
       })
     },
     timeConverter(timestamp) {
-      var a = new Date(timestamp)
-      var months = [
-        "Januar",
-        "Februar",
-        "März",
-        "April",
-        "Mai",
-        "Juni",
-        "Juli",
-        "August",
-        "September",
-        "Oktober",
-        "November",
-        "Dezember"
-      ]
-      var year = a.getFullYear()
-      var month = months[a.getMonth()]
-      var date = a.getDate()
-      var hour = a.getHours() < 10 ? "0" + a.getHours() : a.getHours()
-      var min = a.getMinutes() < 10 ? "0" + a.getMinutes() : a.getMinutes()
-      var sec = a.getSeconds() < 10 ? "0" + a.getSeconds() : a.getSeconds()
-      var time =
-        date + ". " + month + " " + year + " um " + hour + ":" + min + ":" + sec
-      return time
+      let a = new Date(timestamp)
+      let options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      }
+      return a.toLocaleDateString("de-DE", options)
     },
     del() {
       this.$confirm("Willst Du diesen Beitrag wirklich löschen?", {
