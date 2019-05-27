@@ -141,10 +141,18 @@ export default {
       return time
     },
     del() {
-      data.deleteEntry(this.item, error => {
-        console.log(error)
-        this.$router.push({ name: "DeleteConfirmation" })
+
+      this.$confirm("Willst Du diesen Beitrag wirklich löschen?", { title: 'Warning' }).then(res => {
+        console.log("res: ", res)
+        if(res === true) {
+          data.deleteEntry(this.item, error => {
+            console.log(error)
+            this.$router.push({name: "DeleteConfirmation"})
+          })
+        }
       })
+
+
     }
   },
   computed: {
