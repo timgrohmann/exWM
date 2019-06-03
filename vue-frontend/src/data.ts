@@ -69,10 +69,11 @@ export default {
       callback(err)
     })
   },
-  updateEntryText(item: EntryItem, newHeadline: string, newBody: string, callback: (err: AWSError) => void) {
-    this.updateItem(item, "SET body = :b, headline = :h", {
+  updateEntryText(item: EntryItem, newHeadline: string, newBody: string, newKeyword:string, callback: (err: AWSError) => void) {
+    this.updateItem(item, "SET body = :b, headline = :h, keyword = :k", {
       ":b": newBody,
-      ":h": newHeadline
+      ":h": newHeadline,
+      ":k": newKeyword
     }, callback)
   },
   updateComments(item: EntryItem, comments: Array<Object>, callback: (err: AWSError) => void) {
