@@ -10,7 +10,6 @@
       @input="tag_text(body)"
     ></v-textarea>
 
-    <!--@keyup="suggested_tags = tag_text(body)"-->
     <template>
       <div class="text-xs-center">
         <div class="text-xs-center">

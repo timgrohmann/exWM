@@ -39,9 +39,7 @@ else:
         tagger = pickle.load(f)
 
 
-def doit(t, llist_scores=False, n=10):
-    # f = [a.strip().translate({ord(i): None for i in '\'\"., \n'}) for a in t.strip().split(' ')]
-    # f = [a.strip() for a in t.strip().split(' ')]
+def doit(t, tag_table, llist_scores=False, n=10):
     f = nltk.tokenize.word_tokenize(t)
     print('f:', f)
     t = tagger.tag(f)
@@ -51,18 +49,27 @@ def doit(t, llist_scores=False, n=10):
     print(t)
 
     def relevance(tag):
-        with open('relevances.txt', 'r') as rels:
-            relevances = ast.literal_eval('{' + rels.read() + '}')
-            helpfulness, suggestion_count = relevances.get(tag, (1, 1))
-            print(tag, helpfulness, suggestion_count)
-            return ((helpfulness + 1) / (suggestion_count + 1))
+        try:
+            evaluation = tag_table.get_item(
+                Key={
+                    'keyword': tag
+                }
+            )['Item']['evaluation']
+            print('RESULT:', evaluation.items())
+            helpfulness, suggestion_count = evaluation['helpfulness'], evaluation['suggestion_count']
+        except Exception as e:
+            print('ERROR', e, e.args)
+            helpfulness, suggestion_count = 0, 0
+        print(helpfulness, suggestion_count)
+        return ((helpfulness + 1) / (suggestion_count + 1))
 
     def score(tag, count):
-        interp = max([math.log2(len(tag)/16), math.log2(1 + len([x for x in tag if x.isupper()]))])
+        interp = max([math.log2(len(tag) / 16), math.log2(1 + len([x for x in tag if x.isupper()]))])
         print(tag, ':', count, relevance(tag), interp)
-        return math.sqrt(count) * relevance(tag) * interp
+        return math.sqrt(int(count)) * float(relevance(tag)) * float(interp)
 
-    tags = [tag for tag, type in t if type in 'ADV, NN, NE, VVINF, VVFIN'.split(', ') or len([x for x in tag if x.isupper()]) >= 2]
+    tags = [tag for tag, type in t if
+            type in 'ADV, NN, NE, VVINF, VVFIN'.split(', ') or len([x for x in tag if x.isupper()]) >= 2]
     counts = {}
     for tag in tags:
         if tag in counts:
