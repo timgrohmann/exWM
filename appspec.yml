@@ -23,8 +23,10 @@ os: linux
 #   "files" section altogether. A blank or incomplete "files" section
 #   may cause associated deployments to fail.
 files:
-  - source: /
+  - source: /vue-frontend/dist
     destination: /var/www/html
+  - source: /text_processing_python
+    destination: /home/ubuntu/python-backend
 
 hooks:
    BeforeInstall:
