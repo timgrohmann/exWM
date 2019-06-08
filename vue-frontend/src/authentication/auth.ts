@@ -10,8 +10,27 @@ const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData)
 
 class Auth {
 
+  /**
+   * @deprecated Use asynchronus call to auth.getUser() instead
+   */
   getCognitoUser(): AmazonCognitoIdentity.CognitoUser | null {
     return userPool.getCurrentUser()
+  }
+
+  getUser(): Promise<AmazonCognitoIdentity.CognitoUser> {
+    return new Promise((resolve, reject) => {
+      let cognitoUser = userPool.getCurrentUser()
+      if (cognitoUser == null) reject("No current user")
+      cognitoUser!.getSession((err: AWS.AWSError, session: AmazonCognitoIdentity.CognitoUserSession) => {
+        if (err || !session.isValid()) {
+          reject("Session is not valid or error occured")
+          return
+        } else {
+          resolve(cognitoUser!)
+          return
+        }
+      })
+    })
   }
 
   isLoggedIn(): boolean {
@@ -74,7 +93,7 @@ class Auth {
     }
   }
 
-  getEmail(): Promise<string> {
+  private getDetails(): Promise<AmazonCognitoIdentity.CognitoUserAttribute[]> {
     return new Promise((resolve, reject) => {
       let user = this.getCognitoUser()
       if (user == null) {
@@ -87,12 +106,22 @@ class Auth {
           return
         }
         user!.getUserAttributes((error, attributes) => {
-          if (error) {
+          if (error || !attributes) {
             reject()
             return
           }
-          resolve(attributes!.filter((x) => x.getName() == "email")[0].getValue())
+          resolve(attributes)
         })
+      })
+    })
+  }
+
+  getEmail(): Promise<string> {
+    return new Promise((resolve, reject) => {
+      this.getDetails().then((attributes) => {
+        resolve(attributes.filter((x) => x.getName() == "email")[0].getValue())
+      }).catch(() => {
+        reject()
       })
     })
   }
