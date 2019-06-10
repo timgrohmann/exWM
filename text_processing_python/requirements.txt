@@ -7,3 +7,4 @@ MarkupSafe==1.1.1
 nltk==3.4.1
 six==1.12.0
 Werkzeug==0.15.2
+nltk==3.4.3
