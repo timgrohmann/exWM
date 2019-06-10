@@ -32,3 +32,6 @@ hooks:
    BeforeInstall:
      - location: build-scripts/clean.sh
        timeout: 5
+   AfterInstall:
+      - location: build-scripts/python-install.sh
+        timeout: 120
