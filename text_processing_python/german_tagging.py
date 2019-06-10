@@ -2,6 +2,8 @@ import nltk
 import tarfile
 import random
 import pickle
+import math
+import operator
 
 train = False
 test = False
