@@ -11,5 +11,7 @@ phases:
 
 artifacts:
   files:
-    - '**/*'
-  base-directory: vue-frontend/dist
+    - 'vue-frontend/dist/**/*'
+    - 'text_processing_python/**/*'
+    - 'build-scripts/*'
+    - 'appspec.yml'

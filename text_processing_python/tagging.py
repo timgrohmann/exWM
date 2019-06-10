@@ -24,46 +24,32 @@ response = tag_table.put_item(
 )
 
 
+def suggest_tags(text, n=20):
+    text = doit(text)
+    print(text)
+    counts = {}
+    for word in text:
+        if word in counts:
+            counts[word] += 1
+        else:
+            counts[word] = 1
+    res = list(reversed([x for x, y in sorted(counts.items(), key=operator.itemgetter(1))]))[:n]
+    print('das ist das ergebnis:')
+    print(res)
+    return res
 
 app = Flask(__name__)
 flask_cors.CORS(app)
-
 
 @flask_cors.cross_origin()
 @app.route("/suggest_tags")
 def suggest_tags_route():
     print(request.args.get('text'))
-    return json.dumps(doit(request.args.get('text')), ensure_ascii=False)
+    return json.dumps(suggest_tags(request.args.get('text')), ensure_ascii=False)
 
 
 @app.route('/')
 def handle():
     return 'Hello World from Flask!'
-
-
-@flask_cors.cross_origin()
-@app.route('/evaluate_tags')
-def evaluate_tags():
-    helpful = ast.literal_eval(request.args.get('helpful'))
-    useless = ast.literal_eval(request.args.get('useless'))
-
-    print('Helpful:', helpful, 'Useless:', useless)
-
-    with open('relevances.txt', 'r') as fin:
-        rels = ast.literal_eval('{' + fin.read() + '}')
-
-    for key in helpful:
-        helpf, cnt = rels.get(key, (0, 0))
-        rels[key] = flatten((helpf, cnt), (1, 1))
-
-    for key in useless:
-        helpf, cnt = rels.get(key, (0, 0))
-        rels[key] = flatten((helpf, cnt), (0, 1))
-
-    with open('relevances.txt', 'w+') as fout:
-        for k, v in rels.items():
-            fout.write('"' + k + '": ' + str(v) + ',\n')
-
-    return 'Thank you for your feedback'
 
 # print(suggest_tags(text=open('example_text.txt').read(), n=10))
