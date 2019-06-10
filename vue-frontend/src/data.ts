@@ -5,9 +5,12 @@ import { AttributeMap, AttributeValue } from "aws-sdk/clients/dynamodb";
 import { AWSError } from "aws-sdk";
 
 AWS.config.region = 'eu-west-1'; // Region
-AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-  IdentityPoolId: 'eu-west-1:7c77cf43-a78c-40cd-a3c3-9ca2a0da7330',
-});
+if (AWS.config.credentials == null) { //would reset other credentials otherwise
+  AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: 'eu-west-1:7c77cf43-a78c-40cd-a3c3-9ca2a0da7330',
+  })
+}
+
 var ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
 const document = new AWS.DynamoDB.DocumentClient({ service: ddb })
 
@@ -35,6 +38,16 @@ export default {
       }
     })
   },
+  insertNewTag(item: string, callback: (err: AWSError | null) => void) {
+    document.put({
+      TableName: this.TagTableName,
+      Item: {
+        keyword: item
+      }
+    }, (error) => {
+      callback(error)
+    })
+  },
   incrementUpvotes(item: EntryItem, callback: (err: AWSError) => void) {
     this.updateItem(item, "ADD upvotes :u", {
       ":u": 1
@@ -45,7 +58,32 @@ export default {
       ":u": 1
     }, callback)
   },
-  updateItem(item: EntryItem, updateExpression: string, expressionAttributeValues: AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap, callback: (err: AWSError) => void) {
+  deleteEntry(item: EntryItem, callback: (err: AWSError) => void) {
+    document.delete({
+      TableName: this.DefaultTableName,
+      Key: {
+        "uuid": item.uuid,
+        "timestamp": item.timestamp
+      }
+    }, (err, _) => {
+      callback(err)
+    })
+  },
+  updateEntryText(item: EntryItem, newHeadline: string, newBody: string, callback: (err: AWSError) => void) {
+    this.updateItem(item, "SET body = :b, headline = :h", {
+      ":b": newBody,
+      ":h": newHeadline
+    }, callback)
+  },
+  addComment(item: EntryItem, comment: Object, callback: (err: AWSError) => void) {
+    this.updateItem(item, "SET comments = list_append(comments, :c)", {
+      ":c": [comment]
+    }, callback)
+  },
+  deleteComment(item: EntryItem, index: number, callback: (err: AWSError) => void) {
+    this.updateItem(item, "REMOVE comments[" + String(index) + "]", undefined, callback)
+  },
+  updateItem(item: EntryItem, updateExpression: string, expressionAttributeValues: AWS.DynamoDB.DocumentClient.ExpressionAttributeValueMap | undefined, callback: (err: AWSError) => void) {
     document.update({
       TableName: this.DefaultTableName,
       Key: {

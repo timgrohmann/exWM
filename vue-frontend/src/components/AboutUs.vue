@@ -35,12 +35,16 @@ export default {
         },
         {
           name: "Florian Redmann",
-          image_src: "teammembers/flo_red.jpg"
+          image_src: "/teammembers/flo_red.jpg"
         },
         {
           name: "El Sholz",
           image_src:
             "https://avatars3.githubusercontent.com/u/27976805?s=40&v=4"
+        },
+        {
+          name: "nicoberlaender",
+          image_src: "https://avatars0.githubusercontent.com/u/9919?s=280&v=4"
         }
       ]
     }

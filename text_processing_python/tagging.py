@@ -43,7 +43,6 @@ def delete_all(tag_table):
 app = Flask(__name__)
 flask_cors.CORS(app)
 
-
 @flask_cors.cross_origin()
 @app.route("/suggest_tags")
 def suggest_tags_route():
@@ -54,7 +53,6 @@ def suggest_tags_route():
 @app.route('/')
 def handle():
     return 'Hello World from Flask!'
-
 
 @flask_cors.cross_origin()
 @app.route('/evaluate_tags')

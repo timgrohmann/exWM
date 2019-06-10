@@ -4,6 +4,7 @@ import App from './App.vue';
 import store from './store'
 import './main.styl'
 import router from './router'
+import VuetifyConfirm from 'vuetify-confirm'
 
 Vue.config.productionTip = false;
 
@@ -12,8 +13,16 @@ Vue.use(Vuetify, {
     primary: '#4f90c6',
     secondary: '#15e8cf',
     accent: '#8c9eff',
-    error: '#ff9800',
   }
+})
+Vue.use(VuetifyConfirm, {
+  buttonTrueText: 'Bestätigen',
+  buttonFalseText: 'Abbrechen',
+  color: 'warning',
+  icon: 'warning',
+  title: 'Warning',
+  width: 350,
+  property: '$confirm'
 })
 
 

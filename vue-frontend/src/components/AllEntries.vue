@@ -11,7 +11,7 @@
     >
       <template v-slot:item="props">
         <v-flex xs12 sm12 md6 lg6>
-          <v-card :to="{name: 'DetailPage', params: {id: props.item.uuid}}">
+          <v-card :to="{name: 'DetailPage', params: {id: props.item.uuid}}" style="height:100%">
             <v-card-title>
               <h4>{{props.item.headline}}</h4>
               <v-spacer></v-spacer>
@@ -19,9 +19,19 @@
                 {{new Date(parseInt(props.item.timestamp)*1000)
                 .toLocaleDateString('de', { day: '2-digit', month: '2-digit', year: 'numeric' })}}
               </h5>
+              <v-spacer></v-spacer>
+              <span style="color:green">
+                <v-icon color="green" small>thumb_up</v-icon>
+                {{props.item.upvotes}}
+              </span>
+              &nbsp
+              <span style="color:red">
+                <v-icon color="red" small>thumb_down</v-icon>
+                {{props.item.downvotes}}
+              </span>
             </v-card-title>
             <v-divider></v-divider>
-            <v-card-text v-html="markedHtml(props.item.body)"></v-card-text>
+            <v-card-text>{{previewBody(props.item.body)}}</v-card-text>
           </v-card>
         </v-flex>
       </template>
@@ -43,58 +53,18 @@ export default {
     rowsPerPageItems: [6, 12, 24],
 
     items: []
-
-    /*testitems: [
-        {
-          headline: 'Caesar',
-          body: 'in the freezer'
-        },
-        {
-          headline: 'Julius',
-          body: 'in the Coolius'
-        },
-        {
-          headline: 'Roman emperor',
-          body: 'in the lower temperature'
-        },
-        {
-          headline: 'Nero',
-          body: 'sub zero'
-        },
-        {
-          headline: 'Roman',
-          body: 'now frozen'
-        },
-        {
-          headline: 'Dictator',
-          body: 'in the refrigerator'
-        },
-        {
-          headline: 'Ruler',
-          body: 'in a cooler'
-        },
-        {
-          headline: 'JC',
-          body: 'in the AC'
-        },
-        {
-          headline: 'Roman bro',
-          body: 'now at 15 below'
-        },
-        {
-          headline: 'Leader',
-          body: 'wants a heater'
-        },
-        {
-          headline: 'Boss\'s',
-          body: 'not hot'
-        }
-      ]*/
-    ,
-    markedHtml(p) {
-      return marked(p)
-    }
   }),
+  methods: {
+    previewBody(p) {
+      let demarked = marked(p).replace(/<[^>]*>/g, "")
+
+      if (demarked.length < 300) {
+        return demarked
+      } else {
+        return demarked.slice(0, 300) + "…"
+      }
+    }
+  },
   mounted() {
     db.getAll((err, data) => {
       if (err) {
@@ -104,7 +74,6 @@ export default {
       }
     })
   }
-
 }
 </script>
 

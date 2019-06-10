@@ -2,9 +2,6 @@ import nltk
 import tarfile
 import random
 import pickle
-import ast
-import operator
-import math
 
 train = False
 test = False
@@ -38,6 +35,8 @@ else:
     with open('nltk_german_classifier_data.pickle', 'rb') as f:
         tagger = pickle.load(f)
 
+if test:
+    f = [x.translate({ord(i): None for i in '\'\"., \n'}) for x in open('example_text.txt').read().split(' ')]
 
 def doit(t, tag_table, llist_scores=False, n=10):
     f = nltk.tokenize.word_tokenize(t)
@@ -45,7 +44,6 @@ def doit(t, tag_table, llist_scores=False, n=10):
     t = tagger.tag(f)
     print('t:', t)
     print('Result::')
-
     print(t)
 
     def relevance(tag):
