@@ -1,11 +1,9 @@
 import nltk
-import operator
 import json
 from flask import Flask, request
 from german_tagging import doit
 import flask_cors
 import ast
-from tuple_flatten import flatten
 import boto3
 import decimal
 
