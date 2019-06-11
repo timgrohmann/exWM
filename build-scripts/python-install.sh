@@ -1,4 +1,5 @@
 #!/bin/sh
 cd /home/ubuntu/python-backend
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 # start server here
+sudo systemctl status exwm.uwsgi.service
