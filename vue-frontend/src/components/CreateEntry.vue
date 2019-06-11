@@ -111,7 +111,7 @@ export default {
       body: null,
       preview: "",
       dialog: false,
-      suggested_tags: ["Vorschlag 1", "Vorschlag 2"],
+      suggested_tags: [],
       chips: [],
       all_tags: [],
       email: "",
@@ -190,17 +190,12 @@ export default {
         this.alert = true
       }
     },
-    tag_text(t) {
-      const http = new XMLHttpRequest()
-      const url = 'http://127.0.0.1:5000/suggest_tags?text=" ' + t + ' "'
 
-      http.open("GET", url)
-      http.send()
-      http.onreadystatechange = e => {
-        console.log("This is the response: ", http.responseText)
-        this.suggested_tags = JSON.parse(http.responseText)
-      }
+    tag_text(t){
+      console.log('body::', t)
+      this.suggested_tags = data.tag_text(t)
     },
+
     remove(item) {
       this.chips.splice(this.chips.indexOf(item), 1)
       this.chips = [...this.chips]

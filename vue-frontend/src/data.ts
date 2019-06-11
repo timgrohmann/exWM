@@ -129,5 +129,30 @@ export default {
       }
       callback(data.Items.map(x => x.keyword))
     })
+  },
+
+  tag_text(t: string) {
+    const http = new XMLHttpRequest()
+    const url = 'https://exwm.timgrohmann.de/nlp/suggest_tags?text=" ' + t + ' "'
+
+    http.open("GET", url)
+    http.send()
+    http.onreadystatechange = e => {
+      if( http.responseText != ""){
+        // console.log("This is the response (within data.ts/tag_text) ", http.responseText)
+        return JSON.parse(http.responseText)
+      }
+    }
+  },
+
+  evaluate_tags(helpful: Array<string>, useless: Array<string>){
+    const http = new XMLHttpRequest()
+    const url = 'https://exwm.timgrohmann.de/nlp/evaluate_tags?helpful="' + helpful + '"&useless="' + useless + '"'
+
+    http.open("GET", url)
+    http.send()
+    http.onreadystatechange = e => {
+      return //console.log("This is the response: ", http.responseText)
+    }
   }
 }
