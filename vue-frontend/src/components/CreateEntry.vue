@@ -192,7 +192,13 @@ export default {
     },
     tag_text(t) {
       const http = new XMLHttpRequest()
-      const url = 'http://127.0.0.1:5000/suggest_tags?text=" ' + t + ' "'
+      let base = window.location.hostname
+      let url
+      if (base == "localhost") {
+        url = 'http://127.0.0.1:5000/suggest_tags?text=" ' + t + ' "'
+      } else {
+        url = '/nlp/suggest_tags?text=" ' + t + ' "'
+      }
 
       http.open("GET", url)
       http.send()
