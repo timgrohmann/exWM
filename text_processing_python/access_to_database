@@ -1,0 +1,2 @@
+run aws configure
+enter access id, secret and region name

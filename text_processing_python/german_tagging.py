@@ -2,6 +2,8 @@ import nltk
 import tarfile
 import random
 import pickle
+import math
+import operator
 
 train = False
 test = False
@@ -38,15 +40,55 @@ else:
 if test:
     f = [x.translate({ord(i): None for i in '\'\"., \n'}) for x in open('example_text.txt').read().split(' ')]
 
-    f = [a.strip() for l in open('example_text.txt').readlines() for a in l.strip().split(' ')]
-    t = tagger.tag(f)
-    print(t)
-    print([a for a, b in t if b == 'NN'])
-
-def doit(t):
-    f = [a.strip().translate({ord(i): None for i in '\'\"., \n'}) for a in t.strip().split(' ')]
+def doit(t, tag_table, llist_scores=False, n=10):
+    f = nltk.tokenize.word_tokenize(t)
     print('f:', f)
     t = tagger.tag(f)
     print('t:', t)
     print('Result::')
-    return [a for a, b in t if b in ['NN', 'VVINF', 'NE']]
+    print(t)
+
+    def relevance(tag):
+        try:
+            evaluation = tag_table.get_item(
+                Key={
+                    'keyword': tag
+                }
+            )['Item']['evaluation']
+            print('RESULT:', evaluation.items())
+            helpfulness, suggestion_count = evaluation['helpfulness'], evaluation['suggestion_count']
+        except Exception as e:
+            print('ERROR', e, e.args)
+            helpfulness, suggestion_count = 0, 0
+        print(helpfulness, suggestion_count)
+        return ((helpfulness + 1) / (suggestion_count + 1))
+
+    def score(tag, count):
+        interp = max([math.log2(len(tag) / 16), math.log2(1 + len([x for x in tag if x.isupper()]))])
+        print(tag, ':', count, relevance(tag), interp)
+        return math.sqrt(int(count)) * float(relevance(tag)) * float(interp)
+
+    tags = [tag for tag, type in t if
+            type in 'ADV, NN, NE, VVINF, VVFIN'.split(', ') or len([x for x in tag if x.isupper()]) >= 2]
+    counts = {}
+    for tag in tags:
+        if tag in counts:
+            counts[tag] += 1
+        else:
+            counts[tag] = 1
+    print('Counts:')
+    print(counts)
+    scores = [score(tag, count) for tag, count in counts.items()]
+    print(scores)
+
+    if llist_scores:
+        l = list(reversed([(tag, score) for tag, score in
+                           sorted(dict(zip(counts.keys(), scores)).items(), key=operator.itemgetter(1))]))[:n]
+        return l
+    else:
+        l = list(
+            reversed([
+                tag for tag, _ in sorted(dict(zip(counts.keys(), scores)).items(), key=operator.itemgetter(1))
+            ]))[:n]
+        print('End result:\n', dict(zip(counts.keys(), scores)).items(), '\n')
+        return l
