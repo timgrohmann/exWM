@@ -101,7 +101,6 @@
 <script>
 import data from "../data"
 import auth from "../authentication/auth"
-import axios from "axios"
 
 const marked = require("marked")
 
@@ -201,10 +200,12 @@ export default {
         url = "/nlp/suggest_tags?text=" + encodeURIComponent(t)
       }
 
-      axios
-        .get(url)
+      fetch(url)
         .then(response => {
-          this.suggested_tags = response.data
+          return response.json()
+        })
+        .then(json => {
+          this.suggested_tags = json
         })
         .catch(error => {
           console.log("Tag-Server-Fehler:", error)
