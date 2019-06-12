@@ -191,15 +191,25 @@ export default {
       }
     },
     tag_text(t) {
-      const http = new XMLHttpRequest()
-      const url = 'http://127.0.0.1:5000/suggest_tags?text=" ' + t + ' "'
+      let base = window.location.hostname
+      let url
 
-      http.open("GET", url)
-      http.send()
-      http.onreadystatechange = e => {
-        console.log("This is the response: ", http.responseText)
-        this.suggested_tags = JSON.parse(http.responseText)
+      if (base == "localhost") {
+        url = "http://127.0.0.1:5000/suggest_tags?text=" + encodeURIComponent(t)
+      } else {
+        url = "/nlp/suggest_tags?text=" + encodeURIComponent(t)
       }
+
+      fetch(url)
+        .then(response => {
+          return response.json()
+        })
+        .then(json => {
+          this.suggested_tags = json
+        })
+        .catch(error => {
+          console.log("Tag-Server-Fehler:", error)
+        })
     },
     remove(item) {
       this.chips.splice(this.chips.indexOf(item), 1)
