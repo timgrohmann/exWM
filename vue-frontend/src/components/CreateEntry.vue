@@ -101,6 +101,7 @@
 <script>
 import data from "../data"
 import auth from "../authentication/auth"
+import axios from "axios"
 
 const marked = require("marked")
 
@@ -191,21 +192,23 @@ export default {
       }
     },
     tag_text(t) {
-      const http = new XMLHttpRequest()
       let base = window.location.hostname
       let url
+
       if (base == "localhost") {
-        url = 'http://127.0.0.1:5000/suggest_tags?text=" ' + t + ' "'
+        url = "http://127.0.0.1:5000/suggest_tags?text=" + encodeURIComponent(t)
       } else {
-        url = '/nlp/suggest_tags?text=" ' + t + ' "'
+        url = "/nlp/suggest_tags?text=" + encodeURIComponent(t)
       }
 
-      http.open("GET", url)
-      http.send()
-      http.onreadystatechange = e => {
-        console.log("This is the response: ", http.responseText)
-        this.suggested_tags = JSON.parse(http.responseText)
-      }
+      axios
+        .get(url)
+        .then(response => {
+          this.suggested_tags = response.data
+        })
+        .catch(error => {
+          console.log("Tag-Server-Fehler:", error)
+        })
     },
     remove(item) {
       this.chips.splice(this.chips.indexOf(item), 1)
