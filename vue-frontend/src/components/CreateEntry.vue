@@ -190,13 +190,11 @@ export default {
         this.alert = true
       }
     },
-
     tag_text(t){
       console.log('body::', t)
       data.tag_text(t)
       this.suggested_tags = data.tags_text
     },
-
     remove(item) {
       this.chips.splice(this.chips.indexOf(item), 1)
       this.chips = [...this.chips]
