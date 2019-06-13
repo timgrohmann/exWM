@@ -4,6 +4,7 @@
       <v-card-title>
         <div class="headline">{{item.headline}}</div>
       </v-card-title>
+      <v-divider></v-divider>
       <v-card-text v-html="markedHtml"></v-card-text>
       <v-card-actions>
         <v-btn outline round color="success" @click="upvote">
@@ -28,6 +29,15 @@
         >Bearbeiten</v-btn>
         <v-btn outline color="error" style="text-decoration:none" @click="del">Löschen</v-btn>
       </v-card-actions>
+      <v-divider></v-divider>
+      <v-chip
+        v-for="st in item.keyword"
+        :key="st"
+        label
+        color="primary lighten-2"
+      >
+        <strong>{{ st }}</strong>&nbsp;
+      </v-chip>
     </v-card>
     <br>
     <v-layout row wrap justify-center>

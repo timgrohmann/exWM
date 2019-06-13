@@ -55,10 +55,10 @@ def handle():
     return 'Hello World from Flask!'
 
 @flask_cors.cross_origin()
-@app.route('/evaluate_tags')
+@app.route('/evaluate_tags', methods=["POST"])
 def evaluate_tags():
-    helpful = ast.literal_eval(request.args.get('helpful'))
-    useless = ast.literal_eval(request.args.get('useless'))
+    helpful = request.json['helpful']
+    useless = request.json['useless']
 
     print('Helpful:', helpful, 'Useless:', useless)
 

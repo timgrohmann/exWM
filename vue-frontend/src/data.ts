@@ -69,10 +69,11 @@ export default {
       callback(err)
     })
   },
-  updateEntryText(item: EntryItem, newHeadline: string, newBody: string, callback: (err: AWSError) => void) {
-    this.updateItem(item, "SET body = :b, headline = :h", {
+  updateEntryText(item: EntryItem, newHeadline: string, newBody: string, newKeyword: string, callback: (err: AWSError) => void) {
+    this.updateItem(item, "SET body = :b, headline = :h, keyword = :k", {
       ":b": newBody,
-      ":h": newHeadline
+      ":h": newHeadline,
+      ":k": newKeyword
     }, callback)
   },
   addComment(item: EntryItem, comment: Object, callback: (err: AWSError) => void) {
@@ -127,6 +128,37 @@ export default {
         return
       }
       callback(data.Items.map(x => x.keyword))
+    })
+  },
+  tagsFromText(t: string): Promise<string[]> {
+    let url = this.nlp_url() + "suggest_tags?text=" + encodeURIComponent(t)
+
+    return fetch(url)
+      .then(response => {
+        return response.json()
+      })
+
+  },
+
+  nlp_url(): string {
+    let base = window.location.hostname
+    if (base == "localhost") {
+      return "http://127.0.0.1:5000/"
+    } else {
+      return "/nlp/"
+    }
+  },
+  evaluate_tags(helpful: Array<string>, useless: Array<string>) {
+    let url = this.nlp_url() + "evaluate_tags?helpful=" + helpful + "&useless=" + useless
+
+    fetch(url, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        helpful, useless
+      }), // body data type must match "Content-Type" header
     })
   }
 }
