@@ -111,7 +111,7 @@ export default {
       body: null,
       preview: "",
       dialog: false,
-      suggested_tags: ["Vorschlag 1", "Vorschlag 2"],
+      suggested_tags: [],
       chips: [],
       all_tags: [],
       email: "",
@@ -183,7 +183,10 @@ export default {
               }
             })
           })
-
+        data.evaluate_tags(
+          this.chips,
+          this.suggested_tags.filter(x => !this.chips.includes(x))
+        )
         console.log(entry)
       } else {
         this.email = this.email
@@ -191,25 +194,7 @@ export default {
       }
     },
     tag_text(t) {
-      let base = window.location.hostname
-      let url
-
-      if (base == "localhost") {
-        url = "http://127.0.0.1:5000/suggest_tags?text=" + encodeURIComponent(t)
-      } else {
-        url = "/nlp/suggest_tags?text=" + encodeURIComponent(t)
-      }
-
-      fetch(url)
-        .then(response => {
-          return response.json()
-        })
-        .then(json => {
-          this.suggested_tags = json
-        })
-        .catch(error => {
-          console.log("Tag-Server-Fehler:", error)
-        })
+      data.tagsFromText(t).then(tags => (this.suggested_tags = tags))
     },
     remove(item) {
       this.chips.splice(this.chips.indexOf(item), 1)
