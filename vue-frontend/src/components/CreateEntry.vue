@@ -183,17 +183,18 @@ export default {
               }
             })
           })
-        data.evaluate_tags(chips, [])
+        data.evaluate_tags(
+          this.chips,
+          this.suggested_tags.filter(x => !this.chips.includes(x))
+        )
         console.log(entry)
       } else {
         this.email = this.email
         this.alert = true
       }
     },
-    tag_text(t){
-      console.log('body::', t)
-      data.tag_text(t)
-      this.suggested_tags = data.tags_text
+    tag_text(t) {
+      data.tagsFromText(t).then(tags => (this.suggested_tags = tags))
     },
     remove(item) {
       this.chips.splice(this.chips.indexOf(item), 1)

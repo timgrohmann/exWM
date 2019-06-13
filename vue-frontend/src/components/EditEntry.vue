@@ -1,13 +1,8 @@
 <template>
   <div>
     <h1>Eintrag berarbeiten</h1>
-     <v-text-field placeholder="Überschrift" v-model="item.headline" solo></v-text-field>
-    <v-textarea
-      placeholder="Beitragstext"
-      v-model="item.body"
-      solo
-      @input="tag_text(item.body)"
-    ></v-textarea>
+    <v-text-field placeholder="Überschrift" v-model="item.headline" solo></v-text-field>
+    <v-textarea placeholder="Beitragstext" v-model="item.body" solo @input="tag_text(item.body)"></v-textarea>
     <v-combobox
       v-model="item.keyword"
       label="Schlagwörter"
@@ -30,7 +25,7 @@
         </v-chip>
       </template>
     </v-combobox>
-     <v-card class="mb-2" v-if="filteredUnusedTags.length != 0">
+    <v-card class="mb-2" v-if="filteredUnusedTags.length != 0">
       <v-card-text>
         <p class="subheading">entfernte Schlagwörter</p>
         <v-chip
@@ -44,20 +39,20 @@
       </v-card-text>
     </v-card>
     <v-card>
-    <v-card class="mb-2" v-if="filteredTags.length != 0">
+      <v-card class="mb-2" v-if="filteredTags.length != 0">
+        <v-card-text>
+          <p class="subheading">Tag-Vorschläge aus dem Beitragstext</p>
+          <v-chip
+            v-for="st in filteredTags"
+            :key="st"
+            @click="item.keyword.push(st)"
+            color="deep-purple lighten-4"
+          >
+            <strong>{{ st }}</strong>&nbsp;
+          </v-chip>
+        </v-card-text>
+      </v-card>
       <v-card-text>
-        <p class="subheading">Tag-Vorschläge aus dem Beitragstext</p>
-        <v-chip
-          v-for="st in filteredTags"
-          :key="st"
-          @click="item.keyword.push(st)"
-          color="deep-purple lighten-4"
-        >
-          <strong>{{ st }}</strong>&nbsp;
-        </v-chip>
-      </v-card-text>
-    </v-card>
-    <v-card-text>
         <p class="subheading">Bereits verwendete Tags</p>
         <v-chip
           v-for="st in filteredAllTags"
@@ -87,10 +82,10 @@ export default {
   },
   data() {
     return {
-       item: {keyword: []},
-       unusedTags: [],
-       suggested_tags: [],
-       all_tags: []
+      item: { keyword: [] },
+      unusedTags: [],
+      suggested_tags: [],
+      all_tags: []
     }
   },
   watch: {
@@ -121,9 +116,7 @@ export default {
       )
     },
     helpfulTags() {
-      return this.item.keyword.filter(
-        x => !this.unusedTags.includes(x)
-      )
+      return this.item.keyword.filter(x => !this.unusedTags.includes(x))
     }
   },
   methods: {
@@ -134,32 +127,36 @@ export default {
         this.unusedTags = this.unusedTags.concat(data.keyword)
       })
     },
-    tag_text(t){
-      console.log('body::', t)
-      data.tag_text(t)
-      this.suggested_tags = data.tags_text
+    tag_text(t) {
+      data.tagsFromText(t).then(tags => (this.suggested_tags = tags))
     },
     remove(item) {
       this.item.keyword.splice(this.item.keyword.indexOf(item), 1)
       this.item.keyword = [...this.item.keyword]
     },
     updateEntry() {
-      data.updateEntryText(this.item, this.item.headline, this.item.body, this.item.keyword, err => {
-        if (err) {
-          console.log(err)
+      data.updateEntryText(
+        this.item,
+        this.item.headline,
+        this.item.body,
+        this.item.keyword,
+        err => {
+          if (err) {
+            console.log(err)
+          }
         }
-      })
-      data.evaluate_tags(helpfulTags,filteredUnusedTags)
+      )
+      data.evaluate_tags(this.helpfulTags, this.filteredUnusedTags)
       this.item.keyword
-          .filter(x => !this.all_tags.includes(x))
-          .forEach(tag => {
-            data.insertNewTag(tag, error => {
-              if (error) {
-                console.log("Error while adding new keywords", error)
-              }
-            })
+        .filter(x => !this.all_tags.includes(x))
+        .forEach(tag => {
+          data.insertNewTag(tag, error => {
+            if (error) {
+              console.log("Error while adding new keywords", error)
+            }
           })
-      this.$router.push({name: 'DetailPage', params: {id: this.item.uuid}})
+        })
+      this.$router.push({ name: "DetailPage", params: { id: this.item.uuid } })
     }
   }
 }

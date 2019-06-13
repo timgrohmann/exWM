@@ -69,7 +69,7 @@ export default {
       callback(err)
     })
   },
-  updateEntryText(item: EntryItem, newHeadline: string, newBody: string, newKeyword:string, callback: (err: AWSError) => void) {
+  updateEntryText(item: EntryItem, newHeadline: string, newBody: string, newKeyword: string, callback: (err: AWSError) => void) {
     this.updateItem(item, "SET body = :b, headline = :h, keyword = :k", {
       ":b": newBody,
       ":h": newHeadline,
@@ -130,29 +130,35 @@ export default {
       callback(data.Items.map(x => x.keyword))
     })
   },
-  tags_text: [],
-  tag_text(t: string) {
-    const http = new XMLHttpRequest()
-    const url = 'https://exwm.timgrohmann.de/nlp/suggest_tags?text=" ' + t + ' "'
+  tagsFromText(t: string): Promise<string[]> {
+    let url = this.nlp_url() + "suggest_tags?text=" + encodeURIComponent(t)
 
-    http.open("GET", url)
-    http.send("")
-    http.onreadystatechange = e => {
-      if( http.responseText != ""){
-        this.tags_text = JSON.parse(http.responseText)
-        console.log(this.tags_text)
-      }
-    }
+    return fetch(url)
+      .then(response => {
+        return response.json()
+      })
+
   },
 
-  evaluate_tags(helpful: Array<string>, useless: Array<string>){
-    const http = new XMLHttpRequest()
-    const url = 'https://exwm.timgrohmann.de/nlp/evaluate_tags?helpful="' + helpful + '"&useless="' + useless + '"'
-
-    http.open("GET", url)
-    http.send()
-    http.onreadystatechange = e => {
-      return //console.log("This is the response: ", http.responseText)
+  nlp_url(): string {
+    let base = window.location.hostname
+    if (base == "localhost") {
+      return "http://127.0.0.1:5000/"
+    } else {
+      return "/nlp/"
     }
+  },
+  evaluate_tags(helpful: Array<string>, useless: Array<string>) {
+    let url = this.nlp_url() + "evaluate_tags?helpful=" + helpful + "&useless=" + useless
+
+    fetch(url, {
+      method: 'POST', // *GET, POST, PUT, DELETE, etc.
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        helpful, useless
+      }), // body data type must match "Content-Type" header
+    })
   }
 }
