@@ -139,8 +139,6 @@ export default {
     http.send("")
     http.onreadystatechange = e => {
       if( http.responseText != ""){
-        //console.log("This is the response (within data.ts/tag_text) ", JSON.parse(http.responseText))
-          //return [...JSON.parse(http.responseText)]
         this.tags_text = JSON.parse(http.responseText)
         console.log(this.tags_text)
       }
