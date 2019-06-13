@@ -183,7 +183,7 @@ export default {
               }
             })
           })
-
+        data.evaluate_tags(chips, [])
         console.log(entry)
       } else {
         this.email = this.email
@@ -193,7 +193,8 @@ export default {
 
     tag_text(t){
       console.log('body::', t)
-      this.suggested_tags = data.tag_text(t)
+      data.tag_text(t)
+      this.suggested_tags = data.tags_text
     },
 
     remove(item) {

@@ -6,12 +6,12 @@
       placeholder="Beitragstext"
       v-model="item.body"
       solo
+      @input="tag_text(item.body)"
     ></v-textarea>
     <v-combobox
       v-model="item.keyword"
       label="Schlagwörter"
       chips
-      clearable
       prepend-icon="local_offer"
       append-icon
       solo
@@ -30,14 +30,40 @@
         </v-chip>
       </template>
     </v-combobox>
-    <v-card class="mb-2" v-if="unusedTags.length != 0">
+     <v-card class="mb-2" v-if="filteredUnusedTags.length != 0">
       <v-card-text>
         <p class="subheading">entfernte Schlagwörter</p>
         <v-chip
-          v-for="st in unusedTags.filter(x => !item.keyword.includes(x))"
+          v-for="st in filteredUnusedTags"
           :key="st"
-          @click="item.keyword.push(unusedTags.pop(st))"
+          @click="item.keyword.push(st)"
+          color="red lighten-3"
+        >
+          <strong>{{ st }}</strong>&nbsp;
+        </v-chip>
+      </v-card-text>
+    </v-card>
+    <v-card>
+    <v-card class="mb-2" v-if="filteredTags.length != 0">
+      <v-card-text>
+        <p class="subheading">Tag-Vorschläge aus dem Beitragstext</p>
+        <v-chip
+          v-for="st in filteredTags"
+          :key="st"
+          @click="item.keyword.push(st)"
           color="deep-purple lighten-4"
+        >
+          <strong>{{ st }}</strong>&nbsp;
+        </v-chip>
+      </v-card-text>
+    </v-card>
+    <v-card-text>
+        <p class="subheading">Bereits verwendete Tags</p>
+        <v-chip
+          v-for="st in filteredAllTags"
+          :key="st"
+          @click="item.keyword.push(st)"
+          color="green lighten-3"
         >
           <strong>{{ st }}</strong>&nbsp;
         </v-chip>
@@ -61,8 +87,9 @@ export default {
   },
   data() {
     return {
-       item: {},
+       item: {keyword: []},
        unusedTags: [],
+       suggested_tags: [],
        all_tags: []
     }
   },
@@ -77,19 +104,42 @@ export default {
     })
     this.refresh()
   },
+  computed: {
+    filteredUnusedTags() {
+      return this.unusedTags.filter(
+        x => !this.item.keyword.includes(x) && !this.suggested_tags.includes(x)
+      )
+    },
+    filteredTags() {
+      return this.suggested_tags.filter(
+        x => !this.item.keyword.includes(x) && !this.all_tags.includes(x)
+      )
+    },
+    filteredAllTags() {
+      return this.all_tags.filter(
+        x => !this.item.keyword.includes(x) && !this.unusedTags.includes(x)
+      )
+    },
+    helpfulTags() {
+      return this.item.keyword.filter(
+        x => !this.unusedTags.includes(x)
+      )
+    }
+  },
   methods: {
     refresh() {
       data.findByUUID(this.uuid, (error, data) => {
         console.log(data)
         this.item = data
+        this.unusedTags = this.unusedTags.concat(data.keyword)
       })
     },
+    tag_text(t){
+      console.log('body::', t)
+      data.tag_text(t)
+      this.suggested_tags = data.tags_text
+    },
     remove(item) {
-      if (
-        !this.unusedTags.includes(item)
-        ) {
-          this.unusedTags.push(item)
-        }
       this.item.keyword.splice(this.item.keyword.indexOf(item), 1)
       this.item.keyword = [...this.item.keyword]
     },
@@ -99,6 +149,7 @@ export default {
           console.log(err)
         }
       })
+      data.evaluate_tags(helpfulTags,filteredUnusedTags)
       this.item.keyword
           .filter(x => !this.all_tags.includes(x))
           .forEach(tag => {

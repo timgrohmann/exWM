@@ -130,17 +130,19 @@ export default {
       callback(data.Items.map(x => x.keyword))
     })
   },
-
+  tags_text: [],
   tag_text(t: string) {
     const http = new XMLHttpRequest()
     const url = 'https://exwm.timgrohmann.de/nlp/suggest_tags?text=" ' + t + ' "'
 
     http.open("GET", url)
-    http.send()
+    http.send("")
     http.onreadystatechange = e => {
       if( http.responseText != ""){
-        // console.log("This is the response (within data.ts/tag_text) ", http.responseText)
-        return JSON.parse(http.responseText)
+        //console.log("This is the response (within data.ts/tag_text) ", JSON.parse(http.responseText))
+          //return [...JSON.parse(http.responseText)]
+        this.tags_text = JSON.parse(http.responseText)
+        console.log(this.tags_text)
       }
     }
   },
